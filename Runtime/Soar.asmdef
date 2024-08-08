@@ -1,0 +1,24 @@
+{
+    "name": "Soar",
+    "rootNamespace": "Soar",
+    "references": [
+        "GUID:77221876cc6b8244180b96e320b1bcd4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [
+        "R3.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.cysharp.r3",
+            "expression": "",
+            "define": "SOAR_R3"
+        }
+    ],
+    "noEngineReferences": false
+}

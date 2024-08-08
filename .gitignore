@@ -74,3 +74,8 @@ crashlytics-build.properties
 /.idea*
 .idea*
 
+# Some root meta files
+LICENSE.meta
+Changelog.md.meta
+README.md.meta
+Third Party Notices.md.meta

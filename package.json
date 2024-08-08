@@ -1,0 +1,21 @@
+{
+  "name": "com.ripandy.soar",
+  "displayName": "SOAR",
+  "author": {
+    "name": "Ripandy Adha",
+    "url": "https://github.com/ripandy/SOAR"
+  },
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "description": "Scriptable Object Architecture Reactive-extensible with R3",
+  "keywords": [
+    "ScriptableObject",
+    "Scriptable Object Architecture",
+    "R3",
+    "SOAR"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://package.openupm.com"
+  }
+}
