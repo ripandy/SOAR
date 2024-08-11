@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Soar.Event
+namespace Soar.Events
 {
     public partial class GameEvent
     {

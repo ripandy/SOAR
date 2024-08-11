@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Soar.Event
+namespace Soar.Events
 {
     /// <summary>
     /// Core Game Event System which implements simple Pub-Sub pattern.

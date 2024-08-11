@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Soar.Command
+namespace Soar.Commands
 {
     [CustomEditor(typeof(CommandCore), editorForChildClasses: true)]
     public class CommandEditor : Editor

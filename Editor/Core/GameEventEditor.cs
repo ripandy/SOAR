@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Soar.Event
+namespace Soar.Events
 {
     [CustomEditor(typeof(GameEvent), editorForChildClasses: true)]
     [CanEditMultipleObjects]

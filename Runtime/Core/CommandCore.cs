@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Soar.Command
+namespace Soar.Commands
 {
     public abstract class CommandCore : SoarCore
     {

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace Soar.Command.Tests
+namespace Soar.Commands.Tests
 {
     public class CommandCoreTests
     {

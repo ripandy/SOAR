@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using R3;
 using UnityEngine;
 
-namespace Soar.Event
+namespace Soar.Events
 {
     public partial class GameEvent
     {
