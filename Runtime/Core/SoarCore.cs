@@ -1,10 +1,6 @@
 using System;
 using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 namespace Soar
 {
     public abstract partial class SoarCore : ScriptableObject, IDisposable
@@ -32,7 +28,7 @@ namespace Soar
         protected virtual void OnQuit()
         {
 #if UNITY_EDITOR
-            EditorUtility.SetDirty(this);
+            OnQuitEditor();
             if (IsDomainReloadDisabled) return;
 #endif
             // NOTE : Do not call Dispose when Domain Reload is disabled.

@@ -35,6 +35,15 @@ namespace Soar
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
             EditorApplication.quitting -= UnsubscribeEditorEvents;
         }
+
+        private void OnQuitEditor()
+        {
+            if (!AssetDatabase.Contains(this)) return;
+            
+            // NOTE: Set Dirty only when the object is an asset.
+            // Used to reflect value reset or any changes after PlayMode ended.
+            EditorUtility.SetDirty(this);
+        }
     }
 }
 
