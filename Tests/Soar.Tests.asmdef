@@ -4,7 +4,8 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Soar"
+        "Soar",
+        "Soar.Base"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
