@@ -127,5 +127,11 @@ namespace Soar.Commands.Tests
 
             Assert.ThrowsAsync<TaskCanceledException>(async () => await testIntCommand.ExecuteAsync(42, cts.Token));
         }
+        
+        [TearDown]
+        public void TearDown()
+        {
+            Object.DestroyImmediate(testIntCommand);
+        }
     }
 }
