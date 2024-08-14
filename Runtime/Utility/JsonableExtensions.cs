@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Soar
 {
-    public static class JsonableExtension
+    public static class JsonableExtensions
     {
         
 #if UNITY_EDITOR
