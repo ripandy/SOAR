@@ -27,11 +27,6 @@ namespace Soar.Events
         {
             var subscription = new Subscription(action, Disposables);
             
-            if (Disposables.Contains(subscription))
-            {
-                return subscription;
-            }
-            
             Disposables.Add(subscription);
                 
             if (withBuffer)
@@ -50,9 +45,9 @@ namespace Soar.Events
 
     public abstract partial class GameEvent<T>
     {
-        public virtual partial void Raise(T param)
+        public virtual partial void Raise(T valueToRaise)
         {
-            value = param;
+            value = valueToRaise;
             
             base.Raise();
             
@@ -72,11 +67,6 @@ namespace Soar.Events
         {
             var subscription = new Subscription<T>(action, Disposables);
             
-            if (Disposables.Contains(subscription))
-            {
-                return subscription;
-            }
-
             Disposables.Add(subscription);
 
             if (withBuffer)
