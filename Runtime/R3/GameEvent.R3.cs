@@ -45,11 +45,11 @@ namespace Soar.Events
 
     public abstract partial class GameEvent<T>
     {
-        private readonly Subject<T> valueSubject = new();
+        protected readonly Subject<T> ValueSubject = new();
         
         public new Observable<T> AsObservable()
         {
-            return valueSubject;
+            return ValueSubject;
         }
 
         public Observable<Unit> AsUnitObservable()
@@ -59,36 +59,36 @@ namespace Soar.Events
 
         public IObservable<T> AsSystemObservable()
         {
-            return valueSubject.AsSystemObservable();
+            return ValueSubject.AsSystemObservable();
         }
 
         public IAsyncEnumerable<T> ToAsyncEnumerable(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return valueSubject.ToAsyncEnumerable(linkedTokenSource.Token);
+            return ValueSubject.ToAsyncEnumerable(linkedTokenSource.Token);
         }
 
         public virtual partial void Raise(T valueToRaise)
         {
             value = valueToRaise;
             base.Raise();
-            valueSubject.OnNext(valueToRaise);
+            ValueSubject.OnNext(valueToRaise);
         }
 
         public partial IDisposable Subscribe(Action<T> action)
         {
-            return valueSubject.Subscribe(action);
+            return ValueSubject.Subscribe(action);
         }
 
         public new async ValueTask<T> EventAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await valueSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            return await ValueSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
         public override void Dispose()
         {
-            valueSubject.Dispose();
+            ValueSubject.Dispose();
             base.Dispose();
         }
     }

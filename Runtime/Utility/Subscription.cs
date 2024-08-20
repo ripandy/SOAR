@@ -34,6 +34,7 @@ namespace Soar
     internal class Subscription<T> : IDisposable
     {
         private Action<T> action;
+        private Action<T, T> actionOldNew;
         private IList<IDisposable> disposables;
         
         public Subscription(
@@ -42,11 +43,26 @@ namespace Soar
         {
             this.action = action;
             this.disposables = disposables;
+            actionOldNew = null;
         }
 
+        public Subscription(
+            Action<T, T> action,
+            IList<IDisposable> disposables)
+        {
+            actionOldNew = action;
+            this.disposables = disposables;
+            this.action = null;
+        }
+        
         public void Invoke(T value)
         {
             action?.Invoke(value);
+        }
+
+        public void Invoke(T oldValue, T newValue)
+        {
+            actionOldNew?.Invoke(oldValue, newValue);
         }
 
         public void Dispose()

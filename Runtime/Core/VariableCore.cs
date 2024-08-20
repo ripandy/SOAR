@@ -9,24 +9,20 @@ namespace Soar.Variables
     /// Variable System is Game Event with Value property accessible at non-event context.
     /// </summary>
     /// <typeparam name="T">Type to be used as Value. Struct and Primitive types is encouraged.</typeparam>
-    public abstract class VariableCore<T> : GameEvent<T>
+    public abstract partial class VariableCore<T> : GameEvent<T>
     {
         [Tooltip("Set how value event behave.\nValue Assign: Raise when value is assigned regardless of value.\nValue Changed: Raise only when value is changed.")]
         [SerializeField] protected ValueEventType valueEventType;
 
         [Tooltip("If true will reset value when play mode end. Otherwise, keep runtime value. Due to shallow copying of class types, it is better avoid using autoResetValue on Class type.")]
         [SerializeField] protected bool autoResetValue;
+
+        private T oldValue;
         
         public virtual T Value
         {
             get => value;
             set => Raise(value);
-        }
-
-        public override void Raise(T valueToRaise)
-        {
-            if (valueEventType == ValueEventType.OnChange && IsValueEquals(valueToRaise)) return;
-            base.Raise(valueToRaise);
         }
 
         private bool IsValueEquals(T valueToCompare)
@@ -35,65 +31,65 @@ namespace Soar.Variables
                    value != null && valueToCompare != null && value.Equals(valueToCompare);
         }
 
-        /// <summary>
-        /// Value stored at initialization time.
-        /// </summary>
         private T initialValue;
         
         // MEMO: Hack to handle shallow copy of class type.
         //       Better to avoid class type on Variable.
         private string initialValueJsonString;
-
+        
+        /// <summary>
+        /// Value stored at initialization time.
+        /// </summary>
         public T InitialValue
         {
             get
             {
-                if (!Type.IsSimpleType())
+                if (Type.IsSimpleType()) return initialValue;
+                
+                try
                 {
-                    try
-                    {
-                        initialValue = JsonUtility.FromJson<T>(initialValueJsonString);
-                    }
-                    catch (ArgumentException)
-                    {
-                        // MEMO: Engine types like Transform, GameObject, etc., cannot be handled using Json.
-                        //       Let engine types goes through try-catch block.
-                        // TODO: Actually check for engine types or "Fix" the hack.
-                    }
+                    initialValue = JsonUtility.FromJson<T>(initialValueJsonString);
+                }
+                catch (ArgumentException)
+                {
+                    // MEMO: Engine types like Transform, GameObject, etc., cannot be handled using Json.
+                    //       Let engine types goes through try-catch block.
+                    // TODO: Actually check for engine types or "Fix" the hack.
                 }
                 return initialValue;
             }
             protected set
             {
-                if (!Type.IsSimpleType())
+                if (Type.IsSimpleType())
                 {
-                    try
-                    {
-                        initialValueJsonString = JsonUtility.ToJson(value);
-                    }
-                    catch (ArgumentException)
-                    {
-                        // MEMO: Engine types like Transform, GameObject, etc., cannot be handled using Json.
-                        //       Let engine types goes through try-catch block.
-                        // TODO: Actually check for engine types or "Fix" the hack.
-                    }
+                    initialValue = value;
+                    return;
                 }
-                initialValue = value;
+                
+                try
+                {
+                    initialValueJsonString = JsonUtility.ToJson(value);
+                }
+                catch (ArgumentException)
+                {
+                    // MEMO: Engine types like Transform, GameObject, etc., cannot be handled using Json.
+                    //       Let engine types goes through try-catch block.
+                    // TODO: Actually check for engine types or "Fix" the hack.
+                }
             }
         }
 
         /// <summary>
         /// Reset to value at initialization time.
         /// </summary>
-        public void ResetValue() => Value = InitialValue;
+        public void ResetValue()
+        {
+            Value = InitialValue;
+        }
 
         protected override void ResetInternal()
         {
-            if (!autoResetValue)
-            {
-                return;
-            }
-            
+            if (!autoResetValue) return;
             ResetValue();
         }
 
@@ -106,5 +102,15 @@ namespace Soar.Variables
             InitialValue = Value;
             base.Initialize();
         }
+        
+        // List of Partial methods. Implemented in each respective integrated Library.
+        public override partial void Raise(T valueToRaise);
+        
+        /// <summary>
+        /// Subscribe to the event and processes published value along with previous value on the provided Action.
+        /// </summary>
+        /// <param name="action">Action to be invoked upon event raise.</param>
+        /// <returns>Disposable for when subscription is no longer necessary.</returns>
+        public partial IDisposable Subscribe(Action<T, T> action);
     }
 }
