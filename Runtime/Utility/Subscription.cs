@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Soar
 {
-    internal struct Subscription : IDisposable
+    internal class Subscription : IDisposable
     {
         private Action action;
         private IList<IDisposable> disposables;
@@ -20,19 +20,18 @@ namespace Soar
 
         public void Invoke()
         {
-            action.Invoke();
+            action?.Invoke();
         }
 
         public void Dispose()
         {
             action = null;
-            if (disposables == null) return;
-            disposables.Remove(this);
+            disposables?.Remove(this);
             disposables = null;
         }
     }
     
-    internal struct Subscription<T> : IDisposable
+    internal class Subscription<T> : IDisposable
     {
         private Action<T> action;
         private IList<IDisposable> disposables;
@@ -45,16 +44,16 @@ namespace Soar
             this.disposables = disposables;
         }
 
-        public void Invoke(T param)
+        public void Invoke(T value)
         {
-            action.Invoke(param);
+            action?.Invoke(value);
         }
 
         public void Dispose()
         {
             action = null;
-            if (disposables == null) return;
-            disposables.Remove(this);
+            actionOldNew = null;
+            disposables?.Remove(this);
             disposables = null;
         }
     }
