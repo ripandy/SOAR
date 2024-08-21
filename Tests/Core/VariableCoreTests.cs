@@ -14,7 +14,7 @@ namespace Soar.Variables.Tests
         private IntVariable testIntVariable;
         private Vector3Variable testVector3Variable;
         
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             testIntVariable = ScriptableObject.CreateInstance<IntVariable>();
@@ -156,7 +156,7 @@ namespace Soar.Variables.Tests
             Assert.IsTrue(isRaised);
         }
         
-        [TearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
             testIntVariable.Dispose();

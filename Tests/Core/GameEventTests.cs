@@ -10,7 +10,7 @@ namespace Soar.Events.Tests
         private IntGameEvent testIntGameEvent;
         private PoseGameEvent testPoseGameEvent;
         
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             testGameEvent = ScriptableObject.CreateInstance<GameEvent>();
@@ -91,7 +91,7 @@ namespace Soar.Events.Tests
             Assert.AreEqual(3, raisedCount);
         }
         
-        [TearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
             Object.Destroy(testGameEvent);

@@ -27,7 +27,7 @@ namespace Soar.Commands.Tests
         
         private TestCommand testCommand;
         
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             testCommand = ScriptableObject.CreateInstance<TestCommand>();
@@ -128,7 +128,7 @@ namespace Soar.Commands.Tests
             Assert.ThrowsAsync<TaskCanceledException>(async () => await testIntCommand.ExecuteAsync(42, cts.Token));
         }
         
-        [TearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
             Object.DestroyImmediate(testIntCommand);
