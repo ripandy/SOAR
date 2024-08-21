@@ -4,7 +4,11 @@ using Object = UnityEngine.Object;
 
 namespace Soar.Events.Tests
 {
-    public class GameEventTests
+    /// <summary>
+    /// Tests for the core functionality of the GameEvent class.
+    /// Tests should pass for both independent implementation and R3 integration.
+    /// </summary>
+    public partial class GameEventTests
     {
         private GameEvent testGameEvent;
         private IntGameEvent testIntGameEvent;

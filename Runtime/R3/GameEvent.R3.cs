@@ -13,7 +13,7 @@ namespace Soar.Events
     {
         private readonly Subject<object> subject = new();
         
-        // MEMO: Soar uses `object` on parameterless GameEvent to avoid dependency on R3, whilst R3 use `Unit` on "parameterless" Subject.
+        // MEMO: SOAR uses `object` on parameterless GameEvent to avoid dependency on R3, whilst R3 use `Unit` on "parameterless" Subject.
         // This measures implicit internal change when R3 is removed, which would cause error trying to find `Unit`.
         // `AsObservable` on parameterless `GameEvent` returns `Observable<Unit>` due to explicit calls.
         public Observable<Unit> AsObservable()
@@ -34,7 +34,7 @@ namespace Soar.Events
         public async ValueTask EventAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            await subject.WaitAsync(cancellationToken: linkedTokenSource.Token);
+            await subject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
 
         public override void Dispose()
