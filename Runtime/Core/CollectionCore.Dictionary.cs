@@ -93,7 +93,7 @@ namespace Soar.Collections
             }
         }
 
-        public override void Add(SerializedKeyValuePair<TKey, TValue> item)
+        public new void Add(SerializedKeyValuePair<TKey, TValue> item)
         {
             lock (syncRoot)
             {
@@ -118,7 +118,7 @@ namespace Soar.Collections
             Add(new SerializedKeyValuePair<TKey, TValue>(key, value));
         }
 
-        public override void Clear()
+        public new void Clear()
         {
             lock (syncRoot)
             {
@@ -147,7 +147,7 @@ namespace Soar.Collections
             }
         }
 
-        public override void Copy(IEnumerable<SerializedKeyValuePair<TKey, TValue>> others)
+        public new void Copy(IEnumerable<SerializedKeyValuePair<TKey, TValue>> others)
         {
             lock (syncRoot)
             {
@@ -170,23 +170,16 @@ namespace Soar.Collections
             lock (syncRoot)
             {
                 var removed = dictionary.Remove(key, out var value);
-                RemoveValueSubscription(key);
                 return removed && base.Remove(new SerializedKeyValuePair<TKey, TValue>(key, value));
             }
         }
 
-        public override bool Remove(SerializedKeyValuePair<TKey, TValue> item)
+        public new bool Remove(SerializedKeyValuePair<TKey, TValue> item)
         {
             lock (syncRoot)
             {
                 if (!dictionary.TryGetValue(item.Key, out var value)) return false;
                 if (!EqualityComparer<TValue>.Default.Equals(value, item.Value)) return false;
-                
-                if (dictionary.Remove(item.Key))
-                {
-                    RemoveValueSubscription(item.Key);
-                }
-                
                 return base.Remove(item);
             }
         }
@@ -197,12 +190,6 @@ namespace Soar.Collections
             {
                 if (!dictionary.TryGetValue(item.Key, out var value)) return false;
                 if (!EqualityComparer<TValue>.Default.Equals(value, item.Value)) return false;
-                
-                if (dictionary.Remove(item.Key))
-                {
-                    RemoveValueSubscription(item.Key);
-                }
-                
                 return base.Remove(item);
             }
         }
@@ -238,11 +225,10 @@ namespace Soar.Collections
         }
 
         // List of Partial methods. Implemented in each respective integrated Library.
-        public partial IDisposable SubscribeToValue(TKey key, Action<TValue> action);
+        public partial IDisposable SubscribeToValues(Action<TKey, TValue> action);
         
         private partial void RaiseValue(TKey key, TValue value);
         private partial void ClearValueSubscriptions();
-        private partial void RemoveValueSubscription(TKey key);
     }
 
     [Serializable]

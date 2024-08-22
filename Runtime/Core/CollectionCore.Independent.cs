@@ -12,15 +12,17 @@ namespace Soar.Collections
         private readonly List<IDisposable> onAddSubscriptions = new();
         private readonly List<IDisposable> onRemoveSubscriptions = new();
         private readonly List<IDisposable> onClearSubscriptions = new();
-        private readonly Dictionary<int, List<IDisposable>> valueSubscriptions = new();
         private readonly List<IDisposable> countSubscriptions = new();
+        private readonly List<IDisposable> valueSubscriptions = new();
         
         public partial IDisposable SubscribeOnAdd(Action<T> action) => SubscribeOnAdd(action, withBuffer: false);
         public partial IDisposable SubscribeOnRemove(Action<T> action) => SubscribeOnRemove(action, withBuffer: false);
         public partial IDisposable SubscribeOnClear(Action action) => SubscribeOnClear(action, withBuffer: false);
         public partial IDisposable SubscribeToCount(Action<int> action) => SubscribeToCount(action, withBuffer: false);
-        public partial IDisposable SubscribeToValueAt(int index, Action<T> action) => SubscribeToValueAt(index, action, withBuffer: false);
+        public partial IDisposable SubscribeToValues(Action<int, T> action) => SubscribeToValues(action, withBuffer: false);
 
+        private (int index, T value) lastUpdated;
+        
         public IDisposable SubscribeOnAdd(Action<T> action, bool withBuffer)
         {
             var subscription = new Subscription<T>(action, onAddSubscriptions);
@@ -77,21 +79,15 @@ namespace Soar.Collections
             return subscription;
         }
 
-        public IDisposable SubscribeToValueAt(int index, Action<T> action, bool withBuffer)
+        public IDisposable SubscribeToValues(Action<int, T> action, bool withBuffer)
         {
-            if (!valueSubscriptions.TryGetValue(index, out var subscriptions))
+            var subscription = new IndexValueSubscription<T>(action, valueSubscriptions);
+            
+            valueSubscriptions.Add(subscription);
+            
+            if (withBuffer)
             {
-                subscriptions = new List<IDisposable>();
-                valueSubscriptions.Add(index, subscriptions);
-            }
-            
-            var subscription = new Subscription<T>(action, subscriptions);
-            
-            subscriptions.Add(subscription);
-            
-            if (withBuffer && index < list.Count && list[index] != null)
-            {
-                subscription.Invoke(list[index]);
+                subscription.Invoke(lastUpdated.index, lastUpdated.value);
             }
 
             return subscription;
@@ -144,50 +140,27 @@ namespace Soar.Collections
         private partial void RaiseValueAt(int index, T value)
         {
             if (valueEventType == ValueEventType.OnChange && list[index].Equals(value)) return;
-            if (!valueSubscriptions.TryGetValue(index, out var subscriptions)) return;
 
-            foreach (var disposable in subscriptions)
+            foreach (var disposable in valueSubscriptions)
             {
-                if (disposable is Subscription<T> valueSubscription)
+                if (disposable is IndexValueSubscription<T> valueSubscription)
                 {
-                    valueSubscription.Invoke(value);
+                    valueSubscription.Invoke(index, value);
                 }
             }
-        }
-        
-        private partial void IncrementValueSubscriptions(int index)
-        {
-            for (var i = list.Count; i > index; i--)
-            {
-                valueSubscriptions.TryChangeKey(i - 1, i);
-            }
-        }
-
-        private partial void SwitchValueSubscription(int oldIndex, int newIndex)
-        {
-            valueSubscriptions.TryChangeKey(oldIndex, newIndex);
+            
+            lastUpdated = (index, value);
         }
         
         private partial void ClearValueSubscriptions()
         {
-            foreach (var subscriptions in valueSubscriptions.Values)
+            foreach (var subscription in valueSubscriptions)
             {
-                for (var i = subscriptions.Count - 1; i >= 0; i--)
-                {
-                    subscriptions[i].Dispose();
-                }
-                subscriptions.Clear();
+                subscription.Dispose();
             }
             valueSubscriptions.Clear();
         }
         
-        private partial void RemoveValueSubscription(int index)
-        {
-            if (!valueSubscriptions.TryGetValue(index, out var subscriptions)) return;
-            subscriptions.Dispose();
-            valueSubscriptions.Remove(index);
-        }
-
         private partial void DisposeSubscriptions()
         {
             onAddSubscriptions.Dispose();
@@ -201,7 +174,9 @@ namespace Soar.Collections
     // Dictionary
     public abstract partial class Collection<TKey, TValue>
     {
-        private readonly IDictionary<TKey, IList<IDisposable>> valueSubscriptions = new Dictionary<TKey, IList<IDisposable>>();
+        private readonly List<IDisposable> valueSubscriptions = new();
+        
+        private (TKey Key, TValue Value) lastUpdated;
 
         public IDisposable SubscribeOnAdd(Action<TKey, TValue> action, bool withBuffer)
         {
@@ -223,26 +198,20 @@ namespace Soar.Collections
             return SubscribeOnRemove(action, withBuffer: false);
         }
 
-        public partial IDisposable SubscribeToValue(TKey key, Action<TValue> action)
+        public partial IDisposable SubscribeToValues(Action<TKey, TValue> action)
         {
-            return SubscribeToValue(key, action, withBuffer: false);
+            return SubscribeToValues(action, withBuffer: false);
         }
 
-        public IDisposable SubscribeToValue(TKey key, Action<TValue> action, bool withBuffer)
+        public IDisposable SubscribeToValues(Action<TKey, TValue> action, bool withBuffer)
         {
-            if (!valueSubscriptions.TryGetValue(key, out var subscriptions))
+            var subscription = new KeyValueSubscription<TKey, TValue>(action, valueSubscriptions);
+            
+            valueSubscriptions.Add(subscription);
+            
+            if (withBuffer)
             {
-                subscriptions = new List<IDisposable>();
-                valueSubscriptions.Add(key, subscriptions);
-            }
-            
-            var subscription = new Subscription<TValue>(action, subscriptions);
-            
-            subscriptions.Add(subscription);
-            
-            if (withBuffer && dictionary.TryGetValue(key, out var value) && value != null)
-            {
-                subscription.Invoke(value);
+                subscription.Invoke(lastUpdated.Key, lastUpdated.Value);
             }
 
             return subscription;
@@ -251,12 +220,11 @@ namespace Soar.Collections
         private partial void RaiseValue(TKey key, TValue value)
         {
             if (valueEventType == ValueEventType.OnChange && IsValueEqual()) return;
-            if (!valueSubscriptions.TryGetValue(key, out var subscriptions)) return;
 
-            foreach (var disposable in subscriptions)
+            foreach (var disposable in valueSubscriptions)
             {
-                if (disposable is not Subscription<TValue> valueSubscription) continue;
-                valueSubscription.Invoke(value);
+                if (disposable is not KeyValueSubscription<TKey, TValue> valueSubscription) continue;
+                valueSubscription.Invoke(key, value);
             }
 
             bool IsValueEqual()
@@ -267,22 +235,11 @@ namespace Soar.Collections
 
         private partial void ClearValueSubscriptions()
         {
-            foreach (var subscriptions in valueSubscriptions.Values)
+            foreach (var subscription in valueSubscriptions)
             {
-                foreach (var disposable in subscriptions)
-                {
-                    disposable.Dispose();
-                }
-                subscriptions.Clear();
+                subscription.Dispose();
             }
             valueSubscriptions.Clear();
-        }
-
-        private partial void RemoveValueSubscription(TKey key)
-        {
-            if (!valueSubscriptions.TryGetValue(key, out var subscriptions)) return;
-            subscriptions.Dispose();
-            valueSubscriptions.Remove(key);
         }
     }
 }

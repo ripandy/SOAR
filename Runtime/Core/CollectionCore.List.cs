@@ -72,7 +72,7 @@ namespace Soar.Collections
 
         public bool IsReadOnly => false;
 
-        public virtual void Add(T item)
+        public void Add(T item)
         {
             lock (syncRoot)
             {
@@ -84,12 +84,12 @@ namespace Soar.Collections
             }
         }
 
-        public virtual void AddRange(IEnumerable<T> items)
+        public void AddRange(IEnumerable<T> items)
         {
             AddRange(items.ToArray());
         }
 
-        public virtual void AddRange(T[] items)
+        public void AddRange(T[] items)
         {
             lock (syncRoot)
             {
@@ -104,7 +104,7 @@ namespace Soar.Collections
             }
         }
         
-        public virtual void Clear()
+        public void Clear()
         {
             lock (syncRoot)
             {
@@ -123,7 +123,7 @@ namespace Soar.Collections
             }
         }
 
-        public virtual void Copy(IEnumerable<T> others)
+        public void Copy(IEnumerable<T> others)
         {
             lock (syncRoot)
             {
@@ -175,13 +175,13 @@ namespace Soar.Collections
             }
         }
         
-        public virtual void Insert(int index, T item)
+        public void Insert(int index, T item)
         {
             lock (syncRoot)
             {
                 list.Insert(index, item);
-                IncrementValueSubscriptions(index);
                 RaiseOnAdd(item);
+                RaiseValueAt(index, item);
                 RaiseCount();
             }
         }
@@ -195,8 +195,8 @@ namespace Soar.Collections
                     var idx = i + index;
                     var item = items[i];
                     list.Insert(idx, item);
-                    IncrementValueSubscriptions(index);
                     RaiseOnAdd(item);
+                    RaiseValueAt(idx, item);
                     RaiseCount();
                 }
             }
@@ -207,7 +207,7 @@ namespace Soar.Collections
             InsertRange(index, items.ToArray());
         }
         
-        public virtual bool Remove(T item)
+        public bool Remove(T item)
         {
             lock (syncRoot)
             {
@@ -217,32 +217,29 @@ namespace Soar.Collections
                 lastRemoved = list[index];
                 list.RemoveAt(index);
                 RaiseOnRemove(lastRemoved);
-                RemoveValueSubscription(index);
                 RaiseCount();
                 return true;
             }
         }
 
-        public virtual void RemoveAt(int index)
+        public void RemoveAt(int index)
         {
             lock (syncRoot)
             {
                 lastRemoved = list[index];
                 list.RemoveAt(index);
                 RaiseOnRemove(lastRemoved);
-                RemoveValueSubscription(index);
                 RaiseCount();
             }
         }
 
-        public virtual void Move(int oldIndex, int newIndex)
+        public void Move(int oldIndex, int newIndex)
         {
             lock (syncRoot)
             {
                 var removedItem = list[oldIndex];
                 list.RemoveAt(oldIndex);
                 list.Insert(newIndex, removedItem);
-                SwitchValueSubscription(oldIndex, newIndex);
             }
         }
         
@@ -275,24 +272,20 @@ namespace Soar.Collections
         }
         
         // List of Partial methods. Implemented in each respective integrated Library.
-        public partial IDisposable SubscribeOnAdd(Action<T> action);
-        public partial IDisposable SubscribeOnRemove(Action<T> action);
-        public partial IDisposable SubscribeOnClear(Action action);
-        public partial IDisposable SubscribeToCount(Action<int> action);
-        public partial IDisposable SubscribeToValueAt(int index, Action<T> action);
-        
         private partial void RaiseOnAdd(T addedValue);
         private partial void RaiseOnRemove(T removedValue);
         private partial void RaiseCount();
         private partial void RaiseOnClear();
         private partial void RaiseValueAt(int index, T value);
         
-        private partial void IncrementValueSubscriptions(int index);
-        private partial void SwitchValueSubscription(int oldIndex, int newIndex);
-        
-        private partial void RemoveValueSubscription(int index);
         private partial void ClearValueSubscriptions();
-        
         private partial void DisposeSubscriptions();
+        
+        // TODO: Summaries
+        public partial IDisposable SubscribeOnAdd(Action<T> action);
+        public partial IDisposable SubscribeOnRemove(Action<T> action);
+        public partial IDisposable SubscribeOnClear(Action action);
+        public partial IDisposable SubscribeToCount(Action<int> action);
+        public partial IDisposable SubscribeToValues(Action<int, T> action);
     }
 }
