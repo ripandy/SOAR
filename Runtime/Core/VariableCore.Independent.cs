@@ -16,7 +16,7 @@ namespace Soar.Variables
             
             foreach (var disposable in Disposables)
             {
-                if (disposable is not Subscription<T> subscription) continue;
+                if (disposable is not OldNewSubscription<T> subscription) continue;
                 subscription.Invoke(oldValue, valueToRaise);
             }
         }
@@ -28,7 +28,7 @@ namespace Soar.Variables
 
         public IDisposable Subscribe(Action<T, T> action, bool withBuffer)
         {
-            var subscription = new Subscription<T>(action, Disposables);
+            var subscription = new OldNewSubscription<T>(action, Disposables);
             
             Disposables.Add(subscription);
 

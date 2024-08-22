@@ -34,7 +34,6 @@ namespace Soar
     internal class Subscription<T> : IDisposable
     {
         private Action<T> action;
-        private Action<T, T> actionOldNew;
         private IList<IDisposable> disposables;
         
         public Subscription(
@@ -43,16 +42,6 @@ namespace Soar
         {
             this.action = action;
             this.disposables = disposables;
-            actionOldNew = null;
-        }
-
-        public Subscription(
-            Action<T, T> action,
-            IList<IDisposable> disposables)
-        {
-            actionOldNew = action;
-            this.disposables = disposables;
-            this.action = null;
         }
         
         public void Invoke(T value)
@@ -60,15 +49,87 @@ namespace Soar
             action?.Invoke(value);
         }
 
-        public void Invoke(T oldValue, T newValue)
-        {
-            actionOldNew?.Invoke(oldValue, newValue);
-        }
-
         public void Dispose()
         {
             action = null;
-            actionOldNew = null;
+            disposables?.Remove(this);
+            disposables = null;
+        }
+    }
+    
+    internal class OldNewSubscription<T> : IDisposable
+    {
+        private Action<T, T> action;
+        private IList<IDisposable> disposables;
+        
+        public OldNewSubscription(
+            Action<T, T> action,
+            IList<IDisposable> disposables)
+        {
+            this.action = action;
+            this.disposables = disposables;
+        }
+        
+        public void Invoke(T oldValue, T newValue)
+        {
+            action?.Invoke(oldValue, newValue);
+        }
+        
+        public void Dispose()
+        {
+            action = null;
+            disposables?.Remove(this);
+            disposables = null;
+        }
+    }
+    
+    internal class IndexValueSubscription<T> : IDisposable
+    {
+        private Action<int, T> action;
+        private IList<IDisposable> disposables;
+        
+        public IndexValueSubscription(
+            Action<int, T> action,
+            IList<IDisposable> disposables)
+        {
+            this.action = action;
+            this.disposables = disposables;
+        }
+        
+        public void Invoke(int index, T value)
+        {
+            action?.Invoke(index, value);
+        }
+        
+        public void Dispose()
+        {
+            action = null;
+            disposables?.Remove(this);
+            disposables = null;
+        }
+    }
+    
+    internal class KeyValueSubscription<TKey, TValue> : IDisposable
+    {
+        private Action<TKey, TValue> action;
+        private IList<IDisposable> disposables;
+        
+        public KeyValueSubscription(
+            Action<TKey, TValue> action,
+            IList<IDisposable> disposables)
+        {
+            this.action = action;
+            this.disposables = disposables;
+        }
+        
+        public void Invoke(TKey key, TValue value)
+        {
+            action?.Invoke(key, value);
+        }
+        
+        public void Dispose()
+        {
+            action = null;
             disposables?.Remove(this);
             disposables = null;
         }
