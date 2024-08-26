@@ -15,13 +15,37 @@ namespace Soar.Collections
         private readonly List<IDisposable> countSubscriptions = new();
         private readonly List<IDisposable> valueSubscriptions = new();
         
-        public partial IDisposable SubscribeOnAdd(Action<T> action) => SubscribeOnAdd(action, withBuffer: false);
-        public partial IDisposable SubscribeOnRemove(Action<T> action) => SubscribeOnRemove(action, withBuffer: false);
-        public partial IDisposable SubscribeOnClear(Action action) => SubscribeOnClear(action, withBuffer: false);
-        public partial IDisposable SubscribeToCount(Action<int> action) => SubscribeToCount(action, withBuffer: false);
-        public partial IDisposable SubscribeToValues(Action<int, T> action) => SubscribeToValues(action, withBuffer: false);
+        public partial IDisposable SubscribeOnAdd(Action<T> action)
+        {
+            return SubscribeOnAdd(action, withBuffer: false);
+        }
 
-        private (int index, T value) lastUpdated;
+        public partial IDisposable SubscribeOnRemove(Action<T> action)
+        {
+            return SubscribeOnRemove(action, withBuffer: false);
+        }
+
+        public partial IDisposable SubscribeOnClear(Action action)
+        {
+            return SubscribeOnClear(action, withBuffer: false);
+        }
+
+        public partial IDisposable SubscribeToCount(Action<int> action)
+        {
+            return SubscribeToCount(action, withBuffer: false);
+        }
+
+        public partial IDisposable SubscribeToValues(Action<int, T> action)
+        {
+            return SubscribeToValues(action, withBuffer: false);
+        }
+
+        public partial IDisposable SubscribeToValues(Action<IndexValuePair<T>> action)
+        {
+            return SubscribeToValues(action, withBuffer: false);
+        }
+
+        private IndexValuePair<T> lastUpdated;
         
         public IDisposable SubscribeOnAdd(Action<T> action, bool withBuffer)
         {
@@ -87,7 +111,21 @@ namespace Soar.Collections
             
             if (withBuffer)
             {
-                subscription.Invoke(lastUpdated.index, lastUpdated.value);
+                subscription.Invoke(lastUpdated);
+            }
+
+            return subscription;
+        }
+        
+        public IDisposable SubscribeToValues(Action<IndexValuePair<T>> action, bool withBuffer)
+        {
+            var subscription = new IndexValueSubscription<T>(action, valueSubscriptions);
+            
+            valueSubscriptions.Add(subscription);
+            
+            if (withBuffer)
+            {
+                subscription.Invoke(lastUpdated);
             }
 
             return subscription;
@@ -149,25 +187,16 @@ namespace Soar.Collections
                 }
             }
             
-            lastUpdated = (index, value);
+            lastUpdated = new IndexValuePair<T>(index, value);
         }
         
-        private partial void ClearValueSubscriptions()
-        {
-            foreach (var subscription in valueSubscriptions)
-            {
-                subscription.Dispose();
-            }
-            valueSubscriptions.Clear();
-        }
-        
-        private partial void DisposeSubscriptions()
+        public override void Dispose()
         {
             onAddSubscriptions.Dispose();
             onRemoveSubscriptions.Dispose();
             onClearSubscriptions.Dispose();
             countSubscriptions.Dispose();
-            ClearValueSubscriptions();
+            valueSubscriptions.Dispose();
         }
     }
     
@@ -176,26 +205,26 @@ namespace Soar.Collections
     {
         private readonly List<IDisposable> valueSubscriptions = new();
         
-        private (TKey Key, TValue Value) lastUpdated;
+        private KeyValuePair<TKey, TValue> lastUpdated;
+
+        public partial IDisposable SubscribeOnAdd(Action<TKey, TValue> action)
+        {
+            return SubscribeOnAdd(action, withBuffer: false);
+        }
 
         public IDisposable SubscribeOnAdd(Action<TKey, TValue> action, bool withBuffer)
         {
             return base.SubscribeOnAdd(pair => action.Invoke(pair.Key, pair.Value), withBuffer);
         }
 
-        public IDisposable SubscribeOnAdd(Action<TKey, TValue> action)
+        public partial IDisposable SubscribeOnRemove(Action<TKey, TValue> action)
         {
-            return SubscribeOnAdd(action, withBuffer: false);
+            return SubscribeOnRemove(action, withBuffer: false);
         }
 
         public IDisposable SubscribeOnRemove(Action<TKey, TValue> action, bool withBuffer)
         {
             return base.SubscribeOnRemove(pair => action.Invoke(pair.Key, pair.Value), withBuffer);
-        }
-
-        public IDisposable SubscribeOnRemove(Action<TKey, TValue> action)
-        {
-            return SubscribeOnRemove(action, withBuffer: false);
         }
 
         public partial IDisposable SubscribeToValues(Action<TKey, TValue> action)
@@ -211,7 +240,26 @@ namespace Soar.Collections
             
             if (withBuffer)
             {
-                subscription.Invoke(lastUpdated.Key, lastUpdated.Value);
+                subscription.Invoke(lastUpdated);
+            }
+
+            return subscription;
+        }
+        
+        public partial IDisposable SubscribeToValues(Action<KeyValuePair<TKey, TValue>> action)
+        {
+            return SubscribeToValues(action, withBuffer: false);
+        }
+
+        public IDisposable SubscribeToValues(Action<KeyValuePair<TKey, TValue>> action, bool withBuffer)
+        {
+            var subscription = new KeyValueSubscription<TKey, TValue>(action, valueSubscriptions);
+            
+            valueSubscriptions.Add(subscription);
+            
+            if (withBuffer)
+            {
+                subscription.Invoke(lastUpdated);
             }
 
             return subscription;
@@ -226,6 +274,8 @@ namespace Soar.Collections
                 if (disposable is not KeyValueSubscription<TKey, TValue> valueSubscription) continue;
                 valueSubscription.Invoke(key, value);
             }
+            
+            lastUpdated = new KeyValuePair<TKey, TValue>(key, value);
 
             bool IsValueEqual()
             {
@@ -233,13 +283,10 @@ namespace Soar.Collections
             }
         }
 
-        private partial void ClearValueSubscriptions()
+        public override void Dispose()
         {
-            foreach (var subscription in valueSubscriptions)
-            {
-                subscription.Dispose();
-            }
-            valueSubscriptions.Clear();
+            valueSubscriptions.Dispose();
+            base.Dispose();
         }
     }
 }

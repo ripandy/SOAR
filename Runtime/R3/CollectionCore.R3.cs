@@ -9,28 +9,20 @@ using UnityEngine;
 
 namespace Soar.Collections
 {
+    // List
     public abstract partial class Collection<T>
     {
-        private readonly Subject<T> onAddSubject = new();
-        private readonly Subject<T> onRemoveSubject = new();
+        protected readonly Subject<T> onAddSubject = new();
+        protected readonly Subject<T> onRemoveSubject = new();
         private readonly Subject<object> onClearSubject = new();
         private readonly Subject<int> countSubject = new();
-        private readonly Dictionary<int, Subject<T>> valueSubjects = new();
+        private readonly Subject<IndexValuePair<T>> valueSubject = new();
 
-        public Observable<T> OnAddObservable() => onAddSubject;
-        public Observable<T> OnRemoveObservable() => onRemoveSubject;
-        public Observable<object> OnClearObservable() => onClearSubject;
-        public Observable<int> CountObservable() => countSubject;
-
-        public Observable<T> ValueAtObservable(int index)
-        {
-            if (valueSubjects.TryGetValue(index, out var elementSubject)) return elementSubject;
-            
-            elementSubject = new Subject<T>();
-            valueSubjects.Add(index, elementSubject);
-
-            return elementSubject;
-        }
+        public Observable<T> ObserveAdd() => onAddSubject;
+        public Observable<T> ObserveRemove() => onRemoveSubject;
+        public Observable<Unit> ObserveClear() => onClearSubject.AsUnitObservable();
+        public Observable<int> ObserveCount() => countSubject;
+        public Observable<IndexValuePair<T>> ObserveValues() => valueSubject;
         
         public async ValueTask<T> OnAddAsync(CancellationToken cancellationToken = default)
         {
@@ -56,36 +48,12 @@ namespace Soar.Collections
             return await countSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
-        public async ValueTask<T> ValueAtAsync(int index, CancellationToken cancellationToken = default)
+        public async ValueTask<IndexValuePair<T>> ValuesAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await ValueAtObservable(index).FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
-        }
-    }
-
-    public abstract partial class Collection<TKey, TValue>
-    {
-        private readonly Dictionary<TKey, Subject<TValue>> valueSubjects = new();
-        
-        public Observable<TValue> ValueAtObservable(TKey key)
-        {
-            if (valueSubjects.TryGetValue(key, out var elementSubject)) return elementSubject;
-            
-            elementSubject = new Subject<TValue>();
-            valueSubjects.Add(key, elementSubject);
-
-            return elementSubject;
+            return await valueSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
-        public async ValueTask<TValue> ValueAtAsync(TKey key, CancellationToken cancellationToken = default)
-        {
-            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await ValueAtObservable(key).FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
-        }
-    }
-    
-    public abstract partial class Collection<T>
-    {
         private partial void RaiseOnAdd(T addedValue)
         {
             onAddSubject.OnNext(addedValue);
@@ -109,9 +77,7 @@ namespace Soar.Collections
         private partial void RaiseValueAt(int index, T value)
         {
             if (valueEventType == ValueEventType.OnChange && list[index].Equals(value)) return;
-            if (!valueSubjects.TryGetValue(index, out var subject)) return;
-            
-            subject.OnNext(value);
+            valueSubject.OnNext(new IndexValuePair<T>(index, value));
         }
 
         public partial IDisposable SubscribeOnAdd(Action<T> action)
@@ -134,65 +100,64 @@ namespace Soar.Collections
             return countSubject.Subscribe(action);
         }
 
-        public partial IDisposable SubscribeToValueAt(int index, Action<T> action)
+        public partial IDisposable SubscribeToValues(Action<int, T> action)
         {
-            return ValueAtObservable(index).Subscribe(action);
-        }
-        
-        private partial void IncrementValueSubscriptions(int index)
-        {
-            for (var i = list.Count; i > index; i--)
-            {
-                valueSubjects.TryChangeKey(i - 1, i);
-            }
-        }
-        
-        private partial void SwitchValueSubscription(int oldIndex, int newIndex)
-        {
-            valueSubjects.TryChangeKey(oldIndex, newIndex);
-        }
-        
-        private partial void ClearValueSubscriptions()
-        {
-            foreach (var subject in valueSubjects.Values)
-            {
-                subject.Dispose();
-            }
-            
-            valueSubjects.Clear();
-        }
-        
-        private partial void RemoveValueSubscription(int index)
-        {
-            if (!valueSubjects.TryGetValue(index, out var subject)) return;
-            
-            subject.Dispose();
-            valueSubjects.Remove(index);
+            return valueSubject.Subscribe(pair => action.Invoke(pair.Index, pair.Value));
         }
 
-        private partial void DisposeSubscriptions()
+        public partial IDisposable SubscribeToValues(Action<IndexValuePair<T>> action)
+        {
+            return valueSubject.Subscribe(action);
+        }
+
+        public override void Dispose()
         {
             onAddSubject.Dispose();
             onRemoveSubject.Dispose();
             onClearSubject.Dispose();
             countSubject.Dispose();
-            ClearValueSubscriptions();
+            valueSubject.Dispose();
         }
     }
     
+    // Dictionary
     public abstract partial class Collection<TKey, TValue>
     {
-        public partial IDisposable SubscribeToValue(TKey key, Action<TValue> action)
+        private readonly Subject<KeyValuePair<TKey, TValue>> valueSubject = new();
+        
+        public new Observable<KeyValuePair<TKey, TValue>> ObserveValues() => valueSubject;
+        
+        public new async ValueTask<KeyValuePair<TKey, TValue>> ValuesAsync(CancellationToken cancellationToken = default)
         {
-            return ValueAtObservable(key).Subscribe(action);
+            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
+            return await valueSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+        }
+
+        public partial IDisposable SubscribeOnAdd(Action<TKey, TValue> action)
+        {
+            return onAddSubject.Subscribe(pair => action.Invoke(pair.Key, pair.Value));
+        }
+        
+        public partial IDisposable SubscribeOnRemove(Action<TKey, TValue> action)
+        {
+            return onRemoveSubject.Subscribe(pair => action.Invoke(pair.Key, pair.Value));
+        }
+    
+        public partial IDisposable SubscribeToValues(Action<TKey, TValue> action)
+        {
+            return valueSubject.Subscribe(pair => action.Invoke(pair.Key, pair.Value));
+        }
+
+        public partial IDisposable SubscribeToValues(Action<KeyValuePair<TKey, TValue>> action)
+        {
+            return valueSubject.Subscribe(action);
         }
 
         private partial void RaiseValue(TKey key, TValue value)
         {
             if (valueEventType == ValueEventType.OnChange && IsValueEqual()) return;
-            if (!valueSubjects.TryGetValue(key, out var subject)) return;
             
-            subject.OnNext(value);
+            valueSubject.OnNext(new KeyValuePair<TKey, TValue>(key, value));
 
             bool IsValueEqual()
             {
@@ -200,22 +165,10 @@ namespace Soar.Collections
             }
         }
 
-        private partial void ClearValueSubscriptions()
+        public override void Dispose()
         {
-            foreach (var subject in valueSubjects.Values)
-            {
-                subject.Dispose();
-            }
-            
-            valueSubjects.Clear();
-        }
-        
-        private partial void RemoveValueSubscription(TKey key)
-        {
-            if (!valueSubjects.TryGetValue(key, out var subject)) return;
-            
-            subject.Dispose();
-            valueSubjects.Remove(key);
+            valueSubject.Dispose();
+            base.Dispose();
         }
     }
 }

@@ -108,7 +108,6 @@ namespace Soar.Collections
         {
             lock (syncRoot)
             {
-                ClearValueSubscriptions();
                 list.Clear();
                 RaiseOnClear();
                 RaiseCount();
@@ -266,11 +265,6 @@ namespace Soar.Collections
             base.OnQuit();
         }
 
-        public override void Dispose()
-        {
-            DisposeSubscriptions();
-        }
-        
         // List of Partial methods. Implemented in each respective integrated Library.
         private partial void RaiseOnAdd(T addedValue);
         private partial void RaiseOnRemove(T removedValue);
@@ -278,14 +272,12 @@ namespace Soar.Collections
         private partial void RaiseOnClear();
         private partial void RaiseValueAt(int index, T value);
         
-        private partial void ClearValueSubscriptions();
-        private partial void DisposeSubscriptions();
-        
         // TODO: Summaries
         public partial IDisposable SubscribeOnAdd(Action<T> action);
         public partial IDisposable SubscribeOnRemove(Action<T> action);
         public partial IDisposable SubscribeOnClear(Action action);
         public partial IDisposable SubscribeToCount(Action<int> action);
         public partial IDisposable SubscribeToValues(Action<int, T> action);
+        public partial IDisposable SubscribeToValues(Action<IndexValuePair<T>> action);
     }
 }

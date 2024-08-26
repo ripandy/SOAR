@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace Soar.Collections
 {
@@ -49,7 +48,7 @@ namespace Soar.Collections
             }
         }
         
-        ICollection<TKey> IDictionary<TKey, TValue>.Keys
+        public ICollection<TKey> Keys
         {
             get
             {
@@ -60,7 +59,7 @@ namespace Soar.Collections
             }
         }
 
-        ICollection<TValue> IDictionary<TKey, TValue>.Values
+        public ICollection<TValue> Values
         {
             get
             {
@@ -122,7 +121,6 @@ namespace Soar.Collections
         {
             lock (syncRoot)
             {
-                ClearValueSubscriptions();
                 base.Clear();
                 OnValidate();
             }
@@ -225,9 +223,12 @@ namespace Soar.Collections
         }
 
         // List of Partial methods. Implemented in each respective integrated Library.
-        public partial IDisposable SubscribeToValues(Action<TKey, TValue> action);
-        
         private partial void RaiseValue(TKey key, TValue value);
-        private partial void ClearValueSubscriptions();
+        
+        // TODO: Summaries
+        public partial IDisposable SubscribeOnAdd(Action<TKey, TValue> action);
+        public partial IDisposable SubscribeOnRemove(Action<TKey, TValue> action);
+        public partial IDisposable SubscribeToValues(Action<TKey, TValue> action);
+        public partial IDisposable SubscribeToValues(Action<KeyValuePair<TKey, TValue>> action);
     }
 }
