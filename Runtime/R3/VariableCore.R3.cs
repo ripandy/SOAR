@@ -7,6 +7,8 @@ namespace Soar.Variables
 {
     public abstract partial class VariableCore<T>
     {
+        private readonly Subject<PairwiseValue<T>> pairwiseValueSubject = new();
+        
         public override partial void Raise(T valueToRaise)
         {
             oldValue = value;
@@ -14,11 +16,24 @@ namespace Soar.Variables
             if (valueEventType == ValueEventType.OnChange && IsValueEquals(valueToRaise)) return;
             
             base.Raise(valueToRaise);
+            
+            pairwiseValueSubject.OnNext(new PairwiseValue<T>(oldValue, valueToRaise));
         }
         
         public partial IDisposable Subscribe(Action<T, T> action)
         {
             return ValueSubject.Subscribe(newValue => action.Invoke(oldValue, newValue));
+        }
+        
+        public partial IDisposable Subscribe(Action<PairwiseValue<T>> action)
+        {
+            return pairwiseValueSubject.Subscribe(action.Invoke);
+        }
+        
+        public override void Dispose()
+        {
+            pairwiseValueSubject.Dispose();
+            base.Dispose();
         }
     }
 }

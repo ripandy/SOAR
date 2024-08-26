@@ -112,5 +112,12 @@ namespace Soar.Variables
         /// <param name="action">Action to be invoked upon event raise.</param>
         /// <returns>Disposable for when subscription is no longer necessary.</returns>
         public partial IDisposable Subscribe(Action<T, T> action);
+        
+        /// <summary>
+        /// Subscribe to the event and processes published value as PairwiseValue which holds oldValue along with newValue.
+        /// </summary>
+        /// <param name="action">Action to be invoked upon event raise.</param>
+        /// <returns>Disposable for when subscription is no longer necessary.</returns>
+        public partial IDisposable Subscribe(Action<PairwiseValue<T>> action);
     }
 }

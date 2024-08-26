@@ -16,8 +16,15 @@ namespace Soar.Variables
             
             foreach (var disposable in Disposables)
             {
-                if (disposable is not OldNewSubscription<T> subscription) continue;
-                subscription.Invoke(oldValue, valueToRaise);
+                switch (disposable)
+                {
+                    case OldNewSubscription<T> subscription:
+                        subscription.Invoke(oldValue, valueToRaise);
+                        break;
+                    case Subscription<PairwiseValue<T>> pairwiseSubscription:
+                        pairwiseSubscription.Invoke(new PairwiseValue<T>(oldValue, valueToRaise));
+                        break;
+                }
             }
         }
         
@@ -35,6 +42,25 @@ namespace Soar.Variables
             if (withBuffer)
             {
                 subscription.Invoke(oldValue, value);
+            }
+
+            return subscription;
+        }
+        
+        public partial IDisposable Subscribe(Action<PairwiseValue<T>> action)
+        {
+            return Subscribe(action, withBuffer: false);   
+        }
+
+        public IDisposable Subscribe(Action<PairwiseValue<T>> action, bool withBuffer)
+        {
+            var subscription = new Subscription<PairwiseValue<T>>(action, Disposables);
+            
+            Disposables.Add(subscription);
+
+            if (withBuffer)
+            {
+                subscription.Invoke(new PairwiseValue<T>(oldValue, value));
             }
 
             return subscription;

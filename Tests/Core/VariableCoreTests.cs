@@ -54,14 +54,10 @@ namespace Soar.Variables.Tests
             Assert.IsFalse(testIntVariable == eventInt);
             Assert.IsFalse(testVector3Variable == eventVector3);
             
-            var eventOldInt = 0;
+            var pairwiseIntValue = new PairwiseValue<int>(0, 0);
             var eventOldVector3 = Vector3.zero;
             
-            var s3 = testIntVariable.Subscribe((oldValue, newValue) =>
-            {
-                eventOldInt = oldValue;
-                eventInt = newValue;
-            });
+            var s3 = testIntVariable.Subscribe(value => pairwiseIntValue = value);
             var s4 = testVector3Variable.Subscribe((oldValue, newValue) =>
             {
                 eventOldVector3 = oldValue;
@@ -71,11 +67,11 @@ namespace Soar.Variables.Tests
             testIntVariable.Value = 420;
             testVector3Variable.Value = Vector3.up;
             
-            Assert.AreEqual(24, eventOldInt);
-            Assert.AreEqual(420, eventInt);
+            Assert.AreEqual(24, pairwiseIntValue.OldValue);
+            Assert.AreEqual(420, pairwiseIntValue.NewValue);
             Assert.AreEqual(Vector3.back, eventOldVector3);
             Assert.AreEqual(Vector3.up, eventVector3);
-            Assert.IsTrue(testIntVariable == eventInt, "Should be equal with indirect cast");
+            Assert.IsTrue(testIntVariable == pairwiseIntValue.NewValue, "Should be equal with indirect cast");
             Assert.IsTrue(testVector3Variable == eventVector3, "Should be equal with indirect cast");
             
             s3.Dispose();
@@ -85,13 +81,13 @@ namespace Soar.Variables.Tests
             testVector3Variable.Value = Vector3.down;
             
             // Should not be called after disposed.
-            Assert.AreEqual(24, eventOldInt);
-            Assert.AreEqual(420, eventInt);
+            Assert.AreEqual(24, pairwiseIntValue.OldValue);
+            Assert.AreEqual(420, pairwiseIntValue.NewValue);
             Assert.AreEqual(Vector3.back, eventOldVector3);
             Assert.AreEqual(Vector3.up, eventVector3);
             Assert.IsTrue(testIntVariable == 240);
             Assert.IsTrue(testVector3Variable == Vector3.down);
-            Assert.IsFalse(testIntVariable == eventInt);
+            Assert.IsFalse(testIntVariable == pairwiseIntValue.NewValue);
             Assert.IsFalse(testVector3Variable == eventVector3);
         }
         
