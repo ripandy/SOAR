@@ -87,7 +87,7 @@ namespace Soar.Variables
             Value = InitialValue;
         }
 
-        protected override void ResetInternal()
+        internal override void ResetInternal()
         {
             if (!autoResetValue) return;
             ResetValue();
@@ -97,7 +97,7 @@ namespace Soar.Variables
 
         public override string ToString() => Value.ToString();
 
-        protected override void Initialize()
+        internal override void Initialize()
         {
             InitialValue = Value;
             base.Initialize();

@@ -17,7 +17,7 @@ namespace Soar
             Initialize();
         }
 
-        protected virtual void Initialize()
+        internal virtual void Initialize()
         {
 #if UNITY_EDITOR
             if (IsDomainReloadDisabled) return;
@@ -25,7 +25,7 @@ namespace Soar
             Application.exitCancellationToken.Register(OnQuit);
         }
 
-        protected virtual void OnQuit()
+        internal virtual void OnQuit()
         {
 #if UNITY_EDITOR
             OnQuitEditor();

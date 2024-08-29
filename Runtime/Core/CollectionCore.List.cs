@@ -74,6 +74,11 @@ namespace Soar.Collections
 
         public void Add(T item)
         {
+            AddInternal(item);
+        }
+        
+        internal virtual void AddInternal(T item)
+        {
             lock (syncRoot)
             {
                 var index = list.Count;
@@ -86,10 +91,15 @@ namespace Soar.Collections
 
         public void AddRange(IEnumerable<T> items)
         {
-            AddRange(items.ToArray());
+            AddRangeInternal(items.ToArray());
         }
 
         public void AddRange(T[] items)
+        {
+            AddRangeInternal(items);
+        }
+
+        internal virtual void AddRangeInternal(T[] items)
         {
             lock (syncRoot)
             {
@@ -105,6 +115,11 @@ namespace Soar.Collections
         }
         
         public void Clear()
+        {
+            ClearInternal();
+        }
+        
+        internal virtual void ClearInternal()
         {
             lock (syncRoot)
             {
@@ -123,6 +138,11 @@ namespace Soar.Collections
         }
 
         public void Copy(IEnumerable<T> others)
+        {
+            CopyInternal(others);
+        }
+
+        internal virtual void CopyInternal(IEnumerable<T> others)
         {
             lock (syncRoot)
             {
@@ -176,6 +196,11 @@ namespace Soar.Collections
         
         public void Insert(int index, T item)
         {
+            InsertInternal(index, item);
+        }
+        
+        internal virtual void InsertInternal(int index, T item)
+        {
             lock (syncRoot)
             {
                 list.Insert(index, item);
@@ -186,6 +211,16 @@ namespace Soar.Collections
         }
         
         public void InsertRange(int index, T[] items)
+        {
+            InsertRangeInternal(index, items);
+        }
+        
+        public void InsertRange(int index, IEnumerable<T> items)
+        {
+            InsertRange(index, items.ToArray());
+        }
+        
+        internal virtual void InsertRangeInternal(int index, T[] items)
         {
             lock (syncRoot)
             {
@@ -201,12 +236,12 @@ namespace Soar.Collections
             }
         }
         
-        public void InsertRange(int index, IEnumerable<T> items)
+        public bool Remove(T item)
         {
-            InsertRange(index, items.ToArray());
+            return RemoveInternal(item);
         }
         
-        public bool Remove(T item)
+        internal virtual bool RemoveInternal(T item)
         {
             lock (syncRoot)
             {
@@ -222,6 +257,11 @@ namespace Soar.Collections
         }
 
         public void RemoveAt(int index)
+        {
+            RemoveAtInternal(index);
+        }
+        
+        internal virtual void RemoveAtInternal(int index)
         {
             lock (syncRoot)
             {
@@ -242,7 +282,7 @@ namespace Soar.Collections
             }
         }
         
-        protected override void Initialize()
+        internal override void Initialize()
         {
             InitialValue = list;
             base.Initialize();
@@ -251,7 +291,7 @@ namespace Soar.Collections
         /// <summary>
         /// Reset value(s) to InitialValue
         /// </summary>
-        public void ResetValues() => Copy(InitialValue);
+        public void ResetValues() => CopyInternal(InitialValue);
         
         private void ResetInternal()
         {
@@ -259,7 +299,7 @@ namespace Soar.Collections
             ResetValues();
         }
         
-        protected override void OnQuit()
+        internal override void OnQuit()
         {
             ResetInternal();
             base.OnQuit();

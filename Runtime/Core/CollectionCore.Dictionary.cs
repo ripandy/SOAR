@@ -92,36 +92,49 @@ namespace Soar.Collections
             }
         }
 
-        public new void Add(SerializedKeyValuePair<TKey, TValue> item)
-        {
-            lock (syncRoot)
-            {
-                dictionary.Add(item.Key, item.Value);
-                base.Add(item);
-                RaiseValue(item.Key, item.Value);
-            }
-        }
-
         public void Add(KeyValuePair<TKey, TValue> item)
         {
             lock (syncRoot)
             {
                 dictionary.Add(item.Key, item.Value);
-                base.Add(item);
+                base.AddInternal(item);
                 RaiseValue(item.Key, item.Value);
             }
         }
 
         public void Add(TKey key, TValue value)
         {
-            Add(new SerializedKeyValuePair<TKey, TValue>(key, value));
+            AddInternal(new SerializedKeyValuePair<TKey, TValue>(key, value));
         }
-
-        public new void Clear()
+        
+        internal override void AddInternal(SerializedKeyValuePair<TKey, TValue> item)
         {
             lock (syncRoot)
             {
-                base.Clear();
+                dictionary.Add(item.Key, item.Value);
+                base.AddInternal(item);
+                RaiseValue(item.Key, item.Value);
+            }
+        }
+
+        internal override void AddRangeInternal(SerializedKeyValuePair<TKey, TValue>[] items)
+        {
+            lock (syncRoot)
+            {
+                base.AddRangeInternal(items);
+                foreach (var item in items)
+                {
+                    dictionary.Add(item.Key, item.Value);
+                    RaiseValue(item.Key, item.Value);
+                }
+            }
+        }
+
+        internal override void ClearInternal()
+        {
+            lock (syncRoot)
+            {
+                base.ClearInternal();
                 OnValidate();
             }
         }
@@ -145,11 +158,11 @@ namespace Soar.Collections
             }
         }
 
-        public new void Copy(IEnumerable<SerializedKeyValuePair<TKey, TValue>> others)
+        internal override void CopyInternal(IEnumerable<SerializedKeyValuePair<TKey, TValue>> others)
         {
             lock (syncRoot)
             {
-                base.Copy(others);
+                base.CopyInternal(others);
                 OnValidate();
             }
         }
@@ -160,43 +173,6 @@ namespace Soar.Collections
             {
                 ((ICollection<KeyValuePair<TKey, TValue>>)dictionary).CopyTo(array, arrayIndex);
                 base.CopyTo(array.Select(pair => (SerializedKeyValuePair<TKey, TValue>)pair).ToArray(), arrayIndex);
-            }
-        }
-
-        public bool Remove(TKey key)
-        {
-            lock (syncRoot)
-            {
-                var removed = dictionary.Remove(key, out var value);
-                return removed && base.Remove(new SerializedKeyValuePair<TKey, TValue>(key, value));
-            }
-        }
-
-        public new bool Remove(SerializedKeyValuePair<TKey, TValue> item)
-        {
-            lock (syncRoot)
-            {
-                if (!dictionary.TryGetValue(item.Key, out var value)) return false;
-                if (!EqualityComparer<TValue>.Default.Equals(value, item.Value)) return false;
-                return base.Remove(item);
-            }
-        }
-
-        public bool Remove(KeyValuePair<TKey, TValue> item)
-        {
-            lock (syncRoot)
-            {
-                if (!dictionary.TryGetValue(item.Key, out var value)) return false;
-                if (!EqualityComparer<TValue>.Default.Equals(value, item.Value)) return false;
-                return base.Remove(item);
-            }
-        }
-        
-        public bool TryGetValue(TKey key, out TValue value)
-        {
-            lock (syncRoot)
-            {
-                return dictionary.TryGetValue(key, out value);
             }
         }
 
@@ -212,6 +188,79 @@ namespace Soar.Collections
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        // MEMO: Insert on Dictionary does not make sense.
+        // However, This is necessary due to Unity does not support serialization of Dictionary.
+        // Implementations are preventive measures for when user use Base Class' (List counterpart) Insert methods.
+        internal override void InsertInternal(int index, SerializedKeyValuePair<TKey, TValue> item)
+        {
+            lock (syncRoot)
+            {
+                dictionary.Add(item.Key, item.Value);
+                base.InsertInternal(index, item);
+                RaiseValue(item.Key, item.Value);
+            }
+        }
+        
+        internal override void InsertRangeInternal(int index, SerializedKeyValuePair<TKey, TValue>[] items)
+        {
+            lock (syncRoot)
+            {
+                base.InsertRangeInternal(index, items);
+                foreach (var item in items)
+                {
+                    dictionary.Add(item.Key, item.Value);
+                    RaiseValue(item.Key, item.Value);
+                }
+            }
+        }
+
+        public bool Remove(TKey key)
+        {
+            lock (syncRoot)
+            {
+                var removed = dictionary.Remove(key, out var value);
+                return removed && base.RemoveInternal(new SerializedKeyValuePair<TKey, TValue>(key, value));
+            }
+        }
+
+        internal override bool RemoveInternal(SerializedKeyValuePair<TKey, TValue> item)
+        {
+            lock (syncRoot)
+            {
+                if (!dictionary.TryGetValue(item.Key, out var value)) return false;
+                if (!EqualityComparer<TValue>.Default.Equals(value, item.Value)) return false;
+                return Remove(item.Key);
+            }
+        }
+
+        internal override void RemoveAtInternal(int index)
+        {
+            lock (syncRoot)
+            {
+                var item = list[index];
+                dictionary.Remove(item.Key);
+                base.RemoveAtInternal(index);
+            }
+        }
+
+        public bool Remove(KeyValuePair<TKey, TValue> item)
+        {
+            lock (syncRoot)
+            {
+                if (!dictionary.TryGetValue(item.Key, out var value)) return false;
+                if (!EqualityComparer<TValue>.Default.Equals(value, item.Value)) return false;
+                return Remove(item.Key);
+            }
+        }
+        
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            lock (syncRoot)
+            {
+                return dictionary.TryGetValue(key, out value);
+            }
+        }
 
         private void OnValidate()
         {

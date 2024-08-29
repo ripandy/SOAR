@@ -37,12 +37,12 @@ namespace Soar.Events
             Raise(value);
         }
 
-        protected virtual void ResetInternal()
+        internal virtual void ResetInternal()
         {
             value = default;
         }
 
-        protected override void OnQuit()
+        internal override void OnQuit()
         {
             ResetInternal();
             base.OnQuit();
