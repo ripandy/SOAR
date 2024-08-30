@@ -39,7 +39,7 @@ namespace Soar.Collections
         public async ValueTask OnClearAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            await onClearSubject.WaitAsync(cancellationToken: linkedTokenSource.Token);
+            await onClearSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
         public async ValueTask<int> CountAsync(CancellationToken cancellationToken = default)
