@@ -1,3 +1,5 @@
+#if SOAR_R3
+
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -50,6 +52,12 @@ namespace Soar.Collections.Tests
             Assert.ThrowsAsync<TaskCanceledException>(async () => await testIntCollection.CountAsync(cts.Token));
             Assert.ThrowsAsync<TaskCanceledException>(async () => await testIntCollection.ValuesAsync(cts.Token));
         }
+
+        [Test]
+        public void ObservableIntegration_ShouldBeConverted()
+        {
+            // TODO: Implement ObservableIntegration_ShouldBeConverted
+        }
     }
 
     public partial class CollectionCoreDictionaryTests
@@ -81,5 +89,13 @@ namespace Soar.Collections.Tests
             
             Assert.ThrowsAsync<TaskCanceledException>(async () => await testNumberStringCollection.ValuesAsync(cts.Token));
         }
+        
+        [Test]
+        public void ObservableIntegration_ShouldBeConverted()
+        {
+            // TODO: Implement ObservableIntegration_ShouldBeConverted
+        }
     }
 }
+
+#endif

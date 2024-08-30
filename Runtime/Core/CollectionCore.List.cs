@@ -109,8 +109,8 @@ namespace Soar.Collections
                     list.Add(item);
                     RaiseOnAdd(item);
                     RaiseValueAt(index, item);
-                    RaiseCount();
                 }
+                RaiseCount();
             }
         }
         
@@ -231,8 +231,8 @@ namespace Soar.Collections
                     list.Insert(idx, item);
                     RaiseOnAdd(item);
                     RaiseValueAt(idx, item);
-                    RaiseCount();
                 }
+                RaiseCount();
             }
         }
         
@@ -311,6 +311,7 @@ namespace Soar.Collections
         private partial void RaiseCount();
         private partial void RaiseOnClear();
         private partial void RaiseValueAt(int index, T value);
+        // TODO: Raise/Subscribe to Move
         
         // TODO: Summaries
         public partial IDisposable SubscribeOnAdd(Action<T> action);

@@ -33,7 +33,7 @@ namespace Soar.Variables
 
         private T initialValue;
         
-        // MEMO: Hack to handle shallow copy of class type.
+        // MEMO: Hack to handle deep copy of class type.
         //       Better to avoid class type on Variable.
         private string initialValueJsonString;
         
