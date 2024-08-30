@@ -12,14 +12,14 @@ namespace Soar.Collections
     // List
     public abstract partial class Collection<T>
     {
-        protected readonly Subject<T> onAddSubject = new();
-        protected readonly Subject<T> onRemoveSubject = new();
+        protected readonly Subject<T> OnAddSubject = new();
+        protected readonly Subject<T> OnRemoveSubject = new();
         private readonly Subject<object> onClearSubject = new();
         private readonly Subject<int> countSubject = new();
         private readonly Subject<IndexValuePair<T>> valueSubject = new();
 
-        public Observable<T> ObserveAdd() => onAddSubject;
-        public Observable<T> ObserveRemove() => onRemoveSubject;
+        public Observable<T> ObserveAdd() => OnAddSubject;
+        public Observable<T> ObserveRemove() => OnRemoveSubject;
         public Observable<Unit> ObserveClear() => onClearSubject.AsUnitObservable();
         public Observable<int> ObserveCount() => countSubject;
         public Observable<IndexValuePair<T>> ObserveValues() => valueSubject;
@@ -27,13 +27,13 @@ namespace Soar.Collections
         public async ValueTask<T> OnAddAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await onAddSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            return await OnAddSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
         public async ValueTask<T> OnRemoveAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await onRemoveSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            return await OnRemoveSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
         public async ValueTask OnClearAsync(CancellationToken cancellationToken = default)
@@ -56,12 +56,12 @@ namespace Soar.Collections
         
         private partial void RaiseOnAdd(T addedValue)
         {
-            onAddSubject.OnNext(addedValue);
+            OnAddSubject.OnNext(addedValue);
         }
 
         private partial void RaiseOnRemove(T removedValue)
         {
-            onRemoveSubject.OnNext(removedValue);
+            OnRemoveSubject.OnNext(removedValue);
         }
 
         private partial void RaiseOnClear()
@@ -82,12 +82,12 @@ namespace Soar.Collections
 
         public partial IDisposable SubscribeOnAdd(Action<T> action)
         {
-            return onAddSubject.Subscribe(action);
+            return OnAddSubject.Subscribe(action);
         }
 
         public partial IDisposable SubscribeOnRemove(Action<T> action)
         {
-            return onRemoveSubject.Subscribe(action);
+            return OnRemoveSubject.Subscribe(action);
         }
 
         public partial IDisposable SubscribeOnClear(Action action)
@@ -112,8 +112,8 @@ namespace Soar.Collections
 
         public override void Dispose()
         {
-            onAddSubject.Dispose();
-            onRemoveSubject.Dispose();
+            OnAddSubject.Dispose();
+            OnRemoveSubject.Dispose();
             onClearSubject.Dispose();
             countSubject.Dispose();
             valueSubject.Dispose();
@@ -135,12 +135,12 @@ namespace Soar.Collections
 
         public partial IDisposable SubscribeOnAdd(Action<TKey, TValue> action)
         {
-            return onAddSubject.Subscribe(pair => action.Invoke(pair.Key, pair.Value));
+            return OnAddSubject.Subscribe(pair => action.Invoke(pair.Key, pair.Value));
         }
         
         public partial IDisposable SubscribeOnRemove(Action<TKey, TValue> action)
         {
-            return onRemoveSubject.Subscribe(pair => action.Invoke(pair.Key, pair.Value));
+            return OnRemoveSubject.Subscribe(pair => action.Invoke(pair.Key, pair.Value));
         }
     
         public partial IDisposable SubscribeToValues(Action<TKey, TValue> action)
