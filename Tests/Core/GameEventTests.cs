@@ -98,9 +98,9 @@ namespace Soar.Events.Tests
         [OneTimeTearDown]
         public void TearDown()
         {
-            Object.Destroy(testGameEvent);
-            Object.Destroy(testIntGameEvent);
-            Object.Destroy(testPoseGameEvent);
+            Object.DestroyImmediate(testGameEvent);
+            Object.DestroyImmediate(testIntGameEvent);
+            Object.DestroyImmediate(testPoseGameEvent);
         }
     }
 }

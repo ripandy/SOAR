@@ -397,7 +397,7 @@ namespace Soar.Collections.Tests
         [OneTimeTearDown]
         public void TearDown()
         {
-            Object.Destroy(testNumberStringCollection);
+            Object.DestroyImmediate(testNumberStringCollection);
         }
     }
 }

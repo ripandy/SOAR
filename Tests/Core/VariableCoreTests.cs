@@ -155,8 +155,8 @@ namespace Soar.Variables.Tests
         [OneTimeTearDown]
         public void TearDown()
         {
-            testIntVariable.Dispose();
-            testVector3Variable.Dispose();
+            Object.DestroyImmediate(testIntVariable);
+            Object.DestroyImmediate(testVector3Variable);
         }
     }
 }
