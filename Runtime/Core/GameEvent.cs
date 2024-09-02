@@ -30,8 +30,6 @@ namespace Soar.Events
     {
         [SerializeField] protected T value;
 
-        internal Type Type => typeof(T);
-
         public override void Raise()
         {
             Raise(value);

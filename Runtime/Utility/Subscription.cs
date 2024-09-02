@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Soar
 {
-    internal class Subscription : IDisposable
+    internal sealed class Subscription : IDisposable
     {
         private readonly Action action;
         private readonly IList<IDisposable> disposables;
@@ -33,7 +33,7 @@ namespace Soar
         }
     }
     
-    internal class Subscription<T> : IDisposable
+    internal sealed class Subscription<T> : IDisposable
     {
         private readonly Action<T> action;
         private readonly IList<IDisposable> disposables;
@@ -61,7 +61,7 @@ namespace Soar
         }
     }
     
-    internal class OldNewSubscription<T> : IDisposable
+    internal sealed class OldNewSubscription<T> : IDisposable
     {
         private readonly Action<T, T> action;
         private readonly IList<IDisposable> disposables;
@@ -89,7 +89,7 @@ namespace Soar
         }
     }
     
-    internal class IndexValueSubscription<T> : IDisposable
+    internal sealed class IndexValueSubscription<T> : IDisposable
     {
         private readonly Action<int, T> action;
         private readonly Action<IndexValuePair<T>> pairAction;
@@ -132,7 +132,7 @@ namespace Soar
         }
     }
     
-    internal class KeyValueSubscription<TKey, TValue> : IDisposable
+    internal sealed class KeyValueSubscription<TKey, TValue> : IDisposable
     {
         private readonly Action<TKey, TValue> action;
         private readonly Action<KeyValuePair<TKey, TValue>> pairAction;

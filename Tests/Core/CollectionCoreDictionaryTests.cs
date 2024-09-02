@@ -8,21 +8,6 @@ namespace Soar.Collections.Tests
 {
     public partial class CollectionCoreDictionaryTests
     {
-        private enum NumberEnum
-        {
-            Zero = 0,
-            One,
-            Two,
-            Three,
-            Four,
-            Five,
-            Six,
-            Seven,
-            Eight,
-            Nine,
-            Ten
-        }
-        
         private class NumberStringCollection : Collection<NumberEnum, string> { }
         private NumberStringCollection testNumberStringCollection;
         

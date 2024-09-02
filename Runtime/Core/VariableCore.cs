@@ -16,8 +16,6 @@ namespace Soar.Variables
 
         [Tooltip("If true will reset value when play mode end. Otherwise, keep runtime value. Due to shallow copying of class types, it is better avoid using autoResetValue on Class type.")]
         [SerializeField] protected bool autoResetValue;
-
-        private T oldValue;
         
         public virtual T Value
         {
@@ -30,7 +28,9 @@ namespace Soar.Variables
             return value == null && valueToCompare == null ||
                    value != null && valueToCompare != null && value.Equals(valueToCompare);
         }
-
+        
+        internal Type Type => typeof(T);
+        private T oldValue;
         private T initialValue;
         
         // MEMO: Hack to handle deep copy of class type.
