@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 namespace Soar.Collections.Tests
 {
-    public partial class CollectionCoreDictionaryTests
+    public partial class CollectionDictionaryTests
     {
         private class NumberStringCollection : Collection<NumberEnum, string> { }
         private NumberStringCollection testNumberStringCollection;

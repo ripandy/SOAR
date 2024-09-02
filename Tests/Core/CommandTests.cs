@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace Soar.Commands.Tests
 {
-    public class CommandCoreTests
+    public class CommandTests
     {
-        private class TestCommand : CommandCore
+        private class TestCommand : Command
         {
             public bool Executed { get; set; }
             
@@ -59,9 +59,9 @@ namespace Soar.Commands.Tests
         }
     }
     
-    public class CommandCoreGenericTests
+    public class CommandGenericTests
     {
-        private class IntTestCommand : CommandCore<int>
+        private class IntTestCommand : Command<int>
         {
             public int Value { get; set; }
             

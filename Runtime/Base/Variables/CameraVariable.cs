@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Soar.Variables
 {
     [CreateAssetMenu(fileName = "CameraVariable", menuName = MenuHelper.DefaultVariableMenu + "Camera")]
-    public sealed class CameraVariable : VariableCore<Camera>
+    public sealed class CameraVariable : Variable<Camera>
     {
         [SerializeField] private CameraFallback fallbackType;
 

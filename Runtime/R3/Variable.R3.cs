@@ -5,7 +5,7 @@ using R3;
 
 namespace Soar.Variables
 {
-    public abstract partial class VariableCore<T>
+    public abstract partial class Variable<T>
     {
         private readonly Subject<PairwiseValue<T>> pairwiseValueSubject = new();
         

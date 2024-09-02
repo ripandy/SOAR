@@ -3,7 +3,7 @@
 namespace Soar.Variables
 {
     [CreateAssetMenu(fileName = "ByteVariable", menuName = MenuHelper.DefaultVariableMenu + "Byte")]
-    public sealed class ByteVariable : VariableCore<byte>
+    public sealed class ByteVariable : Variable<byte>
     {
     }
 }

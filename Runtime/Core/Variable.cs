@@ -9,7 +9,7 @@ namespace Soar.Variables
     /// Variable System is Game Event with Value property accessible at non-event context.
     /// </summary>
     /// <typeparam name="T">Type to be used as Value. Struct and Primitive types is encouraged.</typeparam>
-    public abstract partial class VariableCore<T> : GameEvent<T>
+    public abstract partial class Variable<T> : GameEvent<T>
     {
         [Tooltip("Set how value event behave.\nValue Assign: Raise when value is assigned regardless of value.\nValue Changed: Raise only when value is changed.")]
         [SerializeField] protected ValueEventType valueEventType;
@@ -93,7 +93,7 @@ namespace Soar.Variables
             ResetValue();
         }
 
-        public static implicit operator T(VariableCore<T> variable) => variable.Value;
+        public static implicit operator T(Variable<T> variable) => variable.Value;
 
         public override string ToString() => Value.ToString();
 

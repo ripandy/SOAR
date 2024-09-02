@@ -3,7 +3,7 @@
 namespace Soar.Variables
 {
     [CreateAssetMenu(fileName = "DoubleVariable", menuName = MenuHelper.DefaultVariableMenu + "Double")]
-    public sealed class DoubleVariable : VariableCore<double>
+    public sealed class DoubleVariable : Variable<double>
     {
     }
 }

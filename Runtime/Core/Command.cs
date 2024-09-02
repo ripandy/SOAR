@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Soar.Commands
 {
-    public abstract class CommandCore : SoarCore
+    public abstract class Command : SoarCore
     {
         public abstract void Execute();
 
@@ -22,7 +22,7 @@ namespace Soar.Commands
         public override void Dispose() { }
     }
 
-    public abstract class CommandCore<T> : CommandCore
+    public abstract class Command<T> : Command
     {
         public abstract void Execute(T param);
         

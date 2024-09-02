@@ -8,7 +8,7 @@ namespace Soar.Variables
     /// Implements IJsonable interface.
     /// </summary>
     /// <typeparam name="T">Type to use on variable system</typeparam>
-    public abstract class JsonableVariable<T> : VariableCore<T>, IJsonable
+    public abstract class JsonableVariable<T> : Variable<T>, IJsonable
     {
         /// <summary>
         /// Converts variable to json string.

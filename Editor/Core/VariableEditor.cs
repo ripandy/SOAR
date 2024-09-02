@@ -4,7 +4,7 @@ using UnityEditor;
 
 namespace Soar.Variables
 {
-    [CustomEditor(typeof(VariableCore<>), true)]
+    [CustomEditor(typeof(Variable<>), true)]
     [CanEditMultipleObjects]
     public class VariableEditor : TypedGameEventEditor
     {

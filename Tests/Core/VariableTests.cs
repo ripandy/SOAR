@@ -9,7 +9,7 @@ namespace Soar.Variables.Tests
     /// Tests should pass for both independent implementation and R3 integration. 
     /// </summary>
     /// TODO: Add tests for R3 integration.
-    public class VariableCoreTests
+    public class VariableTests
     {
         private IntVariable testIntVariable;
         private Vector3Variable testVector3Variable;

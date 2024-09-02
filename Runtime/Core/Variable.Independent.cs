@@ -4,7 +4,7 @@ using System;
 
 namespace Soar.Variables
 {
-    public abstract partial class VariableCore<T>
+    public abstract partial class Variable<T>
     {
         public override partial void Raise(T valueToRaise)
         {

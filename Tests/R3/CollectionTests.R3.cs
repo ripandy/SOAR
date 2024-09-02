@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace Soar.Collections.Tests
 {
-    public partial class CollectionCoreListTests
+    public partial class CollectionListTests
     {
         [Test]
         public async Task EventAsync_ShouldBeAwaited()
@@ -60,7 +60,7 @@ namespace Soar.Collections.Tests
         }
     }
 
-    public partial class CollectionCoreDictionaryTests
+    public partial class CollectionDictionaryTests
     {
         [Test]
         public async Task EventAsync_ShouldBeAwaited()

@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 namespace Soar.Collections.Tests
 {
-    public partial class CollectionCoreListTests
+    public partial class CollectionListTests
     {
         private IntCollection testIntCollection;
         

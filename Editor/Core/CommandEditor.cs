@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Soar.Commands
 {
-    [CustomEditor(typeof(CommandCore), editorForChildClasses: true)]
+    [CustomEditor(typeof(Command), editorForChildClasses: true)]
     public class CommandEditor : Editor
     {
         public override void OnInspectorGUI()
@@ -12,7 +12,7 @@ namespace Soar.Commands
 
             GUI.enabled = Application.isPlaying;
 
-            var e = (CommandCore) target;
+            var e = (Command) target;
             if (GUILayout.Button("Execute"))
             {
                 e.Execute();
