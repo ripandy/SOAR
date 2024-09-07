@@ -7,11 +7,11 @@ namespace Soar.Events
 {
     public partial class GameEvent
     {
-        protected readonly List<IDisposable> Disposables = new();
+        protected readonly List<IDisposable> subscriptions = new();
 
         public virtual partial void Raise()
         {
-            foreach (var disposable in Disposables)
+            foreach (var disposable in subscriptions)
             {
                 if (disposable is not Subscription subscription) continue;
                 subscription.Invoke();
@@ -25,9 +25,9 @@ namespace Soar.Events
 
         public IDisposable Subscribe(Action action, bool withBuffer)
         {
-            var subscription = new Subscription(action, Disposables);
+            var subscription = new Subscription(action, subscriptions);
             
-            Disposables.Add(subscription);
+            subscriptions.Add(subscription);
                 
             if (withBuffer)
             {
@@ -39,7 +39,7 @@ namespace Soar.Events
 
         public override void Dispose()
         {
-            Disposables.Dispose();
+            subscriptions.Dispose();
         }
     }
 
@@ -51,7 +51,7 @@ namespace Soar.Events
             
             base.Raise();
             
-            foreach (var disposable in Disposables)
+            foreach (var disposable in subscriptions)
             {
                 if (disposable is not Subscription<T> subscription) continue;
                 subscription.Invoke(value);
@@ -65,9 +65,9 @@ namespace Soar.Events
 
         public IDisposable Subscribe(Action<T> action, bool withBuffer)
         {
-            var subscription = new Subscription<T>(action, Disposables);
+            var subscription = new Subscription<T>(action, subscriptions);
             
-            Disposables.Add(subscription);
+            subscriptions.Add(subscription);
 
             if (withBuffer)
             {

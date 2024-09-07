@@ -61,13 +61,13 @@ namespace Soar
         }
     }
     
-    internal sealed class OldNewSubscription<T> : IDisposable
+    internal sealed class PairwiseSubscription<T> : IDisposable
     {
         private readonly Action<T, T> action;
         private readonly IList<IDisposable> disposables;
         private bool disposed;
         
-        public OldNewSubscription(
+        public PairwiseSubscription(
             Action<T, T> action,
             IList<IDisposable> disposables)
         {

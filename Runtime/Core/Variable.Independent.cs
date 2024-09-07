@@ -14,11 +14,11 @@ namespace Soar.Variables
             
             base.Raise(valueToRaise);
             
-            foreach (var disposable in Disposables)
+            foreach (var disposable in subscriptions)
             {
                 switch (disposable)
                 {
-                    case OldNewSubscription<T> subscription:
+                    case PairwiseSubscription<T> subscription:
                         subscription.Invoke(oldValue, valueToRaise);
                         break;
                     case Subscription<PairwiseValue<T>> pairwiseSubscription:
@@ -35,9 +35,9 @@ namespace Soar.Variables
 
         public IDisposable Subscribe(Action<T, T> action, bool withBuffer)
         {
-            var subscription = new OldNewSubscription<T>(action, Disposables);
+            var subscription = new PairwiseSubscription<T>(action, subscriptions);
             
-            Disposables.Add(subscription);
+            subscriptions.Add(subscription);
 
             if (withBuffer)
             {
@@ -54,9 +54,9 @@ namespace Soar.Variables
 
         public IDisposable Subscribe(Action<PairwiseValue<T>> action, bool withBuffer)
         {
-            var subscription = new Subscription<PairwiseValue<T>>(action, Disposables);
+            var subscription = new Subscription<PairwiseValue<T>>(action, subscriptions);
             
-            Disposables.Add(subscription);
+            subscriptions.Add(subscription);
 
             if (withBuffer)
             {
