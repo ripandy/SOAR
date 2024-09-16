@@ -22,7 +22,7 @@ namespace Soar.Variables
         
         public partial IDisposable Subscribe(Action<T, T> action)
         {
-            return ValueSubject.Subscribe(newValue => action.Invoke(oldValue, newValue));
+            return valueSubject.Subscribe(newValue => action.Invoke(oldValue, newValue));
         }
         
         // MEMO: R3 has its own Pairwise Observable Extension i.e. `AsObservable().Pairwise()`

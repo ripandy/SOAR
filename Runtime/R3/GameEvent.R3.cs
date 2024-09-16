@@ -45,11 +45,11 @@ namespace Soar.Events
 
     public abstract partial class GameEvent<T>
     {
-        protected readonly Subject<T> ValueSubject = new();
+        protected readonly Subject<T> valueSubject = new();
         
         public new Observable<T> AsObservable()
         {
-            return ValueSubject;
+            return valueSubject;
         }
 
         public Observable<Unit> AsUnitObservable()
@@ -59,36 +59,36 @@ namespace Soar.Events
 
         public IObservable<T> AsSystemObservable()
         {
-            return ValueSubject.AsSystemObservable();
+            return valueSubject.AsSystemObservable();
         }
 
         public IAsyncEnumerable<T> ToAsyncEnumerable(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return ValueSubject.ToAsyncEnumerable(linkedTokenSource.Token);
+            return valueSubject.ToAsyncEnumerable(linkedTokenSource.Token);
         }
 
         public virtual partial void Raise(T valueToRaise)
         {
             value = valueToRaise;
             base.Raise();
-            ValueSubject.OnNext(valueToRaise);
+            valueSubject.OnNext(valueToRaise);
         }
 
         public partial IDisposable Subscribe(Action<T> action)
         {
-            return ValueSubject.Subscribe(action);
+            return valueSubject.Subscribe(action);
         }
 
         public new async ValueTask<T> EventAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await ValueSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            return await valueSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
         public override void Dispose()
         {
-            ValueSubject.Dispose();
+            valueSubject.Dispose();
             base.Dispose();
         }
     }
