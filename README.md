@@ -12,7 +12,8 @@ SOAR tries to wraps and utilize R3's feature within the Scriptable Object Archit
 SOAR can function independently, but its implementation is bare minimum.
 It is highly recommended to use SOAR in conjunction with R3.
 
-[R3] - The new future of dotnet/reactive and UniRx.
+- [R3] - The new future of dotnet/reactive and UniRx.
+- [Kassets] - SOAR's predecessor. Scriptable Object Architecture extensible with UniRx and UniTask.
 
 ### Unity Version
 - Unity 2022.3+
@@ -85,12 +86,13 @@ SOAR can also be cloned as Submodule.
 - [Unite2017 Scriptable Object Architecture sample project](https://github.com/roboryantron/Unite2017)
 - [Unite2017 Game Architecture with Scriptable Objects on Slideshare](https://www.slideshare.net/RyanHipple/game-architecture-with-scriptable-objects)
 - [R3 — A New Modern Reimplementation of Reactive Extensions for C#](https://neuecc.medium.com/r3-a-new-modern-reimplementation-of-reactive-extensions-for-c-cf29abcc5826)
-- [Kassets - SOAR's predecessor. Scriptable Object Architecture extensible with UniRx and UniTask](https://github.com/kadinche/Kassets).
+- [Kassets (SOAR's predecessor). Scriptable Object Architecture extensible with UniRx and UniTask](https://github.com/kadinche/Kassets).
 
 # LICENSE
 
 - SOAR is Licensed under [MIT License](LICENSE)
 - [R3] is Licensed under [MIT License](https://github.com/Cysharp/R3/blob/main/LICENSE)
+- [Kassets] (SOAR's predecessor) is Licensed under [MIT License](https://github.com/kadinche/Kassets/blob/main/LICENSE)
 
 [R3]: https://github.com/Cysharp/R3
 [Kassets]: https://github.com/kadinche/Kassets

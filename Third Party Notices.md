@@ -1,5 +1,13 @@
 This package contains third-party software components governed by the license(s) indicated below:
 
+### Kassets
+
+Component Name: Kassets
+
+License Type: "MIT"
+
+[Kassets License](https://github.com/kadinche/Kassets/blob/main/LICENSE)
+
 ### R3
 
 Component Name: R3
