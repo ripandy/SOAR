@@ -7,7 +7,7 @@ namespace Soar.Events
     [CanEditMultipleObjects]
     public class GameEventEditor : Editor
     {
-        private const float SpaceHeight = 15f;
+        protected const float SpaceHeight = 15f;
         
         public override void OnInspectorGUI()
         {
