@@ -1,0 +1,31 @@
+{
+    "name": "Soar.Tests",
+    "rootNamespace": "",
+    "references": [
+        "GUID:61e6e37fa9678420bac49475a8238bc7",
+        "GUID:1f98395830ace42319c25004104da0e9",
+        "GUID:77221876cc6b8244180b96e320b1bcd4"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "R3.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.cysharp.r3",
+            "expression": "",
+            "define": "SOAR_R3"
+        }
+    ],
+    "noEngineReferences": false
+}

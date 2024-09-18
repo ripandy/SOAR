@@ -1,0 +1,16 @@
+{
+    "name": "Soar.Base",
+    "rootNamespace": "",
+    "references": [
+        "GUID:61e6e37fa9678420bac49475a8238bc7"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
