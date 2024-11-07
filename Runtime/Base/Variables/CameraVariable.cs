@@ -28,6 +28,8 @@ namespace Soar.Variables
             }
             set => base.Value = value;
         }
+        
+        public Transform Transform => Value.transform;
     }
 
     internal enum CameraFallback
