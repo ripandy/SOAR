@@ -262,12 +262,15 @@ namespace Soar.Collections
             }
         }
 
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
-            dictionary.Clear();
-            foreach (var pair in list)
+            lock (syncRoot)
             {
-                dictionary.TryAdd(pair.Key, pair.Value);
+                dictionary.Clear();
+                foreach (var pair in list)
+                {
+                    dictionary.TryAdd(pair.Key, pair.Value);
+                }
             }
         }
 
