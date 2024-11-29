@@ -1,55 +1,78 @@
 using System.Linq;
-using Soar.Events;
 using UnityEditor;
 using UnityEngine;
 
 namespace Soar.Transactions
 {
-    [CustomEditor(typeof(Transaction<>), true)]
+    [CustomEditor(typeof(Transaction), true)]
     [CanEditMultipleObjects]
-    public class TransactionEditor : TypedGameEventEditor
+    public class TransactionEditor : Editor
     {
-        private readonly string[] instanceSettings = { "registerResponseInternally" };
-        private const string InstanceSettingsLabel = "Instance Settings";
-        private bool showInstanceSettings;
+        protected virtual string[] ExcludedProperties { get; } = { "m_Script" };
 
-        protected override string[] ExcludedProperties => base.ExcludedProperties.Concat(instanceSettings).ToArray();
-
-        protected override void AddCustomButtons()
+        private const float SpaceHeight = 15f;
+        
+        public override void OnInspectorGUI()
         {
-            if (target is not GameEvent gameEvent) return;
+            base.OnInspectorGUI();
+            AddCustomButtons();
+        }
+
+        protected void AddCustomButtons()
+        {
+            if (target is not Transaction transaction) return;
             
             GUILayout.Space(SpaceHeight);
 
             GUI.enabled = Application.isPlaying;
 
             if (!GUILayout.Button("Request")) return;
+
+            Debug.Log($"{target.name} transaction requested.");
+            transaction.Request(() => Debug.Log($"{target.name} transaction responded."));
+        }
+    }
+
+    [CustomEditor(typeof(Transaction<>), true)]
+    [CanEditMultipleObjects]
+    public class ValueTransactionEditor : TransactionEditor
+    {
+        protected override string[] ExcludedProperties => base.ExcludedProperties
+            .Concat(new[] {"requestValue", "responseValue"}).ToArray();
+        
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
             
-            gameEvent.Raise();
-            
-            Debug.Log($"{target.name} Request sent.");
+            DrawCustomProperties();
+            AddCustomButtons();
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        private void DrawProperty(string propertyName)
+        {
+            using var value = serializedObject.FindProperty(propertyName);
+            if (value.propertyType == SerializedPropertyType.Generic && !value.isArray)
+            {
+                foreach (var child in value.GetChildren())
+                {
+                    EditorGUILayout.PropertyField(child, true);
+                }
+            }
+            else
+            {
+                EditorGUILayout.PropertyField(value, true);
+            }
         }
         
-        protected override void DrawCustomProperties()
+        private void DrawCustomProperties()
         {
-            base.DrawCustomProperties();
+            DrawProperty("requestValue");
+            DrawProperty("responseValue");
             
-            showInstanceSettings = EditorGUILayout.Foldout(showInstanceSettings, InstanceSettingsLabel);
-
-            if (showInstanceSettings)
-            {
-                EditorGUI.indentLevel++;
-                
-                foreach (var settingName in instanceSettings)
-                {
-                    using var prop = serializedObject.FindProperty(settingName);
-                    if (prop == null) continue;
-                    EditorGUILayout.PropertyField(prop);
-                }
-                
-                EditorGUI.indentLevel--;
-            }
-
+            DrawPropertiesExcluding(serializedObject, ExcludedProperties);
+            
             serializedObject.ApplyModifiedProperties();
         }
     }
