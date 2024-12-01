@@ -18,7 +18,6 @@ namespace Soar.Collections
         
         private readonly List<T> initialValue = new();
         private readonly object syncRoot = new();
-        private T lastRemoved;
         
         public T this[int index]
         {
@@ -248,7 +247,7 @@ namespace Soar.Collections
                 var index = list.IndexOf(item);
                 if (index < 0) return false;
                 
-                lastRemoved = list[index];
+                var lastRemoved = list[index];
                 list.RemoveAt(index);
                 RaiseOnRemove(lastRemoved);
                 RaiseCount();
@@ -265,7 +264,7 @@ namespace Soar.Collections
         {
             lock (syncRoot)
             {
-                lastRemoved = list[index];
+                var lastRemoved = list[index];
                 list.RemoveAt(index);
                 RaiseOnRemove(lastRemoved);
                 RaiseCount();
