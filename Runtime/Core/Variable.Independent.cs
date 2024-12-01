@@ -8,7 +8,7 @@ namespace Soar.Variables
     {
         public override partial void Raise(T valueToRaise)
         {
-            oldValue = value;
+            var oldValue = value;
             
             if (valueEventType == ValueEventType.OnChange && IsValueEquals(valueToRaise)) return;
             
@@ -30,39 +30,15 @@ namespace Soar.Variables
         
         public partial IDisposable Subscribe(Action<T, T> action)
         {
-            return Subscribe(action, withBuffer: false);   
-        }
-
-        public IDisposable Subscribe(Action<T, T> action, bool withBuffer)
-        {
             var subscription = new PairwiseSubscription<T>(action, subscriptions);
-            
             subscriptions.Add(subscription);
-
-            if (withBuffer)
-            {
-                subscription.Invoke(oldValue, value);
-            }
-
             return subscription;
         }
         
         public partial IDisposable Subscribe(Action<PairwiseValue<T>> action)
         {
-            return Subscribe(action, withBuffer: false);   
-        }
-
-        public IDisposable Subscribe(Action<PairwiseValue<T>> action, bool withBuffer)
-        {
             var subscription = new Subscription<PairwiseValue<T>>(action, subscriptions);
-            
             subscriptions.Add(subscription);
-
-            if (withBuffer)
-            {
-                subscription.Invoke(new PairwiseValue<T>(oldValue, value));
-            }
-
             return subscription;
         }
     }

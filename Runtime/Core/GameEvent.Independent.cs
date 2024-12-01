@@ -20,20 +20,8 @@ namespace Soar.Events
 
         public partial IDisposable Subscribe(Action action)
         {
-            return Subscribe(action, withBuffer: false);
-        }
-
-        public IDisposable Subscribe(Action action, bool withBuffer)
-        {
             var subscription = new Subscription(action, subscriptions);
-            
             subscriptions.Add(subscription);
-                
-            if (withBuffer)
-            {
-                subscription.Invoke();
-            }
-
             return subscription;
         }
 
@@ -48,7 +36,6 @@ namespace Soar.Events
         public virtual partial void Raise(T valueToRaise)
         {
             value = valueToRaise;
-            
             base.Raise();
             
             foreach (var disposable in subscriptions)
@@ -60,20 +47,8 @@ namespace Soar.Events
 
         public partial IDisposable Subscribe(Action<T> action)
         {
-            return Subscribe(action, withBuffer: false);
-        }
-
-        public IDisposable Subscribe(Action<T> action, bool withBuffer)
-        {
             var subscription = new Subscription<T>(action, subscriptions);
-            
             subscriptions.Add(subscription);
-
-            if (withBuffer)
-            {
-                subscription.Invoke(value);
-            }
-
             return subscription;
         }
     }

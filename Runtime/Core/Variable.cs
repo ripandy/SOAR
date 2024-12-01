@@ -30,7 +30,7 @@ namespace Soar.Variables
         }
         
         internal Type Type => typeof(T);
-        private T oldValue;
+        
         private T initialValue;
         
         // MEMO: Hack to handle deep copy of class type.
