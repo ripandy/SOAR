@@ -8,15 +8,13 @@ namespace Soar.Variables
     public abstract partial class Variable<T>
     {
         private readonly Subject<PairwiseValue<T>> pairwiseValueSubject = new();
+        private T oldValue;
         
         public override partial void Raise(T valueToRaise)
         {
             oldValue = value;
-            
             if (valueEventType == ValueEventType.OnChange && IsValueEquals(valueToRaise)) return;
-            
             base.Raise(valueToRaise);
-            
             pairwiseValueSubject.OnNext(new PairwiseValue<T>(oldValue, valueToRaise));
         }
         
