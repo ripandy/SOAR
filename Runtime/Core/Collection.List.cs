@@ -1,193 +1,33 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace Soar.Collections
 {
-    public abstract partial class Collection<T> : SoarCore, IList<T>, IReadOnlyList<T>
+    public abstract partial class List<T> : Collection<T>, IList<T>, IReadOnlyList<T>, IList
     {
-        [SerializeField] protected List<T> list = new();
-        
-        [Tooltip("Set how value event behave.\nValue Assign: Raise when value is assigned regardless of value.\nValue Changed: Raise only when value is changed.")]
-        [SerializeField] protected ValueEventType valueEventType;
-        
-        [Tooltip("If true will reset value(s) when play mode end. Otherwise, keep runtime value. Due to shallow copying of class types, it is better avoid using autoResetValue on Class type.")]
-        [SerializeField] protected bool autoResetValue;
-        
-        private readonly List<T> initialValue = new();
-        private readonly object syncRoot = new();
-        
         public T this[int index]
         {
             get
             {
-                lock (syncRoot)
+                lock (SyncRoot)
                 {
                     return list[index];
                 }
             }
             set
             {
-                lock (syncRoot)
+                lock (SyncRoot)
                 {
                     list[index] = value;
                     RaiseValueAt(index, value);
                 }
             }
         }
-
-        private List<T> InitialValue
-        {
-            get
-            {
-                lock (syncRoot)
-                {
-                    return initialValue;
-                }
-            }
-            set
-            {
-                lock (syncRoot)
-                {
-                    initialValue.Clear();
-                    if (value == null) return;
-                    initialValue.AddRange(value);
-                }
-            }
-        }
-
-        public int Count
-        {
-            get
-            {
-                lock (syncRoot)
-                {
-                    return list.Count;
-                }
-            }
-        }
-
-        public bool IsReadOnly => false;
-
-        public void Add(T item)
-        {
-            AddInternal(item);
-        }
-        
-        internal virtual void AddInternal(T item)
-        {
-            lock (syncRoot)
-            {
-                var index = list.Count;
-                list.Add(item);
-                RaiseOnAdd(item);
-                RaiseValueAt(index, item);
-                RaiseCount();
-            }
-        }
-
-        public void AddRange(IEnumerable<T> items)
-        {
-            AddRangeInternal(items.ToArray());
-        }
-
-        public void AddRange(T[] items)
-        {
-            AddRangeInternal(items);
-        }
-
-        internal virtual void AddRangeInternal(T[] items)
-        {
-            lock (syncRoot)
-            {
-                foreach (var item in items)
-                {
-                    var index = list.Count;
-                    list.Add(item);
-                    RaiseOnAdd(item);
-                    RaiseValueAt(index, item);
-                }
-                RaiseCount();
-            }
-        }
-        
-        public void Clear()
-        {
-            ClearInternal();
-        }
-        
-        internal virtual void ClearInternal()
-        {
-            lock (syncRoot)
-            {
-                list.Clear();
-                RaiseOnClear();
-                RaiseCount();
-            }
-        }
-        
-        public bool Contains(T item)
-        {
-            lock (syncRoot)
-            {
-                return list.Contains(item);
-            }
-        }
-
-        public void Copy(IEnumerable<T> others)
-        {
-            CopyInternal(others);
-        }
-
-        internal virtual void CopyInternal(IEnumerable<T> others)
-        {
-            lock (syncRoot)
-            {
-                list.Clear();
-                list.AddRange(others);
-            }
-        }
-        
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            lock (syncRoot)
-            {
-                list.CopyTo(array, arrayIndex);
-            }
-        }
-        
-        public IEnumerator<T> GetEnumerator()
-        {
-            lock (syncRoot)
-            {
-                foreach (var item in list)
-                {
-                    yield return item;
-                }
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-        
-        public void ForEach(Action<T> action)
-        {
-            lock (syncRoot)
-            {
-                foreach (var item in list)
-                {
-                    action(item);
-                }
-            }
-        }
         
         public int IndexOf(T item)
         {
-            lock (syncRoot)
+            lock (SyncRoot)
             {
                 return list.IndexOf(item);
             }
@@ -195,12 +35,7 @@ namespace Soar.Collections
         
         public void Insert(int index, T item)
         {
-            InsertInternal(index, item);
-        }
-        
-        internal virtual void InsertInternal(int index, T item)
-        {
-            lock (syncRoot)
+            lock (SyncRoot)
             {
                 list.Insert(index, item);
                 RaiseOnAdd(item);
@@ -211,17 +46,7 @@ namespace Soar.Collections
         
         public void InsertRange(int index, T[] items)
         {
-            InsertRangeInternal(index, items);
-        }
-        
-        public void InsertRange(int index, IEnumerable<T> items)
-        {
-            InsertRange(index, items.ToArray());
-        }
-        
-        internal virtual void InsertRangeInternal(int index, T[] items)
-        {
-            lock (syncRoot)
+            lock (SyncRoot)
             {
                 for (var i = 0; i < items.Length; i++)
                 {
@@ -235,45 +60,14 @@ namespace Soar.Collections
             }
         }
         
-        public bool Remove(T item)
+        public void InsertRange(int index, IEnumerable<T> items)
         {
-            return RemoveInternal(item);
+            InsertRange(index, items.ToArray());
         }
         
-        internal virtual bool RemoveInternal(T item)
-        {
-            lock (syncRoot)
-            {
-                var index = list.IndexOf(item);
-                if (index < 0) return false;
-                
-                var lastRemoved = list[index];
-                list.RemoveAt(index);
-                RaiseOnRemove(lastRemoved);
-                RaiseCount();
-                return true;
-            }
-        }
-
-        public void RemoveAt(int index)
-        {
-            RemoveAtInternal(index);
-        }
-        
-        internal virtual void RemoveAtInternal(int index)
-        {
-            lock (syncRoot)
-            {
-                var lastRemoved = list[index];
-                list.RemoveAt(index);
-                RaiseOnRemove(lastRemoved);
-                RaiseCount();
-            }
-        }
-
         public void Move(int oldIndex, int newIndex)
         {
-            lock (syncRoot)
+            lock (SyncRoot)
             {
                 var removedItem = list[oldIndex];
                 list.RemoveAt(oldIndex);
@@ -281,43 +75,62 @@ namespace Soar.Collections
             }
         }
         
-        internal override void Initialize()
+        public void RemoveAt(int index)
         {
-            InitialValue = list;
-            base.Initialize();
+            RemoveAtInternal(index);
         }
         
-        /// <summary>
-        /// Reset value(s) to InitialValue
-        /// </summary>
-        public void ResetValues() => CopyInternal(InitialValue);
-        
-        private void ResetInternal()
+        internal virtual void RemoveAtInternal(int index)
         {
-            if (!autoResetValue) return;
-            ResetValues();
+            lock (SyncRoot)
+            {
+                lastRemoved = list[index];
+                list.RemoveAt(index);
+                RaiseOnRemove(lastRemoved);
+                RaiseCount();
+            }
         }
         
-        internal override void OnQuit()
+        int IList.Add(object value)
         {
-            ResetInternal();
-            base.OnQuit();
+            if (value is not T tValue) return -1;
+            Add(tValue);
+            return Count;
         }
 
-        // List of Partial methods. Implemented in each respective integrated Library.
-        private partial void RaiseOnAdd(T addedValue);
-        private partial void RaiseOnRemove(T removedValue);
-        private partial void RaiseCount();
-        private partial void RaiseOnClear();
-        private partial void RaiseValueAt(int index, T value);
-        // TODO: Raise/Subscribe to Move
+        bool IList.Contains(object value)
+        {
+            return value is T tValue && Contains(tValue);
+        }
+
+        int IList.IndexOf(object value)
+        {
+            return value is not T tValue ? -1 : IndexOf(tValue);
+        }
+
+        void IList.Insert(int index, object value)
+        {
+            Insert(index, (T)value);
+        }
+
+        void IList.Remove(object value)
+        {
+            Remove((T)value);
+        }
+
+        bool IList.IsFixedSize => false;
         
-        // TODO: Summaries
-        public partial IDisposable SubscribeOnAdd(Action<T> action);
-        public partial IDisposable SubscribeOnRemove(Action<T> action);
-        public partial IDisposable SubscribeOnClear(Action action);
-        public partial IDisposable SubscribeToCount(Action<int> action);
-        public partial IDisposable SubscribeToValues(Action<int, T> action);
-        public partial IDisposable SubscribeToValues(Action<IndexValuePair<T>> action);
+        object IList.this[int index]
+        {
+            get => this[index];
+            set => this[index] = (T)value;
+        }
+        
+        // List of Partial methods. Implemented in each respective integrated Library.
+        // TODO: Raise/Subscribe to Move
+        // private partial void RaiseOnMove(T value, int oldIndex, int newIndex);
+        
+        // TODO: Summaries on public methods
+        // public partial IDisposable SubscribeOnMove(Action<T, int, int> action);
     }
 }

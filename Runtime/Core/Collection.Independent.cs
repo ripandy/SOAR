@@ -5,14 +5,13 @@ using System.Collections.Generic;
 
 namespace Soar.Collections
 {
-    // List
     public abstract partial class Collection<T>
     {
-        private readonly List<IDisposable> onAddSubscriptions = new();
-        private readonly List<IDisposable> onRemoveSubscriptions = new();
-        private readonly List<IDisposable> onClearSubscriptions = new();
-        private readonly List<IDisposable> countSubscriptions = new();
-        private readonly List<IDisposable> valueSubscriptions = new();
+        private readonly System.Collections.Generic.List<IDisposable> onAddSubscriptions = new();
+        private readonly System.Collections.Generic.List<IDisposable> onRemoveSubscriptions = new();
+        private readonly System.Collections.Generic.List<IDisposable> onClearSubscriptions = new();
+        private readonly System.Collections.Generic.List<IDisposable> countSubscriptions = new();
+        private readonly System.Collections.Generic.List<IDisposable> valueSubscriptions = new();
 
         public partial IDisposable SubscribeOnAdd(Action<T> action)
         {
@@ -56,7 +55,7 @@ namespace Soar.Collections
             return subscription;
         }
         
-        private partial void RaiseOnAdd(T addedValue)
+        internal partial void RaiseOnAdd(T addedValue)
         {
             foreach (var disposable in onAddSubscriptions)
             {
@@ -67,7 +66,7 @@ namespace Soar.Collections
             }
         }
         
-        private partial void RaiseOnRemove(T removedValue)
+        internal partial void RaiseOnRemove(T removedValue)
         {
             foreach (var disposable in onRemoveSubscriptions)
             {
@@ -89,7 +88,7 @@ namespace Soar.Collections
             }
         }
         
-        private partial void RaiseCount()
+        internal partial void RaiseCount()
         {
             foreach (var disposable in countSubscriptions)
             {
@@ -100,7 +99,7 @@ namespace Soar.Collections
             }
         }
 
-        private partial void RaiseValueAt(int index, T value)
+        internal partial void RaiseValueAt(int index, T value)
         {
             if (valueEventType == ValueEventType.OnChange && list[index].Equals(value)) return;
 
@@ -122,11 +121,17 @@ namespace Soar.Collections
             valueSubscriptions.Dispose();
         }
     }
+
+    // List
+    // public abstract partial class List<T>
+    // {
+    //     // TODO: implement partial Raise/Subscribe to Move
+    // }
     
     // Dictionary
-    public abstract partial class Collection<TKey, TValue>
+    public abstract partial class Dictionary<TKey, TValue>
     {
-        private readonly List<IDisposable> valueSubscriptions = new();
+        private readonly System.Collections.Generic.List<IDisposable> valueSubscriptions = new();
         
         public partial IDisposable SubscribeOnAdd(Action<TKey, TValue> action)
         {

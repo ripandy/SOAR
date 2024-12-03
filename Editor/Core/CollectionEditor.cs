@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace Soar.Collections
 {
-    [CustomEditor(typeof(Collection<>), true)]
+    [CustomEditor(typeof(List<>), true)]
     [CanEditMultipleObjects]
     public class CollectionEditor : Editor
     {
