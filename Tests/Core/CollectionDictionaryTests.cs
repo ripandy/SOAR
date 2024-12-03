@@ -8,7 +8,7 @@ namespace Soar.Collections.Tests
 {
     public partial class CollectionDictionaryTests
     {
-        private class NumberStringCollection : Collection<NumberEnum, string> { }
+        private class NumberStringCollection : Dictionary<NumberEnum, string> { }
         private NumberStringCollection testNumberStringCollection;
         
         [OneTimeSetUp]
@@ -22,7 +22,7 @@ namespace Soar.Collections.Tests
         {
             testNumberStringCollection.Clear();
             
-            var addedValues = new List<KeyValuePair<NumberEnum, string>>();
+            var addedValues = new System.Collections.Generic.List<KeyValuePair<NumberEnum, string>>();
             var subscription = testNumberStringCollection.SubscribeOnAdd(addedValue => addedValues.Add(addedValue));
 
             testNumberStringCollection.Add(NumberEnum.One, NumberEnum.One.ToString());
@@ -37,7 +37,7 @@ namespace Soar.Collections.Tests
             Assert.AreEqual(NumberEnum.Three, addedValues[2].Key, "Add SerializedKeyValuePair: key.");
             Assert.AreEqual(NumberEnum.Three.ToString(), addedValues[2].Value, "Add SerializedKeyValuePair: value.");
             
-            var otherAddedValues = new List<(NumberEnum Key, string Value)>();
+            var otherAddedValues = new System.Collections.Generic.List<(NumberEnum Key, string Value)>();
             using var otherSubscription = testNumberStringCollection.SubscribeOnAdd((key, value) => otherAddedValues.Add((key, value)));
             
             testNumberStringCollection.Add(NumberEnum.Four, NumberEnum.Four.ToString());
@@ -66,7 +66,7 @@ namespace Soar.Collections.Tests
         {
             testNumberStringCollection.Clear();
             
-            var addedValues = new List<KeyValuePair<NumberEnum, string>>();
+            var addedValues = new System.Collections.Generic.List<KeyValuePair<NumberEnum, string>>();
             using var subscription = testNumberStringCollection.SubscribeOnAdd(addedValue => addedValues.Add(addedValue));
 
             testNumberStringCollection.AddRange(new []
@@ -327,55 +327,20 @@ namespace Soar.Collections.Tests
             AssertCollectionContents();
         }
         
-        [Test]
-        public void DictionaryPublicMethods_FromBaseClass_ShouldBeCalled()
-        {
-            testNumberStringCollection.Clear();
-            testNumberStringCollection.Add(NumberEnum.Two, NumberEnum.Two.ToString());
-            testNumberStringCollection.Add(NumberEnum.Ten, NumberEnum.Ten.ToString());
-            testNumberStringCollection.Add(NumberEnum.Four, NumberEnum.Four.ToString());
-            AssertCollectionContents();
-            
-            // Move
-            testNumberStringCollection.Move(1, 2);
-            AssertCollectionContents();
-            
-            // Insert
-            testNumberStringCollection.Insert(0, new SerializedKeyValuePair<NumberEnum, string>(NumberEnum.One, NumberEnum.One.ToString()));
-            testNumberStringCollection.Insert(2, new SerializedKeyValuePair<NumberEnum, string>(NumberEnum.Three, NumberEnum.Three.ToString()));
-            AssertCollectionContents();
-            
-            // InsertRange
-            testNumberStringCollection.InsertRange(4, Enumerable.Range(1, 5).Select(ConvertFromIndex));
-            AssertCollectionContents();
-            
-            // RemoveAt
-            testNumberStringCollection.RemoveAt(0);
-            AssertCollectionContents();
-            
-            SerializedKeyValuePair<NumberEnum, string> ConvertFromIndex(int val)
-            {
-                var key = (NumberEnum)(val + 4);
-                var value = key.ToString();
-                return new SerializedKeyValuePair<NumberEnum, string>(key, value);
-            }
-        }
-
         private void AssertCollectionContents()
         {
-            IList<SerializedKeyValuePair<NumberEnum, string>> asList = testNumberStringCollection;
+            ICollection<SerializedKeyValuePair<NumberEnum, string>> asCollection = testNumberStringCollection;
             IDictionary<NumberEnum, string> asDictionary = testNumberStringCollection;
             
-            for (var i = 0; i < asList.Count; i++)
+            foreach (var pair in asCollection)
             {
-                var pair = testNumberStringCollection[i];
                 Assert.IsTrue(testNumberStringCollection.TryGetValue(pair.Key, out var value), "TryGetValue should be successful.");
                 Assert.AreEqual(pair.Value, value, "Value should be equal.");
             }
             
             foreach (var key in asDictionary.Keys)
             {
-                Assert.IsTrue(asList.Any(pair => pair.Key.Equals(key) && pair.Value.Equals(asDictionary[key])), "Key should be found in list and value should be equal.");
+                Assert.IsTrue(asCollection.Any(pair => pair.Key.Equals(key) && pair.Value.Equals(asDictionary[key])), "Key should be found in list and value should be equal.");
             }
         }
 

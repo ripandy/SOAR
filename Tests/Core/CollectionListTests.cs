@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
@@ -21,7 +20,7 @@ namespace Soar.Collections.Tests
         {
             testIntCollection.Clear();
             
-            var addedValues = new List<int>();
+            var addedValues = new System.Collections.Generic.List<int>();
             var subscription = testIntCollection.SubscribeOnAdd(addedVal => addedValues.Add(addedVal));
 
             testIntCollection.Add(42);
@@ -46,7 +45,7 @@ namespace Soar.Collections.Tests
         {
             testIntCollection.Clear();
             
-            var addedValues = new List<int>();
+            var addedValues = new System.Collections.Generic.List<int>();
             using var subscription = testIntCollection.SubscribeOnAdd(addedVal => addedValues.Add(addedVal));
             
             testIntCollection.AddRange(new[] { 7, 8, 9 });
@@ -66,7 +65,7 @@ namespace Soar.Collections.Tests
             testIntCollection.Clear();
             testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             
-            var addedValues = new List<int>();
+            var addedValues = new System.Collections.Generic.List<int>();
             using var subscription = testIntCollection.SubscribeOnAdd(addedVal => addedValues.Add(addedVal));
 
             testIntCollection.Insert(1, 24);
@@ -86,7 +85,7 @@ namespace Soar.Collections.Tests
             testIntCollection.Clear();
             testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             
-            var addedValues = new List<int>();
+            var addedValues = new System.Collections.Generic.List<int>();
             using var subscription = testIntCollection.SubscribeOnAdd(addedVal => addedValues.Add(addedVal));
 
             testIntCollection.InsertRange(5, new[] { 4, 5, 6 });
@@ -186,7 +185,7 @@ namespace Soar.Collections.Tests
             testIntCollection.Clear();
             testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             
-            var elements = new List<IndexValuePair<int>>();
+            var elements = new System.Collections.Generic.List<IndexValuePair<int>>();
             var subscription = testIntCollection.SubscribeToValues(value => elements.Add(value));
 
             testIntCollection[1] = 24;
@@ -200,7 +199,7 @@ namespace Soar.Collections.Tests
             Assert.AreEqual(8, elements[2].Index, "Element at index 8 updated.");
             Assert.AreEqual(84, elements[2].Value, "Element value should be updated to 84.");
             
-            var otherElements = new List<(int Index, int Value)>();
+            var otherElements = new System.Collections.Generic.List<(int Index, int Value)>();
             using var subscription2 = testIntCollection.SubscribeToValues((index, value) => otherElements.Add((index, value)));
             
             testIntCollection[5] = 42;
@@ -223,7 +222,7 @@ namespace Soar.Collections.Tests
         {
             testIntCollection.Clear();
             
-            var elements = new List<IndexValuePair<int>>();
+            var elements = new System.Collections.Generic.List<IndexValuePair<int>>();
             using var subscription = testIntCollection.SubscribeToValues(value => elements.Add(value));
 
             testIntCollection.Add(1);
@@ -242,7 +241,7 @@ namespace Soar.Collections.Tests
         {
             testIntCollection.Clear();
             
-            var elements = new List<IndexValuePair<int>>();
+            var elements = new System.Collections.Generic.List<IndexValuePair<int>>();
             using var subscription = testIntCollection.SubscribeToValues(value => elements.Add(value));
 
             testIntCollection.AddRange(new[] { 7, 8, 9 });
@@ -262,7 +261,7 @@ namespace Soar.Collections.Tests
             testIntCollection.Clear();
             testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             
-            var elements = new List<IndexValuePair<int>>();
+            var elements = new System.Collections.Generic.List<IndexValuePair<int>>();
             using var subscription = testIntCollection.SubscribeToValues(value => elements.Add(value));
             
             testIntCollection.Insert(1, 10);
@@ -286,7 +285,7 @@ namespace Soar.Collections.Tests
             testIntCollection.Clear();
             testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             
-            var elements = new List<IndexValuePair<int>>();
+            var elements = new System.Collections.Generic.List<IndexValuePair<int>>();
             using var subscription = testIntCollection.SubscribeToValues(value => elements.Add(value));
             
             testIntCollection.InsertRange(5, new[] { 4, 5, 6 });
