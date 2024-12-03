@@ -5,13 +5,15 @@ using System.Linq;
 
 namespace Soar.Collections
 {
-    public abstract partial class Collection<TKey, TValue> :
+    public abstract partial class Dictionary<TKey, TValue> :
         Collection<SerializedKeyValuePair<TKey, TValue>>,
         IDictionary<TKey, TValue>,
         IReadOnlyDictionary<TKey, TValue>
         where TKey : notnull
     {
-        private readonly Dictionary<TKey, TValue> dictionary = new();
+        private readonly System.Collections.Generic.Dictionary<TKey, TValue> dictionary = new();
+
+        public override object SyncRoot => syncRoot;
         private readonly object syncRoot = new();
         
         public TValue this[TKey key]
@@ -188,33 +190,7 @@ namespace Soar.Collections
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        // MEMO: Insert on Dictionary does not make sense.
-        // However, This is necessary due to Unity does not support serialization of Dictionary.
-        // Implementations are preventive measures for when user use Base Class' (List counterpart) Insert methods.
-        internal override void InsertInternal(int index, SerializedKeyValuePair<TKey, TValue> item)
-        {
-            lock (syncRoot)
-            {
-                dictionary.Add(item.Key, item.Value);
-                base.InsertInternal(index, item);
-                RaiseValue(item.Key, item.Value);
-            }
-        }
         
-        internal override void InsertRangeInternal(int index, SerializedKeyValuePair<TKey, TValue>[] items)
-        {
-            lock (syncRoot)
-            {
-                base.InsertRangeInternal(index, items);
-                foreach (var item in items)
-                {
-                    dictionary.Add(item.Key, item.Value);
-                    RaiseValue(item.Key, item.Value);
-                }
-            }
-        }
-
         public bool Remove(TKey key)
         {
             lock (syncRoot)
@@ -233,17 +209,7 @@ namespace Soar.Collections
                 return Remove(item.Key);
             }
         }
-
-        internal override void RemoveAtInternal(int index)
-        {
-            lock (syncRoot)
-            {
-                var item = list[index];
-                dictionary.Remove(item.Key);
-                base.RemoveAtInternal(index);
-            }
-        }
-
+        
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
             lock (syncRoot)
@@ -261,7 +227,13 @@ namespace Soar.Collections
                 return dictionary.TryGetValue(key, out value);
             }
         }
-
+        
+        internal override void Initialize()
+        {
+            OnValidate();
+            base.Initialize();
+        }
+        
         protected virtual void OnValidate()
         {
             lock (syncRoot)
