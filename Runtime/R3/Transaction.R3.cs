@@ -289,13 +289,13 @@ namespace Soar.Transactions
             base.RaiseResponse();
         }
         
-        public async ValueTask<TRequest> WaitRequestAsync(CancellationToken cancellationToken)
+        public async ValueTask<TRequest> WaitForRequestAsync(CancellationToken cancellationToken)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
             return await requestSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
 
-        public async ValueTask<TResponse> WaitResponseAsync(CancellationToken cancellationToken)
+        public async ValueTask<TResponse> WaitForResponseAsync(CancellationToken cancellationToken)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
             return await responseSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);

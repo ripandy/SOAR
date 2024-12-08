@@ -250,7 +250,59 @@ namespace Soar.Transactions.Tests
             }
         }
         
-        // TODO: add tests for WaitRequestAsync and WaitResponseAsync
+        [Test]
+        public async Task ValueTransaction_WaitForRequestAsync_ShouldBeAwaited()
+        {
+            var cts = new CancellationTokenSource();
+            
+            var requestValueTask = testNumberToIntTransaction.WaitForRequestAsync(cts.Token);
+
+            RequestDelayed();
+
+            var requestValue = await requestValueTask;
+            
+            Assert.AreEqual(NumberEnum.Five, requestValue);
+
+            async void RequestDelayed()
+            {
+                try
+                {
+                    await Task.Delay(100, cts.Token);
+                    var responseValue = await testNumberToIntTransaction.RequestAsync(NumberEnum.Five, cts.Token);
+                    Assert.AreEqual(5, responseValue);
+                }
+                catch (TaskCanceledException)
+                {
+                }
+            }
+        }
+        
+        [Test]
+        public async Task ValueTransaction_WaitForResponseAsync_ShouldBeAwaited()
+        {
+            var cts = new CancellationTokenSource();
+            
+            var responseValueTask = testNumberToIntTransaction.WaitForResponseAsync(cts.Token);
+
+            RequestDelayed();
+
+            var responseValue = await responseValueTask;
+            
+            Assert.AreEqual(7, responseValue);
+
+            async void RequestDelayed()
+            {
+                try
+                {
+                    await Task.Delay(100, cts.Token);
+                    var respValue = await testNumberToIntTransaction.RequestAsync(NumberEnum.Seven, cts.Token);
+                    Assert.AreEqual(7, respValue);
+                }
+                catch (TaskCanceledException)
+                {
+                }
+            }
+        }
 
         [OneTimeTearDown]
         public void OneTimeTearDownR3()
