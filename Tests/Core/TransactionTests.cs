@@ -24,6 +24,8 @@ namespace Soar.Transactions.Tests
         [SetUp]
         public void Setup()
         {
+            testTransaction.ResetResponseInternal();
+            testTransaction.ClearRequests();
             testNumberToStringTransaction.ResetResponseInternal();
             testCircleAreaTransaction.ResetResponseInternal();
         }
@@ -235,7 +237,7 @@ namespace Soar.Transactions.Tests
         }
         
         [OneTimeTearDown]
-        public void TearDown()
+        public void OneTimeTearDown()
         {
             Object.DestroyImmediate(testTransaction);
             Object.DestroyImmediate(testFloatTransaction);
