@@ -23,6 +23,18 @@ namespace Soar.Transactions
         {
             return responseSubject.AsUnitObservable();
         }
+        
+        public IAsyncEnumerable<Unit> ToRequestAsyncEnumerable(CancellationToken cancellationToken = default)
+        {
+            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
+            return AsRequestObservable().ToAsyncEnumerable(linkedTokenSource.Token);
+        }
+        
+        public IAsyncEnumerable<Unit> ToResponseAsyncEnumerable(CancellationToken cancellationToken = default)
+        {
+            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
+            return AsResponseObservable().ToAsyncEnumerable(linkedTokenSource.Token);
+        }
 
         public partial async ValueTask RequestAsync()
         {
@@ -38,16 +50,9 @@ namespace Soar.Transactions
 
         public void RegisterResponse(Action responseAction)
         {
+            UnregisterResponse();
             registeredResponse = new ResponseRegistrar(responseAction);
-            requestSubscription = requestSubject
-                .Where(_ => IsReadyForTransaction)
-                .SubscribeAwait(TryRespond, AwaitOperation.Parallel);
-            RespondAllInternal();
-            
-            async ValueTask TryRespond(object _, CancellationToken token)
-            {
-                await RespondInternalAsync(token);
-            }
+            BindRegisteredResponse(AwaitOperation.Parallel);
         }
 
         public void RegisterResponse(Func<ValueTask> responseAsync)
@@ -57,22 +62,27 @@ namespace Soar.Transactions
 
         public void RegisterResponse(Func<ValueTask> responseAsync, AwaitOperation awaitOperation)
         {
+            UnregisterResponse();
             registeredResponse = new ResponseRegistrar(responseAsync);
-            requestSubscription = requestSubject
-                .Where(_ => IsReadyForTransaction)
-                .SubscribeAwait(TryRespond, awaitOperation);
-            RespondAllInternal();
-            
-            async ValueTask TryRespond(object _, CancellationToken token)
-            {
-                await RespondInternalAsync(token);
-            }
+            BindRegisteredResponse(awaitOperation);
         }
 
         public void RegisterResponse(Func<CancellationToken, ValueTask> responseAsync,
             AwaitOperation awaitOperation = AwaitOperation.Parallel)
         {
+            UnregisterResponse();
             registeredResponse = new ResponseRegistrar(responseAsync);
+            BindRegisteredResponse(awaitOperation);
+        }
+
+        protected void BindRegisteredResponse(AwaitOperation awaitOperation)
+        {
+            if (awaitOperation is AwaitOperation.SequentialParallel or AwaitOperation.ThrottleFirstLast)
+            {
+                Debug.LogWarning($"SOAR's Transaction implementation does not support awaitOperation {awaitOperation}. AwaitOperation is set to default {AwaitOperation.Parallel}.");
+                awaitOperation = AwaitOperation.Parallel;
+            }
+
             requestSubscription = requestSubject
                 .Where(_ => IsReadyForTransaction)
                 .SubscribeAwait(TryRespond, awaitOperation);
@@ -127,9 +137,9 @@ namespace Soar.Transactions
 
         public override partial void Dispose()
         {
-            RequestQueueHandler.Dispose();
             requestSubject.Dispose();
             responseSubject.Dispose();
+            ClearRequests();
             UnregisterResponse();
         }
     }
@@ -159,13 +169,13 @@ namespace Soar.Transactions
             return responseSubject;
         }
 
-        public IAsyncEnumerable<TRequest> ToRequestAsyncEnumerable(CancellationToken cancellationToken = default)
+        public new IAsyncEnumerable<TRequest> ToRequestAsyncEnumerable(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
             return requestSubject.ToAsyncEnumerable(linkedTokenSource.Token);
         }
 
-        public IAsyncEnumerable<TRequest> ToResponseAsyncEnumerable(CancellationToken cancellationToken = default)
+        public new IAsyncEnumerable<TRequest> ToResponseAsyncEnumerable(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
             return requestSubject.ToAsyncEnumerable(linkedTokenSource.Token);
@@ -185,16 +195,9 @@ namespace Soar.Transactions
 
         public void RegisterResponse(Func<TRequest, TResponse> responseAction)
         {
+            UnregisterResponse();
             registeredResponse = new ResponseRegistrar<TRequest, TResponse>(responseAction);
-            requestSubscription = requestSubject
-                .Where(_ => IsReadyForTransaction)
-                .SubscribeAwait(TryRespond, AwaitOperation.Parallel);
-            RespondAllInternal();
-            
-            async ValueTask TryRespond(TRequest _, CancellationToken token)
-            {
-                await RespondInternalAsync(token);
-            }
+            BindRegisteredResponse(AwaitOperation.Parallel);
         }
 
         public void RegisterResponse(Func<TRequest, ValueTask<TResponse>> responseAsync)
@@ -204,31 +207,17 @@ namespace Soar.Transactions
 
         public void RegisterResponse(Func<TRequest, ValueTask<TResponse>> responseAsync, AwaitOperation awaitOperation)
         {
+            UnregisterResponse();
             registeredResponse = new ResponseRegistrar<TRequest, TResponse>(responseAsync);
-            requestSubscription = requestSubject
-                .Where(_ => IsReadyForTransaction)
-                .SubscribeAwait(TryRespond, awaitOperation);
-            RespondAllInternal();
-            
-            async ValueTask TryRespond(TRequest _, CancellationToken token)
-            {
-                await RespondInternalAsync(token);
-            }
+            BindRegisteredResponse(awaitOperation);
         }
 
         public void RegisterResponse(Func<TRequest, CancellationToken, ValueTask<TResponse>> responseAsync,
             AwaitOperation awaitOperation = AwaitOperation.Parallel)
         {
+            UnregisterResponse();
             registeredResponse = new ResponseRegistrar<TRequest, TResponse>(responseAsync);
-            requestSubscription = requestSubject
-                .Where(_ => IsReadyForTransaction)
-                .SubscribeAwait(TryRespond, awaitOperation);
-            RespondAllInternal();
-            
-            async ValueTask TryRespond(TRequest _, CancellationToken token)
-            {
-                await RespondInternalAsync(token);
-            }
+            BindRegisteredResponse(awaitOperation);
         }
 
         internal override partial async ValueTask RespondInternalAsync(CancellationToken cancellationToken)
@@ -299,8 +288,14 @@ namespace Soar.Transactions
             responseSubject.OnNext(raisedResponseValue);
             base.RaiseResponse();
         }
+        
+        public async ValueTask<TRequest> WaitForRequestAsync(CancellationToken cancellationToken)
+        {
+            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
+            return await requestSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+        }
 
-        public async ValueTask<TResponse> WaitResponseAsync(CancellationToken cancellationToken)
+        public async ValueTask<TResponse> WaitForResponseAsync(CancellationToken cancellationToken)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
             return await responseSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
