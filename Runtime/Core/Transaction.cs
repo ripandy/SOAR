@@ -28,7 +28,13 @@ namespace Soar.Transactions
         internal override void Initialize()
         {
             RegisterResponseInternal();
+            ClearRequests();
             base.Initialize();
+        }
+
+        public void ClearRequests()
+        {
+            RequestQueueHandler.Dispose();
         }
         
         protected void RespondAllInternal()
