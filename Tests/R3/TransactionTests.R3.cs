@@ -32,7 +32,8 @@ namespace Soar.Transactions.Tests
         [TestCase(NumberEnum.Five)]
         [TestCase(NumberEnum.Seven)]
         [TestCase(NumberEnum.Nine)]
-        public async Task NumberToStringTransaction_RegisterResponseWithCancellationToken_ShouldBeCancelledAccordingly(NumberEnum requestValue)
+        public async Task ValueTransaction_RegisterResponseWithCancellationToken_ShouldBeCancelledAccordingly(
+            NumberEnum requestValue)
         {
             var cts = new CancellationTokenSource();
             
@@ -55,7 +56,7 @@ namespace Soar.Transactions.Tests
         [TestCase(AwaitOperation.Parallel, 3)]
         [TestCase(AwaitOperation.SequentialParallel, 3)]
         [TestCase(AwaitOperation.ThrottleFirstLast, 3)]
-        public async Task Transaction_RegisterResponse_WithAwaitOperation_ShouldBeRegistered(
+        public async Task PlainTransaction_RegisterResponse_WithAwaitOperation_ShouldBeRegistered(
             AwaitOperation awaitOperation, int expectedSuccessfulCount)
         {
             const int requestTimes = 3;
