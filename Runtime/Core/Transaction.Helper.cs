@@ -199,9 +199,8 @@ namespace Soar.Transactions
         
         public async ValueTask EnqueueAsync(CancellationToken cancellationToken = default)
         {
-            // TODO: Handle Cancellation Token. Find out how to handle cancellation token on TaskCompletionSource.
-            
             var tcs = new TaskCompletionSource<object>();
+            cancellationToken.Register(() => tcs.TrySetCanceled(cancellationToken));
             lock (requestQueueLock)
             {
                 requestAsyncQueue.Enqueue(tcs);
@@ -242,9 +241,8 @@ namespace Soar.Transactions
         
         public async ValueTask<TResponse> EnqueueAsync(TRequest request, CancellationToken cancellationToken = default)
         {
-            // TODO: Handle Cancellation Token. Find out how to handle cancellation token on TaskCompletionSource.
-            
             var tcs = new TaskCompletionSource<TResponse>();
+            cancellationToken.Register(() => tcs.TrySetCanceled(cancellationToken));
             lock (requestQueueLock)
             {
                 valueRequestAsyncQueue.Enqueue((request, tcs));
