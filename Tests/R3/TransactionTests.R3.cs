@@ -179,9 +179,87 @@ namespace Soar.Transactions.Tests
                 return result;
             }
         }
+        
+        [Test]
+        public async Task PlainTransaction_R3Integration_ToRequestAsyncEnumerable_ShouldBeConverted()
+        {
+            var cts = new CancellationTokenSource();
+            var count = 0;
+            
+            testTransaction.RegisterResponse(ResponseAsync);
+            
+            var requestAsyncEnumerableTask = RunToRequestAsyncEnumerable();
+            
+            await testTransaction.RequestAsync(cts.Token);
+            await testTransaction.RequestAsync(cts.Token);
+            await testTransaction.RequestAsync(cts.Token);
+            
+            cts.Cancel();
+
+            await requestAsyncEnumerableTask;
+            
+            Assert.AreEqual(3, count);
+
+            async ValueTask RunToRequestAsyncEnumerable()
+            {
+                var startTime = Time.realtimeSinceStartup;
+                var asyncEnumerable = testTransaction.ToRequestAsyncEnumerable(cts.Token);
+                await foreach (var _ in asyncEnumerable)
+                {
+                    count++;
+                }
+                
+                var elapsedTime = Time.realtimeSinceStartup - startTime;
+                Assert.GreaterOrEqual(elapsedTime, 0.3f);
+            }
+            
+            async ValueTask ResponseAsync(CancellationToken token)
+            {
+                await Task.Delay(100, token);
+            }
+        }
+        
+        [Test]
+        public async Task PlainTransaction_R3Integration_ToResponseAsyncEnumerable_ShouldBeConverted()
+        {
+            var cts = new CancellationTokenSource();
+            var count = 0;
+            
+            testTransaction.RegisterResponse(ResponseAsync);
+            
+            var responseAsyncEnumerableTask = RunToResponseAsyncEnumerable();
+            
+            await testTransaction.RequestAsync(cts.Token);
+            await testTransaction.RequestAsync(cts.Token);
+            await testTransaction.RequestAsync(cts.Token);
+            
+            cts.Cancel();
+
+            await responseAsyncEnumerableTask;
+            
+            Assert.AreEqual(3, count);
+
+            async ValueTask RunToResponseAsyncEnumerable()
+            {
+                var startTime = Time.realtimeSinceStartup;
+                var asyncEnumerable = testTransaction.ToResponseAsyncEnumerable(cts.Token);
+                await foreach (var _ in asyncEnumerable)
+                {
+                    count++;
+                }
+                
+                var elapsedTime = Time.realtimeSinceStartup - startTime;
+                Assert.GreaterOrEqual(elapsedTime, 0.3f);
+            }
+            
+            async ValueTask ResponseAsync(CancellationToken token)
+            {
+                await Task.Delay(100, token);
+            }
+        }
 
         [Test]
-        public async Task TransactionR3Integration_ToRequestAsyncEnumerable_ShouldBeConverted()
+        public async Task ValueTransaction_R3Integration_ToRequestAsyncEnumerable_ShouldBeConverted()
         {
             var cts = new CancellationTokenSource();
             var valueList = new List<NumberEnum>();
@@ -216,7 +294,7 @@ namespace Soar.Transactions.Tests
         }
         
         [Test]
-        public async Task TransactionR3Integration_ToResponseAsyncEnumerable_ShouldBeConverted()
+        public async Task ValueTransaction_R3Integration_ToResponseAsyncEnumerable_ShouldBeConverted()
         {
             var cts = new CancellationTokenSource();
             var valueList = new List<NumberEnum>();
