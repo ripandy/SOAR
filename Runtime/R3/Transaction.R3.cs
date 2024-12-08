@@ -23,6 +23,18 @@ namespace Soar.Transactions
         {
             return responseSubject.AsUnitObservable();
         }
+        
+        public IAsyncEnumerable<Unit> ToRequestAsyncEnumerable(CancellationToken cancellationToken = default)
+        {
+            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
+            return AsRequestObservable().ToAsyncEnumerable(linkedTokenSource.Token);
+        }
+        
+        public IAsyncEnumerable<Unit> ToResponseAsyncEnumerable(CancellationToken cancellationToken = default)
+        {
+            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
+            return AsResponseObservable().ToAsyncEnumerable(linkedTokenSource.Token);
+        }
 
         public partial async ValueTask RequestAsync()
         {
@@ -157,13 +169,13 @@ namespace Soar.Transactions
             return responseSubject;
         }
 
-        public IAsyncEnumerable<TRequest> ToRequestAsyncEnumerable(CancellationToken cancellationToken = default)
+        public new IAsyncEnumerable<TRequest> ToRequestAsyncEnumerable(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
             return requestSubject.ToAsyncEnumerable(linkedTokenSource.Token);
         }
 
-        public IAsyncEnumerable<TRequest> ToResponseAsyncEnumerable(CancellationToken cancellationToken = default)
+        public new IAsyncEnumerable<TRequest> ToResponseAsyncEnumerable(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
             return requestSubject.ToAsyncEnumerable(linkedTokenSource.Token);
