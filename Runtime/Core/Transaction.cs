@@ -50,7 +50,6 @@ namespace Soar.Transactions
         
         public void ResetResponseInternal()
         {
-            UnregisterResponse();
             RegisterResponseInternal();
         }
 
