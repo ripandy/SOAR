@@ -127,10 +127,39 @@ namespace Soar.Collections
     }
     
     // List
-    // public abstract partial class List<T>
-    // {
-    //     // TODO: implement partial Raise/Subscribe to Move
-    // }
+    public abstract partial class List<T>
+    {
+        private readonly Subject<MovedValueDto<T>> moveSubject = new();
+
+        public Observable<MovedValueDto<T>> ObserveMove() => moveSubject;
+        
+        public async ValueTask<MovedValueDto<T>> OnMoveAsync(CancellationToken cancellationToken = default)
+        {
+            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
+            return await moveSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+        }
+        
+        private partial void RaiseOnMove(T value, int oldIndex, int newIndex)
+        {
+            moveSubject.OnNext(new MovedValueDto<T>(value, oldIndex, newIndex));
+        }
+        
+        public partial IDisposable SubscribeOnMove(Action<T, int, int> action)
+        {
+            return moveSubject.Subscribe(dto => action.Invoke(dto.Value, dto.OldIndex, dto.NewIndex));
+        }
+        
+        public partial IDisposable SubscribeOnMove(Action<MovedValueDto<T>> action)
+        {
+            return moveSubject.Subscribe(action);
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            moveSubject.Dispose();
+        }
+    }
     
     // Dictionary
     public abstract partial class Dictionary<TKey, TValue>
