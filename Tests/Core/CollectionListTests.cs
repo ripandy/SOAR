@@ -5,6 +5,7 @@ using Object = UnityEngine.Object;
 
 namespace Soar.Collections.Tests
 {
+    // TODO: Some test messages need fixing.
     public partial class CollectionListTests
     {
         private IntCollection testIntCollection;
@@ -297,6 +298,42 @@ namespace Soar.Collections.Tests
             Assert.AreEqual(new IndexValuePair<int>(0, 0), elements[3], "Element at index 0 inserted with value of 0.");
             Assert.AreEqual(new IndexValuePair<int>(1, 2), elements[4], "Element at index 1 inserted with value of 2.");
             Assert.AreEqual(new IndexValuePair<int>(2, 4), elements[5], "Element at index 2 inserted with value of 4.");
+        }
+        
+        [Test]
+        public void SubscribeToMove_ShouldBeListened()
+        {
+            testIntCollection.Clear();
+            testIntCollection.AddRange(new [] { 1, 2, 3, 42, 5, 6, 7, 8, 9 });
+            
+            var elements = new System.Collections.Generic.List<MovedValueDto<int>>();
+            var subscription = testIntCollection.SubscribeOnMove(value => elements.Add(value));
+
+            testIntCollection.Move(3, 0);
+            Assert.AreEqual(3, elements[0].OldIndex, "Old index should be 3.");
+            Assert.AreEqual(0, elements[0].NewIndex, "New index should be 0.");
+            Assert.AreEqual(42, elements[0].Value, "Moved element value should be 42.");
+
+            var otherElements = new System.Collections.Generic.List<(int Value, int OldIndex, int NewIndex)>();
+            using var subscription2 = testIntCollection.SubscribeOnMove((value, prevIndex, newIndex) => otherElements.Add((value, prevIndex, newIndex)));
+            
+            testIntCollection.Move(8, 0);
+            Assert.AreEqual(8, elements[1].OldIndex, "Old index should be 8.");
+            Assert.AreEqual(0, elements[1].NewIndex, "New index should be 0.");
+            Assert.AreEqual(9, elements[1].Value, "Moved element value should be 9.");
+            Assert.AreEqual(8, otherElements[0].OldIndex, "Old index should be 8.");
+            Assert.AreEqual(0, otherElements[0].NewIndex, "New index should be 0.");
+            Assert.AreEqual(9, otherElements[0].Value, "Moved element value should be 9.");
+            Assert.AreEqual(1, testIntCollection.IndexOf(42), "Index of 42 should be 1.");
+            
+            Assert.AreEqual(2, elements.Count, "Element count before disposal should be 2.");
+            subscription.Dispose();
+            
+            testIntCollection.Move(2, 8);
+            Assert.AreEqual(2, elements.Count, "Element count should stay at 2 due to disposal.");
+            Assert.AreEqual(2, otherElements[1].OldIndex, "Old index should be 2.");
+            Assert.AreEqual(8, otherElements[1].NewIndex, "New index should be 8.");
+            Assert.AreEqual(1, otherElements[1].Value, "Moved element value should be 1.");
         }
         
         [Test]

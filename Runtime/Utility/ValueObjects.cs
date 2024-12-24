@@ -28,6 +28,20 @@ namespace Soar
         }
     }
     
+    public readonly struct MovedValueDto<T>
+    {
+        public T Value { get; }
+        public int OldIndex { get; }
+        public int NewIndex { get; }
+        
+        public MovedValueDto(T value, int oldIndex, int newIndex)
+        {
+            Value = value;
+            OldIndex = oldIndex;
+            NewIndex = newIndex;
+        }
+    }
+    
     [Serializable]
     public struct SerializedKeyValuePair<TKey, TValue>
     {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +73,7 @@ namespace Soar.Collections
                 var removedItem = list[oldIndex];
                 list.RemoveAt(oldIndex);
                 list.Insert(newIndex, removedItem);
+                RaiseOnMove(removedItem, oldIndex, newIndex);
             }
         }
         
@@ -127,10 +129,10 @@ namespace Soar.Collections
         }
         
         // List of Partial methods. Implemented in each respective integrated Library.
-        // TODO: Raise/Subscribe to Move
-        // private partial void RaiseOnMove(T value, int oldIndex, int newIndex);
+        private partial void RaiseOnMove(T value, int oldIndex, int newIndex);
         
         // TODO: Summaries on public methods
-        // public partial IDisposable SubscribeOnMove(Action<T, int, int> action);
+        public partial IDisposable SubscribeOnMove(Action<T, int, int> action);
+        public partial IDisposable SubscribeOnMove(Action<MovedValueDto<T>> action);
     }
 }
