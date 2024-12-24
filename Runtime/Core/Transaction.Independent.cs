@@ -242,16 +242,16 @@ namespace Soar.Transactions
             }
         }
         
-        public partial IDisposable SubscribeToRequest(Action<TRequest> action)
+        public partial IDisposable SubscribeToRequest(Action<TRequest> onRequest)
         {
-            var subscription = new Subscription<TRequest>(action, requestSubscriptions);
+            var subscription = new Subscription<TRequest>(onRequest, requestSubscriptions);
             requestSubscriptions.Add(subscription);
             return subscription;
         }
         
-        public partial IDisposable SubscribeToResponse(Action<TResponse> action)
+        public partial IDisposable SubscribeToResponse(Action<TResponse> onResponse)
         {
-            var subscription = new Subscription<TResponse>(action, responseSubscriptions);
+            var subscription = new Subscription<TResponse>(onResponse, responseSubscriptions);
             responseSubscriptions.Add(subscription);
             return subscription;
         }

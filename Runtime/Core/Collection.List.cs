@@ -134,10 +134,34 @@ namespace Soar.Collections
         private partial void RaiseOnMove(T value, int oldIndex, int newIndex);
         private partial void RaiseOnInsert(int index, T value);
         
-        // TODO: Summaries on public methods
+        /// <summary>
+        /// Subscribe to OnMove event. Will be called when value is moved and is called with the moved value, old index, and new index.
+        /// </summary>
+        /// <param name="action">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeOnMove(Action<T, int, int> action);
+        
+        /// <summary>
+        /// Subscribe to OnMove event. Will be called when value is moved and is called with MovedValueDto.
+        /// MovedValueDto contains the moved value, old index, and new index.
+        /// </summary>
+        /// <param name="action">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeOnMove(Action<MovedValueDto<T>> action);
+        
+        /// <summary>
+        /// Subscribe to OnInsert event. Will be called when value is inserted and is called with the inserted element index and value.
+        /// </summary>
+        /// <param name="action">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeOnInsert(Action<int, T> action);
+        
+        /// <summary>
+        /// Subscribe to OnInsert event. Will be called when value is inserted and is called with the IndexValuePair data structure.
+        /// IndexValuePair contains the inserted element index and value.
+        /// </summary>
+        /// <param name="action">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeOnInsert(Action<IndexValuePair<T>> action);
     }
 }

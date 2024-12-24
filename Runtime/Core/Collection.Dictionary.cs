@@ -249,10 +249,32 @@ namespace Soar.Collections
         // List of Partial methods. Implemented in each respective integrated Library.
         private partial void RaiseValue(TKey key, TValue value);
         
-        // TODO: Summaries
+        /// <summary>
+        /// Subscribe to OnAdd event. Will be called when new value is added and is called with the added pair of key and value.
+        /// </summary>
+        /// <param name="action">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeOnAdd(Action<TKey, TValue> action);
+        
+        /// <summary>
+        /// Subscribe to OnRemove event. Will be called when value is removed and is called with the removed pair of key and value.
+        /// </summary>
+        /// <param name="action">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeOnRemove(Action<TKey, TValue> action);
+        
+        /// <summary>
+        /// Subscribe to value update event. Will be called when element value is updated and is called with the updated pair of key and value.
+        /// </summary>
+        /// <param name="action">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeToValues(Action<TKey, TValue> action);
+        
+        /// <summary>
+        /// Subscribe to value update event. Will be called when element value is updated and is called with KeyValuePair.
+        /// </summary>
+        /// <param name="action">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeToValues(Action<KeyValuePair<TKey, TValue>> action);
     }
 }
