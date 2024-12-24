@@ -132,6 +132,49 @@ namespace Soar
         }
     }
     
+    internal sealed class MoveValueSubscription<T> : IDisposable
+    {
+        private readonly Action<T, int, int> action;
+        private readonly Action<MovedValueDto<T>> moveAction;
+        private readonly IList<IDisposable> disposables;
+        private bool disposed;
+        
+        public MoveValueSubscription(
+            Action<T, int, int> action,
+            IList<IDisposable> disposables)
+        {
+            this.action = action;
+            this.disposables = disposables;
+        }
+        
+        public MoveValueSubscription(
+            Action<MovedValueDto<T>> action,
+            IList<IDisposable> disposables)
+        {
+            moveAction = action;
+            this.disposables = disposables;
+        }
+        
+        public void Invoke(T value, int oldIndex, int newIndex)
+        {
+            Invoke(new MovedValueDto<T>(value, oldIndex, newIndex));
+        }
+        
+        public void Invoke(MovedValueDto<T> movedValueDto)
+        {
+            if (disposed) return;
+            action?.Invoke(movedValueDto.Value, movedValueDto.OldIndex, movedValueDto.NewIndex);
+            moveAction?.Invoke(movedValueDto);
+        }
+        
+        public void Dispose()
+        {
+            if (disposed) return;
+            disposables.Remove(this);
+            disposed = true;
+        }
+    }
+    
     internal sealed class KeyValueSubscription<TKey, TValue> : IDisposable
     {
         private readonly Action<TKey, TValue> action;
