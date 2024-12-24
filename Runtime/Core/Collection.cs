@@ -228,12 +228,47 @@ namespace Soar.Collections
         internal partial void RaiseValueAt(int index, T value);
         private partial void RaiseOnClear();
         
-        // TODO: Summaries on public methods
+        /// <summary>
+        /// Subscribe to OnAdd event. Will be called when new value is added and is called with the added value.
+        /// </summary>
+        /// <param name="action">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeOnAdd(Action<T> action);
+        
+        /// <summary>
+        /// Subscribe to OnRemove event. Will be called when value is removed and is called with the removed value.
+        /// </summary>
+        /// <param name="action">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeOnRemove(Action<T> action);
+        
+        /// <summary>
+        /// Subscribe to Count values. Will be called when Count value is changed and is called with the new Count value.
+        /// </summary>
+        /// <param name="action">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeToCount(Action<int> action);
+        
+        /// <summary>
+        /// Subscribe to OnClear event. Will be called when Clear() is called without any arguments.
+        /// </summary>
+        /// <param name="action">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeOnClear(Action action);
+        
+        /// <summary>
+        /// Subscribe to value update event. Will be called when element value is updated and is called with element index and value.
+        /// </summary>
+        /// <param name="action">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeToValues(Action<int, T> action);
+        
+        /// <summary>
+        /// Subscribe to value update event. Will be called when element value is updated and is called with IndexValuePair data structure.
+        /// IndexValuePair contains index and value of the element updated.
+        /// </summary>
+        /// <param name="action">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeToValues(Action<IndexValuePair<T>> action);
     }
 }
