@@ -366,7 +366,7 @@ namespace Soar.Collections.Tests
             testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             
             var elements = new System.Collections.Generic.List<IndexValuePair<int>>();
-            using var subscription = testIntCollection.SubscribeOnInsert(value => elements.Add(value));
+            using var subscription = testIntCollection.SubscribeOnInsert(pair => elements.Add(pair));
             
             testIntCollection.InsertRange(5, new[] { 4, 5, 6 });
             Assert.AreEqual(new IndexValuePair<int>(5, 4), elements[0], "Element should be inserted at index 5 with value of 4.");
