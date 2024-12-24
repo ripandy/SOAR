@@ -130,8 +130,10 @@ namespace Soar.Collections
     public abstract partial class List<T>
     {
         private readonly Subject<MovedValueDto<T>> moveSubject = new();
+        private readonly Subject<IndexValuePair<T>> insertSubject = new();
 
         public Observable<MovedValueDto<T>> ObserveMove() => moveSubject;
+        public Observable<IndexValuePair<T>> ObserveInsert() => insertSubject;
         
         public async ValueTask<MovedValueDto<T>> OnMoveAsync(CancellationToken cancellationToken = default)
         {
@@ -139,9 +141,20 @@ namespace Soar.Collections
             return await moveSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
+        public async ValueTask<IndexValuePair<T>> OnInsertAsync(CancellationToken cancellationToken = default)
+        {
+            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
+            return await insertSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+        }
+        
         private partial void RaiseOnMove(T value, int oldIndex, int newIndex)
         {
             moveSubject.OnNext(new MovedValueDto<T>(value, oldIndex, newIndex));
+        }
+        
+        private partial void RaiseOnInsert(int index, T value)
+        {
+            insertSubject.OnNext(new IndexValuePair<T>(index, value));
         }
         
         public partial IDisposable SubscribeOnMove(Action<T, int, int> action)
@@ -153,11 +166,22 @@ namespace Soar.Collections
         {
             return moveSubject.Subscribe(action);
         }
+        
+        public partial IDisposable SubscribeOnInsert(Action<int, T> action)
+        {
+            return insertSubject.Subscribe(pair => action.Invoke(pair.Index, pair.Value));
+        }
+        
+        public partial IDisposable SubscribeOnInsert(Action<IndexValuePair<T>> action)
+        {
+            return insertSubject.Subscribe(action);
+        }
 
         public override void Dispose()
         {
             base.Dispose();
             moveSubject.Dispose();
+            insertSubject.Dispose();
         }
     }
     

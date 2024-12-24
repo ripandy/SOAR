@@ -48,6 +48,11 @@ namespace Soar.Collections.Tests
             testIntCollection.Move(0, 1);
             var movedValue = await moveValueTask;
             Assert.AreEqual(new MovedValueDto<int>(42, 0, 1), movedValue);
+            
+            var insertTask = testIntCollection.OnInsertAsync();
+            testIntCollection.Insert(1, 10);
+            var insertedValue = await insertTask;
+            Assert.AreEqual(new IndexValuePair<int>(1, 10), insertedValue);
         }
 
         [Test]

@@ -42,6 +42,7 @@ namespace Soar.Collections
                 RaiseOnAdd(item);
                 RaiseValueAt(index, item);
                 RaiseCount();
+                RaiseOnInsert(index, item);
             }
         }
         
@@ -56,6 +57,7 @@ namespace Soar.Collections
                     list.Insert(idx, item);
                     RaiseOnAdd(item);
                     RaiseValueAt(idx, item);
+                    RaiseOnInsert(idx, item);
                 }
                 RaiseCount();
             }
@@ -130,10 +132,12 @@ namespace Soar.Collections
         
         // List of Partial methods. Implemented in each respective integrated Library.
         private partial void RaiseOnMove(T value, int oldIndex, int newIndex);
+        private partial void RaiseOnInsert(int index, T value);
         
         // TODO: Summaries on public methods
         public partial IDisposable SubscribeOnMove(Action<T, int, int> action);
         public partial IDisposable SubscribeOnMove(Action<MovedValueDto<T>> action);
-        // TODO: Implement SubscribeOnInsert
+        public partial IDisposable SubscribeOnInsert(Action<int, T> action);
+        public partial IDisposable SubscribeOnInsert(Action<IndexValuePair<T>> action);
     }
 }
