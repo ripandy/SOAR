@@ -134,5 +134,6 @@ namespace Soar.Collections
         // TODO: Summaries on public methods
         public partial IDisposable SubscribeOnMove(Action<T, int, int> action);
         public partial IDisposable SubscribeOnMove(Action<MovedValueDto<T>> action);
+        // TODO: Implement SubscribeOnInsert
     }
 }

@@ -8,7 +8,6 @@ namespace Soar.Variables.Tests
     /// Tests for the core functionality of the VariableCore class.
     /// Tests should pass for both independent implementation and R3 integration. 
     /// </summary>
-    /// TODO: Add tests for R3 integration.
     public class VariableTests
     {
         private IntVariable testIntVariable;
