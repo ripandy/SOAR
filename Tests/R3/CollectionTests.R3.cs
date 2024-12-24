@@ -52,12 +52,6 @@ namespace Soar.Collections.Tests
             Assert.ThrowsAsync<TaskCanceledException>(async () => await testIntCollection.CountAsync(cts.Token));
             Assert.ThrowsAsync<TaskCanceledException>(async () => await testIntCollection.ValuesAsync(cts.Token));
         }
-
-        [Test]
-        public void ObservableIntegration_ShouldBeConverted()
-        {
-            // TODO: Implement ObservableIntegration_ShouldBeConverted
-        }
     }
 
     public partial class CollectionDictionaryTests
@@ -88,12 +82,6 @@ namespace Soar.Collections.Tests
             cts.Cancel();
             
             Assert.ThrowsAsync<TaskCanceledException>(async () => await testNumberStringCollection.ValuesAsync(cts.Token));
-        }
-        
-        [Test]
-        public void ObservableIntegration_ShouldBeConverted()
-        {
-            // TODO: Implement ObservableIntegration_ShouldBeConverted
         }
     }
 }
