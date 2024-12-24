@@ -71,9 +71,23 @@ namespace Soar.Transactions
         internal virtual partial void RaiseRequest();
         internal virtual partial void RaiseResponse();
         
-        // TODO: Summaries
+        /// <summary>
+        /// Request for a transaction. Will call registered response. Can be awaited.
+        /// </summary>
         public partial ValueTask RequestAsync();
+        
+        /// <summary>
+        /// Subscribe to Request event. Will listen when a request is made.
+        /// </summary>
+        /// <param name="onRequest">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeToRequest(Action onRequest);
+        
+        /// <summary>
+        /// Subscribe to Response event. Will listen when a response is made.
+        /// </summary>
+        /// <param name="onResponse">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeToResponse(Action onResponse);
         
         public override partial void Dispose();
@@ -120,10 +134,25 @@ namespace Soar.Transactions
         private partial void RaiseRequest(TRequest raisedRequestValue);
         private partial void RaiseResponse(TResponse raisedResponseValue);
         
-        // TODO: Summaries
+        /// <summary>
+        /// Request for a transaction. Will call registered response. Can be awaited.
+        /// </summary>
+        /// <param name="request">Request value to be passed.</param>
         public partial ValueTask<TResponse> RequestAsync(TRequest request);
-        public partial IDisposable SubscribeToRequest(Action<TRequest> action);
-        public partial IDisposable SubscribeToResponse(Action<TResponse> action);
+        
+        /// <summary>
+        /// Subscribe to Request event. Will listen when a request is made and is called with the request value.
+        /// </summary>
+        /// <param name="onRequest">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
+        public partial IDisposable SubscribeToRequest(Action<TRequest> onRequest);
+        
+        /// <summary>
+        /// Subscribe to Response event. Will listen when a response is made and is called with the response value.
+        /// </summary>
+        /// <param name="onResponse">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
+        public partial IDisposable SubscribeToResponse(Action<TResponse> onResponse);
     }
 
     public abstract class Transaction<T> : Transaction<T, T>
