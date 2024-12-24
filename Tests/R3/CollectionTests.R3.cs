@@ -38,6 +38,16 @@ namespace Soar.Collections.Tests
             testIntCollection[2] = 24;
             var values = await valuesTask;
             Assert.AreEqual(new IndexValuePair<int>(2, 24), values);
+            
+            var valueTaskAt = testIntCollection.ValuesAsync(0);
+            testIntCollection[0] = 42;
+            var valueAt = await valueTaskAt;
+            Assert.AreEqual(42, valueAt);
+
+            var moveValueTask = testIntCollection.OnMoveAsync();
+            testIntCollection.Move(0, 1);
+            var movedValue = await moveValueTask;
+            Assert.AreEqual(new MovedValueDto<int>(42, 0, 1), movedValue);
         }
 
         [Test]
