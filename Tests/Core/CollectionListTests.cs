@@ -301,7 +301,7 @@ namespace Soar.Collections.Tests
         }
         
         [Test]
-        public void SubscribeToMove_ShouldBeListened()
+        public void SubscribeOnMove_ShouldBeListened()
         {
             testIntCollection.Clear();
             testIntCollection.AddRange(new [] { 1, 2, 3, 42, 5, 6, 7, 8, 9 });
