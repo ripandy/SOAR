@@ -336,6 +336,50 @@ namespace Soar.Collections.Tests
         }
         
         [Test]
+        public void SubscribeOnInsert_ShouldBeListened()
+        {
+            testIntCollection.Clear();
+            testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+            
+            var elements = new System.Collections.Generic.List<IndexValuePair<int>>();
+            using var subscription = testIntCollection.SubscribeOnInsert(value => elements.Add(value));
+            
+            testIntCollection.Insert(1, 10);
+            Assert.AreEqual(1, elements[0].Index, "Inserted element should be at index 1.");
+            Assert.AreEqual(10, elements[0].Value, "Inserted element value at index 1 should be 10.");
+            
+            testIntCollection.Insert(5, 42);
+            testIntCollection.Insert(0, 0);
+            testIntCollection.Insert(3, 12);
+            Assert.AreEqual(5, elements[1].Index, "Inserted element should be at index 5.");
+            Assert.AreEqual(42, elements[1].Value, "Inserted element value at index 5 should be 42.");
+            Assert.AreEqual(0, elements[2].Index, "Inserted element should be at index 0.");
+            Assert.AreEqual(0, elements[2].Value, "Inserted element value at index 0 should be 0.");
+            Assert.AreEqual(3, elements[3].Index, "Inserted element should be at index 3.");
+            Assert.AreEqual(12, elements[3].Value, "Inserted element value at index 3 should be 12.");
+        }
+        
+        [Test]
+        public void SubscribeOnInsert_ByInsertRange_ShouldBeListened()
+        {
+            testIntCollection.Clear();
+            testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+            
+            var elements = new System.Collections.Generic.List<IndexValuePair<int>>();
+            using var subscription = testIntCollection.SubscribeOnInsert(value => elements.Add(value));
+            
+            testIntCollection.InsertRange(5, new[] { 4, 5, 6 });
+            Assert.AreEqual(new IndexValuePair<int>(5, 4), elements[0], "Element should be inserted at index 5 with value of 4.");
+            Assert.AreEqual(new IndexValuePair<int>(6, 5), elements[1], "Element should be inserted at index 6 with value of 5.");
+            Assert.AreEqual(new IndexValuePair<int>(7, 6), elements[2], "Element should be inserted at index 7 with value of 6.");
+            
+            testIntCollection.InsertRange(0, Enumerable.Range(0, 3).Select((_, index) => index * 2));
+            Assert.AreEqual(new IndexValuePair<int>(0, 0), elements[3], "Element should be inserted at index 0 with value of 0.");
+            Assert.AreEqual(new IndexValuePair<int>(1, 2), elements[4], "Element should be inserted at index 1 with value of 2.");
+            Assert.AreEqual(new IndexValuePair<int>(2, 4), elements[5], "Element should be inserted at index 2 with value of 4.");
+        }
+        
+        [Test]
         public void ListPublicMethods_ShouldBeCalled()
         {
             testIntCollection.Clear();
