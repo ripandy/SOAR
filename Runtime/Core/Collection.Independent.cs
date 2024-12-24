@@ -123,10 +123,41 @@ namespace Soar.Collections
     }
 
     // List
-    // public abstract partial class List<T>
-    // {
-    //     // TODO: implement partial Raise/Subscribe to Move
-    // }
+    public abstract partial class List<T>
+    {
+        private readonly System.Collections.Generic.List<IDisposable> moveSubscriptions = new();
+
+        public partial IDisposable SubscribeOnMove(Action<T, int, int> action)
+        {
+            var subscription = new MoveValueSubscription<T>(action, moveSubscriptions);
+            moveSubscriptions.Add(subscription);
+            return subscription;
+        }
+        
+        public partial IDisposable SubscribeOnMove(Action<MovedValueDto<T>> action)
+        {
+            var subscription = new MoveValueSubscription<T>(action, moveSubscriptions);
+            moveSubscriptions.Add(subscription);
+            return subscription;
+        }
+
+        private partial void RaiseOnMove(T value, int oldIndex, int newIndex)
+        {
+            foreach (var subscription in moveSubscriptions)
+            {
+                if (subscription is MoveValueSubscription<T> moveValueSubscription)
+                {
+                    moveValueSubscription.Invoke(value, oldIndex, newIndex);
+                }
+            }
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            moveSubscriptions.Dispose();
+        }
+    }
     
     // Dictionary
     public abstract partial class Dictionary<TKey, TValue>
