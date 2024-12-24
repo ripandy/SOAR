@@ -13,48 +13,6 @@ namespace Soar.Collections
         private readonly System.Collections.Generic.List<IDisposable> countSubscriptions = new();
         private readonly System.Collections.Generic.List<IDisposable> valueSubscriptions = new();
 
-        public partial IDisposable SubscribeOnAdd(Action<T> action)
-        {
-            var subscription = new Subscription<T>(action, onAddSubscriptions);
-            onAddSubscriptions.Add(subscription);
-            return subscription;
-        }
-
-        public partial IDisposable SubscribeOnRemove(Action<T> action)
-        {
-            var subscription = new Subscription<T>(action, onRemoveSubscriptions);
-            onRemoveSubscriptions.Add(subscription);
-            return subscription;
-        }
-
-        public partial IDisposable SubscribeOnClear(Action action)
-        {
-            var subscription = new Subscription(action, onClearSubscriptions);
-            onClearSubscriptions.Add(subscription);
-            return subscription;
-        }
-        
-        public partial IDisposable SubscribeToCount(Action<int> action)
-        {
-            var subscription = new Subscription<int>(action, countSubscriptions);
-            countSubscriptions.Add(subscription); 
-            return subscription;
-        }
-
-        public partial IDisposable SubscribeToValues(Action<int, T> action)
-        {
-            var subscription = new IndexValueSubscription<T>(action, valueSubscriptions);
-            valueSubscriptions.Add(subscription);
-            return subscription;
-        }
-        
-        public partial IDisposable SubscribeToValues(Action<IndexValuePair<T>> action)
-        {
-            var subscription = new IndexValueSubscription<T>(action, valueSubscriptions);
-            valueSubscriptions.Add(subscription);
-            return subscription;
-        }
-        
         internal partial void RaiseOnAdd(T addedValue)
         {
             foreach (var disposable in onAddSubscriptions)
@@ -112,6 +70,48 @@ namespace Soar.Collections
             }
         }
         
+        public partial IDisposable SubscribeOnAdd(Action<T> action)
+        {
+            var subscription = new Subscription<T>(action, onAddSubscriptions);
+            onAddSubscriptions.Add(subscription);
+            return subscription;
+        }
+
+        public partial IDisposable SubscribeOnRemove(Action<T> action)
+        {
+            var subscription = new Subscription<T>(action, onRemoveSubscriptions);
+            onRemoveSubscriptions.Add(subscription);
+            return subscription;
+        }
+
+        public partial IDisposable SubscribeOnClear(Action action)
+        {
+            var subscription = new Subscription(action, onClearSubscriptions);
+            onClearSubscriptions.Add(subscription);
+            return subscription;
+        }
+        
+        public partial IDisposable SubscribeToCount(Action<int> action)
+        {
+            var subscription = new Subscription<int>(action, countSubscriptions);
+            countSubscriptions.Add(subscription); 
+            return subscription;
+        }
+
+        public partial IDisposable SubscribeToValues(Action<int, T> action)
+        {
+            var subscription = new IndexValueSubscription<T>(action, valueSubscriptions);
+            valueSubscriptions.Add(subscription);
+            return subscription;
+        }
+        
+        public partial IDisposable SubscribeToValues(Action<IndexValuePair<T>> action)
+        {
+            var subscription = new IndexValueSubscription<T>(action, valueSubscriptions);
+            valueSubscriptions.Add(subscription);
+            return subscription;
+        }
+        
         public override void Dispose()
         {
             onAddSubscriptions.Dispose();
@@ -128,6 +128,28 @@ namespace Soar.Collections
         private readonly System.Collections.Generic.List<IDisposable> moveSubscriptions = new();
         private readonly System.Collections.Generic.List<IDisposable> insertSubscriptions = new();
 
+        private partial void RaiseOnMove(T value, int oldIndex, int newIndex)
+        {
+            foreach (var subscription in moveSubscriptions)
+            {
+                if (subscription is MoveValueSubscription<T> moveValueSubscription)
+                {
+                    moveValueSubscription.Invoke(value, oldIndex, newIndex);
+                }
+            }
+        }
+        
+        private partial void RaiseOnInsert(int index, T value)
+        {
+            foreach (var subscription in insertSubscriptions)
+            {
+                if (subscription is IndexValueSubscription<T> indexValuePair)
+                {
+                    indexValuePair.Invoke(index, value);
+                }
+            }
+        }
+        
         public partial IDisposable SubscribeOnMove(Action<T, int, int> action)
         {
             var subscription = new MoveValueSubscription<T>(action, moveSubscriptions);
@@ -154,28 +176,6 @@ namespace Soar.Collections
             var subscription = new IndexValueSubscription<T>(action, insertSubscriptions);
             insertSubscriptions.Add(subscription);
             return subscription;
-        } 
-
-        private partial void RaiseOnMove(T value, int oldIndex, int newIndex)
-        {
-            foreach (var subscription in moveSubscriptions)
-            {
-                if (subscription is MoveValueSubscription<T> moveValueSubscription)
-                {
-                    moveValueSubscription.Invoke(value, oldIndex, newIndex);
-                }
-            }
-        }
-        
-        private partial void RaiseOnInsert(int index, T value)
-        {
-            foreach (var subscription in insertSubscriptions)
-            {
-                if (subscription is IndexValueSubscription<T> indexValuePair)
-                {
-                    indexValuePair.Invoke(index, value);
-                }
-            }
         }
 
         public override void Dispose()
@@ -190,6 +190,22 @@ namespace Soar.Collections
     public abstract partial class Dictionary<TKey, TValue>
     {
         private readonly System.Collections.Generic.List<IDisposable> valueSubscriptions = new();
+        
+        private partial void RaiseValue(TKey key, TValue value)
+        {
+            if (valueEventType == ValueEventType.OnChange && IsValueEqual()) return;
+
+            foreach (var disposable in valueSubscriptions)
+            {
+                if (disposable is not KeyValueSubscription<TKey, TValue> valueSubscription) continue;
+                valueSubscription.Invoke(key, value);
+            }
+
+            bool IsValueEqual()
+            {
+                return dictionary.TryGetValue(key, out var val) && val.Equals(value);
+            }
+        }
         
         public partial IDisposable SubscribeOnAdd(Action<TKey, TValue> action)
         {
@@ -213,22 +229,6 @@ namespace Soar.Collections
             var subscription = new KeyValueSubscription<TKey, TValue>(action, valueSubscriptions);
             valueSubscriptions.Add(subscription);
             return subscription;
-        }
-        
-        private partial void RaiseValue(TKey key, TValue value)
-        {
-            if (valueEventType == ValueEventType.OnChange && IsValueEqual()) return;
-
-            foreach (var disposable in valueSubscriptions)
-            {
-                if (disposable is not KeyValueSubscription<TKey, TValue> valueSubscription) continue;
-                valueSubscription.Invoke(key, value);
-            }
-
-            bool IsValueEqual()
-            {
-                return dictionary.TryGetValue(key, out var val) && val.Equals(value);
-            }
         }
 
         public override void Dispose()
