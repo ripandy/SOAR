@@ -126,6 +126,7 @@ namespace Soar.Collections
     public abstract partial class List<T>
     {
         private readonly System.Collections.Generic.List<IDisposable> moveSubscriptions = new();
+        private readonly System.Collections.Generic.List<IDisposable> insertSubscriptions = new();
 
         public partial IDisposable SubscribeOnMove(Action<T, int, int> action)
         {
@@ -140,6 +141,20 @@ namespace Soar.Collections
             moveSubscriptions.Add(subscription);
             return subscription;
         }
+        
+        public partial IDisposable SubscribeOnInsert(Action<int, T> action)
+        {
+            var subscription = new IndexValueSubscription<T>(action, insertSubscriptions);
+            insertSubscriptions.Add(subscription);
+            return subscription;
+        }
+        
+        public partial IDisposable SubscribeOnInsert(Action<IndexValuePair<T>> action)
+        {
+            var subscription = new IndexValueSubscription<T>(action, insertSubscriptions);
+            insertSubscriptions.Add(subscription);
+            return subscription;
+        } 
 
         private partial void RaiseOnMove(T value, int oldIndex, int newIndex)
         {
@@ -151,11 +166,23 @@ namespace Soar.Collections
                 }
             }
         }
+        
+        private partial void RaiseOnInsert(int index, T value)
+        {
+            foreach (var subscription in insertSubscriptions)
+            {
+                if (subscription is IndexValueSubscription<T> indexValuePair)
+                {
+                    indexValuePair.Invoke(index, value);
+                }
+            }
+        }
 
         public override void Dispose()
         {
             base.Dispose();
             moveSubscriptions.Dispose();
+            insertSubscriptions.Dispose();
         }
     }
     
