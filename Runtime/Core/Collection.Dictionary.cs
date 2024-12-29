@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Soar.Collections
 {
-    public abstract partial class Dictionary<TKey, TValue> :
+    public abstract partial class SoarDictionary<TKey, TValue> :
         Collection<SerializedKeyValuePair<TKey, TValue>>,
         IDictionary<TKey, TValue>,
         IReadOnlyDictionary<TKey, TValue>

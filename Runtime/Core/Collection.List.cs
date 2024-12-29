@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Soar.Collections
 {
-    public abstract partial class List<T> : Collection<T>, IList<T>, IReadOnlyList<T>, IList
+    public abstract partial class SoarList<T> : Collection<T>, IList<T>, IReadOnlyList<T>, IList
     {
         public T this[int index]
         {
