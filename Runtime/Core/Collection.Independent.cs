@@ -123,7 +123,7 @@ namespace Soar.Collections
     }
 
     // List
-    public abstract partial class List<T>
+    public abstract partial class SoarList<T>
     {
         private readonly System.Collections.Generic.List<IDisposable> moveSubscriptions = new();
         private readonly System.Collections.Generic.List<IDisposable> insertSubscriptions = new();
@@ -187,7 +187,7 @@ namespace Soar.Collections
     }
     
     // Dictionary
-    public abstract partial class Dictionary<TKey, TValue>
+    public abstract partial class SoarDictionary<TKey, TValue>
     {
         private readonly System.Collections.Generic.List<IDisposable> valueSubscriptions = new();
         

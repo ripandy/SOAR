@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Soar.Collections
 {
     [CreateAssetMenu(fileName = "Vector2Collection", menuName = MenuHelper.DefaultCollectionMenu + "Vector2Collection")]
-    public sealed class Vector2Collection : List<Vector2>
+    public sealed class Vector2Collection : SoarList<Vector2>
     {
     }
 }

@@ -127,7 +127,7 @@ namespace Soar.Collections
     }
     
     // List
-    public abstract partial class List<T>
+    public abstract partial class SoarList<T>
     {
         private readonly Subject<MovedValueDto<T>> moveSubject = new();
         private readonly Subject<IndexValuePair<T>> insertSubject = new();
@@ -186,7 +186,7 @@ namespace Soar.Collections
     }
     
     // Dictionary
-    public abstract partial class Dictionary<TKey, TValue>
+    public abstract partial class SoarDictionary<TKey, TValue>
     {
         private readonly Subject<KeyValuePair<TKey, TValue>> valueSubject = new();
         
