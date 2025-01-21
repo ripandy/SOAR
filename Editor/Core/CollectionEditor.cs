@@ -3,11 +3,11 @@ using UnityEditor;
 
 namespace Soar.Collections
 {
-    [CustomEditor(typeof(SoarList<>), true)]
+    [CustomEditor(typeof(Collection<>), true)]
     [CanEditMultipleObjects]
     public class CollectionEditor : Editor
     {
-        private readonly string[] excludedProperties = { "m_Script", "list" };
+        private readonly string[] excludedProperties = { "m_Script" };
         private readonly string[] instanceSettings = { "valueEventType", "autoResetValue" };
         private const string InstanceSettingsLabel = "Instance Settings";
         private bool showInstanceSettings;
@@ -16,19 +16,6 @@ namespace Soar.Collections
         {
             serializedObject.Update();
             
-            using var value = serializedObject.FindProperty("list");
-            if (value.propertyType == SerializedPropertyType.Generic && !value.isArray)
-            {
-                foreach (var child in value.GetChildren())
-                {
-                    EditorGUILayout.PropertyField(child, true);
-                }
-            }
-            else
-            {
-                EditorGUILayout.PropertyField(value, true);
-            }
-
             var toExclude = excludedProperties.Concat(instanceSettings).ToArray();
             DrawPropertiesExcluding(serializedObject, toExclude);
             
