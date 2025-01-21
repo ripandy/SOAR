@@ -12,6 +12,7 @@ namespace Soar.Variables
         
         public override partial void Raise(T valueToRaise)
         {
+            if (pairwiseValueSubject.IsDisposed) return;
             oldValue = value;
             if (valueEventType == ValueEventType.OnChange && IsValueEquals(valueToRaise)) return;
             base.Raise(valueToRaise);

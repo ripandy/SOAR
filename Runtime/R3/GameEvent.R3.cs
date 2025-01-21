@@ -23,6 +23,7 @@ namespace Soar.Events
         
         public virtual partial void Raise()
         {
+            if (subject.IsDisposed) return;
             subject.OnNext(this);
         }
 
@@ -70,6 +71,7 @@ namespace Soar.Events
 
         public virtual partial void Raise(T valueToRaise)
         {
+            if (valueSubject.IsDisposed) return;
             value = valueToRaise;
             base.Raise();
             valueSubject.OnNext(valueToRaise);
