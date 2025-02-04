@@ -8,7 +8,7 @@ namespace Soar.Collections
 {
     public abstract partial class Collection<T> : SoarCore, ICollection<T>, IReadOnlyCollection<T>, ICollection
     {
-        [SerializeField] protected System.Collections.Generic.List<T> list = new();
+        [SerializeField] protected List<T> list = new();
         
         [Tooltip("Set how value event behave.\nValue Assign: Raise when value is assigned regardless of value.\nValue Changed: Raise only when value is changed.")]
         [SerializeField] protected ValueEventType valueEventType;
@@ -16,14 +16,14 @@ namespace Soar.Collections
         [Tooltip("If true will reset value(s) when play mode end. Otherwise, keep runtime value. Due to shallow copying of class types, it is better avoid using autoResetValue on Class type.")]
         [SerializeField] protected bool autoResetValue;
         
-        private readonly System.Collections.Generic.List<T> initialValue = new();
+        private readonly List<T> initialValue = new();
         internal T lastRemoved;
         
         public bool IsSynchronized => (list as ICollection).IsSynchronized;
         public virtual object SyncRoot => syncRoot;
         private readonly object syncRoot = new();
         
-        private System.Collections.Generic.List<T> InitialValue
+        private List<T> InitialValue
         {
             get
             {
