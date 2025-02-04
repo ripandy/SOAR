@@ -131,7 +131,7 @@ namespace Soar.Collections
             lock (syncRoot)
             {
                 list.Clear();
-                list.AddRange(others);
+                AddRange(others);
             }
         }
         

@@ -164,8 +164,8 @@ namespace Soar.Collections
         {
             lock (syncRoot)
             {
+                dictionary.Clear();
                 base.CopyInternal(others);
-                OnValidate();
             }
         }
         
