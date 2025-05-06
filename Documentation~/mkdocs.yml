@@ -1,0 +1,45 @@
+site_name: SOAR
+# site_url: Set this later when deploying to GitHub Pages
+
+theme:
+  name: material
+  features: # Add features section for things like navigation.tabs
+    # - navigation.tabs # Uncomment if you want top-level navigation as tabs
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  repo_url: https://github.com/ripandy/SOAR # <-- Add your repo URL here
+  repo_name: SOAR # <-- Add your repo name here (e.g., user/repo)
+  # You can also use a FontAwesome icon for the repo link:
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - SOAR Overview: index.md
+  # Add more pages here later, e.g.:
+  # - Getting Started: getting_started.md
+  # - Core Concepts: core_concepts.md
+
+# Optional: Add extensions for better rendering
+# markdown_extensions:
+#  - pymdownx.highlight:
+#      anchor_linenums: true
+#  - pymdownx.inlinehilite
+#  - pymdownx.snippets
+#  - pymdownx.superfences
+#  - admonition
+#  - toc:
+#      permalink: true
