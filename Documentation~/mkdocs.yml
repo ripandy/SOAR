@@ -29,6 +29,7 @@ theme:
 
 nav:
   - SOAR Overview: index.md
+  - Features: features.md
   # Add more pages here later, e.g.:
   # - Getting Started: getting_started.md
   # - Core Concepts: core_concepts.md
