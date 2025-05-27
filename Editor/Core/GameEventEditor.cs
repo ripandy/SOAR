@@ -21,13 +21,17 @@ namespace Soar.Events
             
             GUILayout.Space(SpaceHeight);
 
-            GUI.enabled = Application.isPlaying;
-
             if (!GUILayout.Button("Raise")) return;
             
             gameEvent.Raise();
             
-            Debug.Log($"{target.name} event raised.");
+            Debug.Log($"{gameEvent.name} event raised{(Application.isPlaying ? "." : " in Edit Mode. Note that some event listeners may not be invoked in editor mode.")}");
+            
+            // Mark the object as dirty in Edit mode to ensure changes get saved
+            if (!Application.isPlaying)
+            {
+                EditorUtility.SetDirty(gameEvent);
+            }
         }
     }
     
