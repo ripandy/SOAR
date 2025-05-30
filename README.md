@@ -8,10 +8,9 @@ SOAR is implemented based on [Ryan Hipple's talk at Unite Austin 2017](https://y
 
 SOAR is an event-based system that encourages the use of the [Pub/Sub pattern](#publishersubscriber-pattern).
 Its fundamental principle involves treating the [ScriptableObject] instance (with its `name`/`guid` property) as a 'Channel' or 'Topic'.
-Pairing between publisher and subscriber are established through each or SOAR's instance.
+Pairing between publisher and subscriber are established through references to each of SOAR's instance.
 
-SOAR is developed and designed to be extensible with Reactive Extensions library R3.
-R3 is a feature rich and modern Reactive Extensions for C#.
+SOAR is developed and designed to be extensible with Reactive Extensions library [R3], a feature rich and modern Reactive Extensions for C#.
 SOAR wraps and utilizes R3's feature within the Scriptable Object Architecture.
 SOAR can function independently, but its implementation provides only basic functionality.
 It is highly recommended to use SOAR in conjunction with R3.

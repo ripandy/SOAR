@@ -1,18 +1,17 @@
 # SOAR
 
-Scriptable Object Architecture Reactive-extensible (SOAR) is an implementation of the [Scriptable Object Architecture](https://docs.unity3d.com/Manual/class-ScriptableObject.html).
-Scriptable Object Architecture aims to provide a clean and decoupled architecture.
-SOAR is based on [Ryan Hipple's talk at Unite Austin 2017](https://youtu.be/raQ3iHhE_Kk).
+Scriptable Object Architecture Reactive-extensible (SOAR) is an implementation of the Scriptable Object Architecture.
+Scriptable Object Architecture intends to provide clean and decoupled code architecture.
+SOAR's implementation is based on [Ryan Hipple's talk at Unite Austin 2017](https://youtu.be/raQ3iHhE_Kk).
 
 SOAR is an event-based system that encourages the use of the Pub/Sub pattern.
-Its fundamental principle involves treating the combination of a [ScriptableObject] instance and its `name` property as a 'Key' or 'Topic'.
-This 'Key' is then used to establish a pair between a publisher and a subscriber.
-
+Its fundamental principle involves treating the [ScriptableObject] instance (with its `name`/`guid` property) as a 'Channel' or 'Topic'.
+Pairing between publisher and subscriber are established through references to each of SOAR's instance.
 
 SOAR is designed to be extensible with the Reactive library [R3], a feature-rich and modern Reactive Extensions for C#.
-SOAR seeks to wrap and utilize R3's features within the Scriptable Object Architecture.
-While SOAR can function independently, its standalone implementation offers minimal functionality.
-Therefore, using SOAR in conjunction with R3 is highly recommended.
+SOAR wraps and utilizes R3's feature within the Scriptable Object Architecture.
+SOAR can function independently, but its implementation provides only basic functionality.
+It is highly recommended to use SOAR in conjunction with R3.
 
 ## Key Links
 
