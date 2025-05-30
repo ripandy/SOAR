@@ -1,5 +1,6 @@
 # Features
 
+SOAR is a modular framework for Unity that leverages ScriptableObjects for event-driven architecture.
 This section provides an overview of SOAR's key features.
 
 
@@ -26,7 +27,7 @@ In SOAR, `Variable` is derived from `GameEvent` and triggers a value-changed eve
 
 A Collection is a data structure that can contain multiple items.
 The `Collection` class serves as a base for `SoarList` and `SoarDictionary`.
-It provides additional events triggered when an item is added, removed, or updated, or when the collection is cleared.
+It provides value-changed event for each item, along with additional events triggered when an item is added, removed, updated, or when the collection is cleared.
 `Collection` implements common interfaces like `ICollection`, `IList`, and `IDictionary` to ensure compatibility with LINQ.
 
 
@@ -34,7 +35,7 @@ It provides additional events triggered when an item is added, removed, or updat
 
 A Transaction is a two-way event involving requests and responses.
 When a request is sent, a registered response event processes it and returns a result to the requester.
-Only one response event can be registered at a time.
+Only one response handler can be registered at a time.
 This is useful when an operation needs to wait for an event to complete.
 
 
