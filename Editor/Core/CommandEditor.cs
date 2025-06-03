@@ -9,14 +9,18 @@ namespace Soar.Commands
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+            
+            if (target is not Command command) return;
 
-            GUI.enabled = Application.isPlaying;
-
-            var e = (Command) target;
-            if (GUILayout.Button("Execute"))
-            {
-                e.Execute();
-            }
+            if (!GUILayout.Button("Execute")) return;
+            
+            command.Execute();
+            Debug.Log($"{command.name} executed{(Application.isPlaying ? "." : " in Edit Mode. Note that some execution may not run properly in editor mode.")}");
+            
+            if (Application.isPlaying) return;
+            
+            // Mark the object as dirty in Edit mode to ensure changes get saved
+            EditorUtility.SetDirty(command);
         }
     }
 }

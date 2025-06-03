@@ -24,14 +24,12 @@ namespace Soar.Events
             if (!GUILayout.Button("Raise")) return;
             
             gameEvent.Raise();
-            
             Debug.Log($"{gameEvent.name} event raised{(Application.isPlaying ? "." : " in Edit Mode. Note that some event listeners may not be invoked in editor mode.")}");
             
+            if (Application.isPlaying) return;
+            
             // Mark the object as dirty in Edit mode to ensure changes get saved
-            if (!Application.isPlaying)
-            {
-                EditorUtility.SetDirty(gameEvent);
-            }
+            EditorUtility.SetDirty(gameEvent);
         }
     }
     
