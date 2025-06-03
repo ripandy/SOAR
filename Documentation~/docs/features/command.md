@@ -166,8 +166,25 @@ public class MyResourcefulCommand : Command
 
 ## Use Cases
 
-- Triggering game actions (e.g., "StartGameCommand", "PlayerAttackCommand").
-- UI interactions (e.g., "OpenSettingsMenuCommand").
-- Executing complex logic sequences.
-- Integrating with other systems via a standardized interface.
-- Debugging and testing specific functionalities from the editor.
+Commands are versatile and can be employed in numerous scenarios to enhance code organization and reusability.
+Here are some use cases in which you can utilize Commands:
+
+- **`SubmitFormCommand<FormData>`**:
+  
+  A command that takes form data as a parameter. It could validate the input and then send it to a backend service or update local game data.
+
+- **`SaveGameCommand`**:
+
+  Provides a consistent way to trigger the save game process, regardless of whether it's initiated by an autosave timer, a player action, or a level transition. The command itself would interact with your saving/loading system.
+
+- **`AnalyticsEventCommand<AnalyticsData>`**:
+
+  A generic command to send analytics events. Different parts of your game can raise this command with specific `AnalyticsData` (e.g., level completion, item purchase) without needing to know the specifics of the analytics SDK implementation.
+
+- **Debugging and Testing Specific Functionalities from the Editor:**
+  
+  As shown in the "Editor Integration" section, any `Command` can be executed directly from the Inspector during Play Mode. This is invaluable for testing isolated pieces of logic without needing to play through entire game sequences.
+
+By using Commands, you create a clear separation of concerns.
+The invoker of a command doesn't need to know *how* the action is performed, only *what* action to trigger.
+This makes your codebase more modular, easier to understand, and simpler to maintain and extend.
