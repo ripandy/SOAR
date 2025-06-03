@@ -4,7 +4,7 @@ SOAR is a modular framework for Unity that leverages ScriptableObjects for event
 This section provides an overview of SOAR's key features.
 
 
-### [Command](../3-soar-core/command.md)
+### [Command](features/command.md)
 
 An implementation of [Command pattern](https://gameprogrammingpatterns.com/command.html), utilizing `ScriptableObject` as an alternative to an `Interface`.
 The `Command` class is an abstract, requiring concrete implementation.

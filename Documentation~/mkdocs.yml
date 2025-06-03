@@ -35,6 +35,9 @@ nav:
   - Getting Started:
     - Quick Start: getting-started/quick-start.md
     - Installation: getting-started/installation.md
+  - Fundamentals:
+    - Command: features/command.md
+
   
 # Optional: Add extensions for better rendering
 markdown_extensions:
