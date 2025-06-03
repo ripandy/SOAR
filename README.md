@@ -148,7 +148,8 @@ Upon raising the event, the assigned UnityEvent will be invoked.
 To raise an event from script, use the `GameEvent` instance's `Raise()` method.
 Upon raising the event, all subscribers will be notified.
 
-```csharp: GameEventPublisherExample.cs
+```csharp
+// File: GameEventPublisherExample.cs
 using Soar.Events;
 using UnityEngine;
 
@@ -172,7 +173,8 @@ public class GameEventPublisherExample : MonoBehaviour
 To subscribe to an event from script, use the `GameEvent` instance's `Subscribe()` method.
 Upon subscribing, the provided callback will be invoked when the event is raised.
 
-```csharp: GameEventSubscriberExample.cs
+```csharp
+// File: GameEventSubscriberExample.cs
 using System;
 using Soar.Events;
 using UnityEngine;
@@ -217,7 +219,8 @@ This allows for easy testing and debugging of events without the need for a spec
 To set up a subscriber to run in Edit Mode, use the `ExecuteAlways` or `ExecuteInEditMode` attribute on the subscriber class.
 This will allow the subscriber to be invoked in Edit Mode.
 
-```csharp: GameEventSubscriberExample.cs
+```csharp
+// File: GameEventSubscriberExample.cs
 using System;
 using Soar.Events;
 using UnityEngine;
@@ -340,7 +343,8 @@ By importing R3, SOAR has additional features:
 
   With R3 imported, SOAR's event handlers can be used with `ValueTask` and `IAsyncObservable`.
 
-  ```csharp: GameEventAwaitExample.cs
+  ```csharp
+  // File: GameEventAwaitExample.cs
   using System.Threading.Tasks;
   using Soar.Events;
   using UnityEngine;
