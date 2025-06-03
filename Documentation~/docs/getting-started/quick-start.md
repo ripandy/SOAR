@@ -9,14 +9,14 @@ Right-click on the Project window and select instance to create.
 
 For `GameEvent` instances, select any of event types from `Create/SOAR/Game Events/` menu.
 
-![SOAR_Create-GameEvent](https://github.com/user-attachments/assets/7fef75b6-995b-4195-a4c8-4d6548b017c6)
+![SOAR_Create-GameEvent](../../assets/images/SOAR_Create-GameEvent.gif)
 
 ### Raise GameEvent from UnityEvents
 
 To raise an event from Unity UI's Button, assign created GameEvent instance to the Button's OnClick event.
 Every time the button is clicked, the event will be published and all subscribers will be notified.
 
-![Screen Recording 2025-05-17 at 10 44 03 mov](https://github.com/user-attachments/assets/7354506f-13d6-45f9-90f2-9f920bac9964)
+![SOAR_Raise_FromUnityEvent](../../assets/images/SOAR_Raise_FromUnityEvent.gif)
 
 ### Usage of UnityEventBinder
 
@@ -25,11 +25,11 @@ This is also known as an `EventListener` in Scriptable Object Architecture termi
 
 To use them, add the component to any GameObject and assign the GameEvent instance to the `GameEventToListen` field.
 
-![SOAR_UnityEventBinder_AssignGameEvent](https://github.com/user-attachments/assets/5b0604ed-28a9-41e6-9045-92f2d38314a4)
+![SOAR_UnityEventBinder_AssignGameEvent](../../assets/images/SOAR_UnityEventBinder_AssignGameEvent.gif)
 
 Upon raising the event, the assigned UnityEvent will be invoked.
 
-<img width="300" src="https://github.com/user-attachments/assets/d13742c0-a75d-4094-a1a6-f2596bea58ba" alt="SOAR_UnityEventBinder_AssignUnityEvent"/>
+<img width="300" src="../../assets/images/SOAR_UnityEventBinder_AssignUnityEvent.gif" alt="SOAR_UnityEventBinder_AssignUnityEvent"/>
 
 ### Raise GameEvent from Script
 
