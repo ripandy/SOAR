@@ -139,10 +139,11 @@ As `Command` inherits from `SoarCore`, it participates in the SOAR lifecycle. Th
 
 ```csharp
 // File: MyResourcefulCommand.cs
+using Soar;
 using Soar.Commands;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MyResourcefulCommand", menuName = "SOAR/Commands/My Resourceful Command")]
+[CreateAssetMenu(fileName = "MyResourcefulCommand", menuName = MenuHelper.DefaultCommandMenu + "My Resourceful Command")]
 public class MyResourcefulCommand : Command
 {
     private System.IO.StreamWriter _writer;
