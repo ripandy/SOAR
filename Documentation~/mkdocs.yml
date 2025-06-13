@@ -37,6 +37,7 @@ nav:
     - Installation: getting-started/installation.md
   - Fundamentals:
     - Command: features/command.md
+    - Game Event: features/game-event.md
 
   
 # Optional: Add extensions for better rendering

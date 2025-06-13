@@ -11,7 +11,7 @@ The `Command` class is an abstract, requiring concrete implementation.
 This pattern is useful for one-way executions, such as logging.
 
 
-### [Event](../3-soar-core/gameevent.md)
+### [GameEvent](features/game-event.md)
 
 An Event represents an occurrence within the program execution that requires a specific response.
 Implemented as `GameEvent`, each event must have at least one publisher and one subscriber.
