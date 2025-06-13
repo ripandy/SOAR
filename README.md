@@ -35,7 +35,7 @@ __For further details, see [Documentation]__
 
 <summary>Add from OpenUPM | <em>Import via scoped registry.</em></summary>
 
-To add OpenUPM to your project:
+To add OpenUPM to Package Manager:
 
 - open `Edit/Project Settings/Package Manager`
 - add a new Scoped Registry:
@@ -75,7 +75,7 @@ For example: `https://github.com/ripandy/SOAR.git#1.0.0`
 
 <summary>Clone to Local Folder | <em>Manages changes independently.</em></summary>
 
-- Clone this repository to your local directory.
+- Clone this repository to local directory.
 - Open `Window/Package Manager`
 - Click the `+` icon
 - Select the `Install package from disk` option
@@ -106,7 +106,7 @@ Clone this repository to Unity Project's Packages directory: `YourUnityProject/P
 Unity will treat the project as a custom package.
 Source codes can then be modified from containing Unity Project.
 Changes can be managed with git as usual.
-SOAR can also be cloned as Submodule of your git repository.
+SOAR can also be cloned as Submodule of a git repository.
 
 </details>
 
@@ -135,11 +135,11 @@ Every time the button is clicked, the event will be published and all subscriber
 Unity Event Binder is a custom implemented Unity Component that forwards events raised by a `GameEvent` into `UnityEvent`.
 This is also known as an `EventListener` in Scriptable Object Architecture terminology.
 
-To use them, add the component to any GameObject and assign the GameEvent instance to the `GameEventToListen` field.
+To use them, add the component to any GameObject and assign the GameEvent instance to the `Game Event To Listen` field.
 
 ![SOAR_UnityEventBinder_AssignGameEvent](https://github.com/user-attachments/assets/5b0604ed-28a9-41e6-9045-92f2d38314a4)
 
-Upon raising the event, the assigned UnityEvent will be invoked.
+Upon raising the event, actions assigned to `On Game Event Raised` will be invoked by UnityEvent.
 
 <img width="300" src="https://github.com/user-attachments/assets/d13742c0-a75d-4094-a1a6-f2596bea58ba" alt="SOAR_UnityEventBinder_AssignUnityEvent"/>
 
@@ -308,7 +308,7 @@ This is useful when an operation needs to wait for an event to complete.
 ### Base Classes
 
 SOAR provides default base classes that are usable immediately.
-You can access them from the `Create > SOAR` context menu or the `Assets > Create > SOAR` menu bar item.
+They can be accessed from the `Create > SOAR` context menu or the `Assets > Create > SOAR` menu bar item.
 Note that Base Classes use a different assembly definition file `(.asmdef)`.
 Manual `.asmdef` reference management might be required to add a reference of `Soar.Base` in project.
 
@@ -371,7 +371,7 @@ By importing R3, SOAR has additional features:
 - Conversion Methods
 
   Importing R3 enables SOAR's instance to be convertible to `Observable` for [R3], `IObservable` for (Uni)Rx, and `IAsyncObservable` for (Uni)Task.
-  This allows you to use SOAR's instances with the respective functionality.
+  This allows SOAR's instance to utilizes each respective functionalities.
   After conversion, refer to the documentation of each library for more details.
 
   ```csharp
