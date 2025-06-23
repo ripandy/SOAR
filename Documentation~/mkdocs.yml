@@ -38,6 +38,7 @@ nav:
   - Fundamentals:
     - Command: features/command.md
     - Game Event: features/game-event.md
+    - Variable: features/variable.md
 
   
 # Optional: Add extensions for better rendering

@@ -17,7 +17,7 @@ An Event represents an occurrence within the program execution that requires a s
 Implemented as `GameEvent`, each event must have at least one publisher and one subscriber.
 
 
-### [Variable](../3-soar-core/variable.md)
+### [Variable](features/variable.md)
 
 A Variable is data stored in a `ScriptableObject` that can be manipulated.
 In SOAR, `Variable` is derived from `GameEvent` and triggers a value-changed event upon modification.
