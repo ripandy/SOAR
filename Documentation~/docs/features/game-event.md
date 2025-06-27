@@ -1,6 +1,6 @@
 # GameEvent
 
-`GameEvent` is a core feature in SOAR that implements a simple publish-subscribe pattern using `ScriptableObject` assets.
+`GameEvent` is a core feature in SOAR that implements the publish-subscribe pattern using `ScriptableObject` assets.
 This allows for decoupled communication between different parts of an application.
 An event can be published (raised) by one system and listened to by multiple other systems without them needing direct references to each other.
 
@@ -10,15 +10,14 @@ The base `GameEvent` represents an event that does not carry any data.
 
 ### Creating a GameEvent
 
-Create a `GameEvent` asset from `Create` context menu or from `Assets > Create` on the menu bar.
-Right-click on the Project window and select `Create > SOAR > Game Events > GameEvent`.
+Create a `GameEvent` asset from the `Assets > Create > SOAR > Game Events > GameEvent` menu.
 
 ![SOAR_Create-GameEvent](../assets/images/SOAR_Create-GameEvent.gif)
 
-### Raise GameEvent from Script
+### Raising a GameEvent from a Script
 
-To raise an event from script, use the `GameEvent` instance's `Raise()` method.
-Upon raising the event, all subscribers will be notified.
+To raise an event from a script, call the `Raise()` method on the `GameEvent` instance.
+All active subscribers will be notified.
 
 ```csharp
 // File: GameEventPublisherExample.cs
@@ -40,9 +39,10 @@ public class GameEventPublisherExample : MonoBehaviour
 }
 ```
 
-### Subscribe to GameEvent from Script
+### Subscribing to a GameEvent from a Script
 
-To listen for an event, call the `Subscribe()` method, providing an `Action` to be executed when the event is raised. The `Subscribe` method returns an `IDisposable` which should be disposed of when the listener no longer needs to receive events (e.g., in `OnDestroy`).
+To listen for an event, call the `Subscribe()` method with an `Action` to be executed when the event is raised.
+The `Subscribe` method returns an `IDisposable` which should be stored and disposed of when the listener no longer needs to receive events (e.g., in `OnDestroy` or `OnDisable`).
 
 ```csharp
 // File: GameEventSubscriberExample.cs
@@ -75,7 +75,7 @@ public class GameEventSubscriberExample : MonoBehaviour
 
 ## `GameEvent<T>` (With Data)
 
-The generic `GameEvent<T>` class allows creating events that carry data of a specific type `T`.
+The generic `GameEvent<T>` class allows creating events that carry a data payload of a specific type `T`.
 
 ### Creating a Typed GameEvent
 
