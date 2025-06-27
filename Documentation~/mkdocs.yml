@@ -49,6 +49,7 @@ nav:
     - Command: features/command.md
     - Game Event: features/game-event.md
     - Variable: features/variable.md
+    - Collection: features/collection.md
 
   
 # Optional: Add extensions for better rendering

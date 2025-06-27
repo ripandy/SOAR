@@ -23,7 +23,7 @@ A Variable is data stored in a `ScriptableObject` that can be manipulated.
 In SOAR, `Variable` is derived from `GameEvent` and triggers a value-changed event upon modification.
 
 
-### [Collection](../3-soar-core/collection.md)
+### [Collection](features/collection.md)
 
 A Collection is a data structure that can contain multiple items.
 The `Collection` class serves as a base for `SoarList` and `SoarDictionary`.
