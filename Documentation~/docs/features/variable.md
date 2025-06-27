@@ -8,7 +8,7 @@ The `Variable<T>` class in SOAR represents a data container stored in a `Scripta
 
 The generic `Variable<T>` class is the base for all variable types. It holds a value of type `T` and provides mechanisms to access, modify, and observe this value.
 
-![SOAR_Variable-Inspector](../../assets/images/SOAR_Variable-Inspector.png)
+![SOAR_Variable-Inspector](../assets/images/SOAR_Variable-Inspector.png)
 
 - **Value Property**: The primary way to interact with a `Variable<T>` is through its `Value` property. Assigning a new value to the `Value` property will trigger the `Raise(T)` method, which in turn notifies subscribers.
 

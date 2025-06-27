@@ -13,7 +13,7 @@ The base `GameEvent` represents an event that does not carry any data.
 Create a `GameEvent` asset from `Create` context menu or from `Assets > Create` on the menu bar.
 Right-click on the Project window and select `Create > SOAR > Game Events > GameEvent`.
 
-![SOAR_Create-GameEvent](../../assets/images/SOAR_Create-GameEvent.gif)
+![SOAR_Create-GameEvent](../assets/images/SOAR_Create-GameEvent.gif)
 
 ### Raise GameEvent from Script
 
@@ -171,11 +171,11 @@ This is useful for designers or for quickly wiring up responses without writing 
 1. Add the `UnityEventBinder` component to a GameObject.
 2. Assign a `GameEvent` asset to the `Game Event To Listen` field.
 
-   ![SOAR_UnityEventBinder_AssignGameEvent](../../assets/images/SOAR_UnityEventBinder_AssignGameEvent.gif)
+   ![SOAR_UnityEventBinder_AssignGameEvent](../assets/images/SOAR_UnityEventBinder_AssignGameEvent.gif)
 
 3. Configure the `On Game Event Raised` `UnityEvent` in the Inspector to call methods on other components.
 
-   ![SOAR_UnityEventBinder_AssignUnityEvent](../../assets/images/SOAR_UnityEventBinder_AssignUnityEvent.gif)
+   ![SOAR_UnityEventBinder_AssignUnityEvent](../assets/images/SOAR_UnityEventBinder_AssignUnityEvent.gif)
 
 ### `UnityEventBinder<T>` (for GameEvents with data)
 
