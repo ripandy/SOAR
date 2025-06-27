@@ -10,8 +10,18 @@ copyright: 'Copyright &copy; 2025 Ripandy Adha'
 
 theme:
   name: material
+  favicon: assets/icons/SOAR_icon64.png
+  logo: assets/icons/SOAR_icon.png
+
   features: # Add features section for things like navigation.tabs
     # - navigation.tabs # Uncomment if you want top-level navigation as tabs
+    - content.code.copy
+    - content.code.select
+  
+  font:
+    text: 'Lato'
+    code: 'Fira Code'
+    
   palette:
     # Palette toggle for light mode
     - scheme: default
