@@ -1,7 +1,7 @@
 # Command
 
 The `Command` class in SOAR provides a way to encapsulate an action or operation as a ScriptableObject.
-This allows defining reusable operations that can be triggered from various parts of application,
+This allows defining reusable operations that can be triggered from various parts of an application,
 including editor scripts, UI events, or other game logic, promoting a decoupled architecture.
 
 `Command` inherits from `SoarCore`, gaining its lifecycle management features, including editor integration and handling for domain reloads.
@@ -31,9 +31,9 @@ public class MySimpleCommand : Command
 
 To use this command:
 
-Create an instance of `MySimpleCommand` via the `Assets/Create/SOAR/Commands/My Simple Command` menu.
-Assign this instance to a script or UI event.
-Call `mySimpleCommandInstance.Execute()` to run the command.
+1.  Create an instance of `MySimpleCommand` via the `Assets/Create/SOAR/Commands/My Simple Command` menu.
+2.  Assign this instance to a script or UI event.
+3.  Call `mySimpleCommandInstance.Execute()` to run the command.
 
 ### Asynchronous Execution
 
@@ -46,8 +46,8 @@ It automatically links the provided `CancellationToken` with `Application.exitCa
 By default, `ExecuteAsync()` simply calls the synchronous `Execute()` method and returns a completed `ValueTask`.
 To implement true asynchronous behavior, override `ExecuteAsync()` in derived classes.
 
-!!! note
-    Asynchronous execution `ExecuteAsync()` is only available with `R3` installed.
+!!! note "Requires R3"
+    Asynchronous execution with `ExecuteAsync()` is only available if the R3 library is installed.
 
 ```csharp
 // Example of an async Command
@@ -129,9 +129,13 @@ The non-generic `Execute()` method in `Command<T>` will call `Execute(default(T)
 
 ## Editor Integration
 
-When a `Command` (or any class derived from it) is selected in the Unity Editor, the Inspector will display an "Execute" button. Clicking it will call the `Execute()` method of the selected `Command` instance, allowing for easy testing and debugging of your commands directly from the editor.
+When a `Command` (or any class derived from it) is selected in the Unity Editor, the Inspector will display an "Execute" button.
+Clicking it will call the `Execute()` method of the selected `Command` instance.
 
-// TODO: Command Editor Execute Button (You would replace placeholder_image_command_editor.png with an actual screenshot of the Command's inspector in Play Mode showing the "Execute" button)
+![SOAR_Command-Inspector](../assets/images/SOAR_Command-Inspector.png) 
+
+!!! note "Editor Execution"
+    The "Execute" button in the Inspector allows you to run commands in both Play Mode and Edit Mode. Ensure that the code within your `Execute()` method is safe to run in Edit Mode, as it might affect your project files or scene state permanently.
 
 ## Lifecycle and Disposal
 
@@ -183,7 +187,7 @@ Here are some use cases in which you can utilize Commands:
   Different parts of your game can raise this command with specific `AnalyticsData` (e.g., level completion, item purchase) without needing to know the specifics of the analytics SDK implementation.
 
 - **Debugging and Testing Specific Functionalities from the Editor:**
-  As shown in the "Editor Integration" section, any `Command` can be executed directly from the Inspector during Play Mode.
+  As shown in the "Editor Integration" section, any `Command` can be executed directly from the Inspector.
   This is invaluable for testing isolated pieces of logic without needing to play through entire game sequences.
 
 By using Commands, you create a clear separation of concerns.
