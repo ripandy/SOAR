@@ -50,6 +50,7 @@ nav:
     - Game Event: features/game-event.md
     - Variable: features/variable.md
     - Collection: features/collection.md
+    - Transaction: features/transaction.md
 
   
 # Optional: Add extensions for better rendering

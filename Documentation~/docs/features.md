@@ -31,7 +31,7 @@ It provides value-changed event for each item, along with additional events trig
 `Collection` implements common interfaces like `ICollection`, `IList`, and `IDictionary` to ensure compatibility with LINQ.
 
 
-### [Transaction](../3-soar-core/transaction.md)
+### [Transaction](features/transaction.md)
 
 A Transaction is a two-way event involving requests and responses.
 When a request is sent, a registered response event processes it and returns a result to the requester.
