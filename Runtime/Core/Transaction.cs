@@ -109,12 +109,12 @@ namespace Soar.Transactions
         
         internal override void RaiseRequest()
         {
-            RaiseRequest(default);
+            RaiseRequest(requestValue);
         }
 
         internal override void RaiseResponse()
         {
-            RaiseResponse(default);
+            RaiseResponse(responseValue);
         }
         
         private void ResetInternal()
