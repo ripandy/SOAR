@@ -21,10 +21,11 @@ namespace Soar.Events
             
             GUILayout.Space(SpaceHeight);
 
-            if (!GUILayout.Button("Raise")) return;
+            const string raiseLabel = "Raise";
+            if (!GUILayout.Button(raiseLabel)) return;
             
             gameEvent.Raise();
-            Debug.Log($"{gameEvent.name} event raised{(Application.isPlaying ? "." : " in Edit Mode. Note that some event listeners may not be invoked in editor mode.")}");
+            Debug.Log($"[{gameEvent.GetType().Name}:{gameEvent.name}] event raised{(Application.isPlaying ? "." : " in Edit Mode. Note that some event listeners may not be invoked in editor mode.")}");
             
             if (Application.isPlaying) return;
             

@@ -16,8 +16,8 @@ namespace Soar.Transactions
 
         internal virtual RequestQueueHandler RequestQueueHandler { get; } = new();
         
-        private bool HasRegisteredResponse => registeredResponse != null && requestSubscription != null;
-        internal bool IsReadyForTransaction => HasRegisteredResponse && RequestQueueHandler.HasAnyRequest;
+        public bool IsResponseRegistered => registeredResponse != null && requestSubscription != null;
+        internal bool IsReadyForTransaction => IsResponseRegistered && RequestQueueHandler.HasAnyRequest;
         
         public void Request(Action onResponse)
         {
@@ -40,7 +40,7 @@ namespace Soar.Transactions
         protected void RespondAllInternal()
         {
             // No response registered, could not respond.
-            if (!HasRegisteredResponse)
+            if (!IsResponseRegistered)
             {
                 Debug.LogWarning("No respond. Will wait for response to be registered for transaction.");
                 return;
@@ -109,12 +109,12 @@ namespace Soar.Transactions
         
         internal override void RaiseRequest()
         {
-            RaiseRequest(default);
+            RaiseRequest(requestValue);
         }
 
         internal override void RaiseResponse()
         {
-            RaiseResponse(default);
+            RaiseResponse(responseValue);
         }
         
         private void ResetInternal()
