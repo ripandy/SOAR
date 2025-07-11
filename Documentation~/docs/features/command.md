@@ -46,9 +46,6 @@ It automatically links the provided `CancellationToken` with `Application.exitCa
 By default, `ExecuteAsync()` simply calls the synchronous `Execute()` method and returns a completed `ValueTask`.
 To implement true asynchronous behavior, override `ExecuteAsync()` in derived classes.
 
-!!! note "Requires R3"
-    Asynchronous execution with `ExecuteAsync()` is only available if the R3 library is installed.
-
 ```csharp
 // Example of an async Command
 // File: MyAsyncCommand.cs
