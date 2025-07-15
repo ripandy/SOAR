@@ -51,6 +51,7 @@ nav:
     - Variable: features/variable.md
     - Collection: features/collection.md
     - Transaction: features/transaction.md
+    - Base Classes: features/base-class.md
 
   
 # Optional: Add extensions for better rendering

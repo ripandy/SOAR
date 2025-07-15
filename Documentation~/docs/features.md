@@ -39,12 +39,12 @@ Only one response handler can be registered at a time.
 This is useful when an operation needs to wait for an event to complete.
 
 
-### [Base Classes](../4-fundamentals/base-classes.md)
+### [Base Classes](features/base-class.md)
 
 SOAR provides default base classes that are immediately usable.
-You can access them from the `Create > SOAR` context menu or the `Assets > Create > SOAR` menu bar item.
+They can be accessed from the `Create > SOAR` context menu or the `Assets > Create > SOAR` menu bar item.
 Note that Base Classes use a different assembly definition file `(.asmdef)`.
-If you manage your own `.asmdef` references, you may need to add a reference to `Soar.Base` in your project.
+If `.asmdef` references are managed manually, a reference to `Soar.Base` may need to be added.
 
 
 ### [Unity Event Binder](../3-soar-core/gameevent.md#unity-event-binder)
