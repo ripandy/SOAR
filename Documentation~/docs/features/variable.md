@@ -31,14 +31,14 @@ The generic `Variable<T>` class is the base for all variable types. It holds a v
 
 - **Auto Reset Value**: The `autoResetValue` boolean field (configurable in the Inspector) determines if the `Variable<T>` should automatically call `ResetValue()` when play mode ends. This is useful for ensuring variables return to a known state after testing.
 
-!!! Note
+!!! Note "Serialization and Deep Copy"
     Due to how Unity serializes class types, `autoResetValue` is more reliable with struct and primitive types. For complex class types, deep copying for `InitialValue` relies on JSON serialization internally, which can cause unnecessary overhead and might not cover all engine types like `Transform` or `GameObject`.
 
 ### Creating a Variable
 
 SOAR provides several pre-defined `Variable` types for common Unity and C# types (e.g., `IntVariable`, `FloatVariable`, `StringVariable`, `Vector3Variable`). These can be created from the `Assets > Create > SOAR > Variables` menu.
 
-!!! Note
+!!! Note "Assembly Definition Reference"
     These common types are defined within `Soar.Base.asmdef` assembly definition files, which different from SOAR's core classes `Soar.asmdef` assembly definition files. Make sure `Soar.Base.asmdef` reference was added to the asmdef that requires it.
 
 To create a variable for a custom data type:
