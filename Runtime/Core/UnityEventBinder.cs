@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 namespace Soar.Events
 {
+    [ExecuteAlways]
     public class UnityEventBinder : MonoBehaviour
     {
         [SerializeField] protected GameEvent gameEventToListen;
@@ -26,6 +27,7 @@ namespace Soar.Events
         }
     }
 
+    [ExecuteAlways]
     public abstract class UnityEventBinder<T> : UnityEventBinder
     {
         [SerializeField] protected TypedUnityEvent onTypedGameEventRaised;
