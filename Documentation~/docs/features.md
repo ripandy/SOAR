@@ -47,7 +47,7 @@ Note that Base Classes use a different assembly definition file `(.asmdef)`.
 If `.asmdef` references are managed manually, a reference to `Soar.Base` may need to be added.
 
 
-### [Unity Event Binder](../3-soar-core/gameevent.md#unity-event-binder)
+### [Unity Event Binder](features/unity-event-binder.md)
 
 A Unity Component that forwards events raised by a `GameEvent` into `UnityEvent`.
 This is also known as an `EventListener` in Scriptable Object Architecture terminology.
