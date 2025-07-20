@@ -53,7 +53,7 @@ A Unity Component that forwards events raised by a `GameEvent` into `UnityEvent`
 This is also known as an `EventListener` in Scriptable Object Architecture terminology.
 
 
-### [Json Extension](../5-utilities/json-extension.md)
+### [Jsonable Extension](features/jsonable-extension.md)
 
 An Editor tool to convert SOAR Variable's data into a JSON string or a local JSON file.
 You can access this functionality from a SOAR Variable's Inspector window.

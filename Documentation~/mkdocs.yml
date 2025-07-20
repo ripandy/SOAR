@@ -53,6 +53,7 @@ nav:
     - Transaction: features/transaction.md
     - Base Classes: features/base-class.md
     - Unity Event Binder: features/unity-event-binder.md
+    - Jsonable Extension: features/jsonable-extension.md
 
   
 # Optional: Add extensions for better rendering
