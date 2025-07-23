@@ -54,6 +54,8 @@ nav:
     - Base Classes: features/base-class.md
     - Unity Event Binder: features/unity-event-binder.md
     - Jsonable Extension: features/jsonable-extension.md
+  - R3 Integration:
+    - Overview: r3-integration/r3-overview.md
 
   
 # Optional: Add extensions for better rendering
