@@ -57,6 +57,7 @@ nav:
   - R3 Integration:
     - Overview: r3-integration/r3-overview.md
     - Core Concepts: r3-integration/r3-core-concepts.md
+    - GameEvent and Variable: r3-integration/r3-gameevent-and-variable.md
 
   
 # Optional: Add extensions for better rendering
