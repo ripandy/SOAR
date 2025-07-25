@@ -59,6 +59,7 @@ nav:
     - Core Concepts: r3-integration/r3-core-concepts.md
     - GameEvent and Variable: r3-integration/r3-gameevent-and-variable.md
     - Collection: r3-integration/r3-collection.md
+    - Transaction: r3-integration/r3-transaction.md
 
   
 # Optional: Add extensions for better rendering
