@@ -153,9 +153,22 @@ namespace Soar.Transactions
 
                 var funcType = typeof(Func<,>).MakeGenericType(requestType, responseType);
                 var param = Expression.Parameter(requestType);
+                Expression body;
+                
+                // Check if the request type can be safely assigned to the response type.
+                if (responseType.IsAssignableFrom(requestType))
+                {
+                    // If types are compatible (e.g., int -> int, string -> object), use a direct cast.
+                    body = Expression.Convert(param, responseType);
+                }
+                else
+                {
+                    // If types are incompatible (e.g., int -> string), return the default value
+                    // for the response type (e.g., null, 0) to avoid a casting error.
+                    Debug.LogWarning($"Request type '{requestType.Name}' is not assignable to response type '{responseType.Name}'. Temporary handler will return the default value.");
+                    body = Expression.Default(responseType);
+                }
 
-                // Create a lambda like: (request) => (TResponse)request;
-                var body = Expression.Convert(param, responseType);
                 var tempHandler = Expression.Lambda(funcType, body, param).Compile();
 
                 // Find and invoke RegisterResponse(Func<TRequest, TResponse> func)
