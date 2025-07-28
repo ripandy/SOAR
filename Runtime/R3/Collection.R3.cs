@@ -11,47 +11,102 @@ namespace Soar.Collections
 {
     public abstract partial class Collection<T>
     {
-        internal readonly Subject<T> onAddSubject = new();
-        internal readonly Subject<T> onRemoveSubject = new();
-        private readonly Subject<object> onClearSubject = new();
-        private readonly Subject<int> countSubject = new();
-        private readonly Subject<IndexValuePair<T>> valueSubject = new();
+        private Subject<T> onAddSubject;
+        internal Subject<T> OnAddSubject
+        {
+            get
+            {
+                if (onAddSubject == null || onAddSubject.IsDisposed)
+                {
+                    onAddSubject = new Subject<T>();
+                }
+                return onAddSubject;
+            }
+        }
+        private Subject<T> onRemoveSubject;
+        internal Subject<T> OnRemoveSubject
+        {
+            get
+            {
+                if (onRemoveSubject == null || onRemoveSubject.IsDisposed)
+                {
+                    onRemoveSubject = new Subject<T>();
+                }
+                return onRemoveSubject;
+            }
+        }
+        private Subject<object> onClearSubject;
+        private Subject<object> OnClearSubject
+        {
+            get
+            {
+                if (onClearSubject == null || onClearSubject.IsDisposed)
+                {
+                    onClearSubject = new Subject<object>();
+                }
+                return onClearSubject;
+            }
+        }
+        private Subject<int> countSubject;
+        private Subject<int> CountSubject
+        {
+            get
+            {
+                if (countSubject == null || countSubject.IsDisposed)
+                {
+                    countSubject = new Subject<int>();
+                }
+                return countSubject;
+            }
+        }
+        private Subject<IndexValuePair<T>> valueSubject;
+        private Subject<IndexValuePair<T>> ValueSubject
+        {
+            get
+            {
+                if (valueSubject == null || valueSubject.IsDisposed)
+                {
+                    valueSubject = new Subject<IndexValuePair<T>>();
+                }
+                return valueSubject;
+            }
+        }
 
-        public Observable<T> ObserveAdd() => onAddSubject;
-        public Observable<T> ObserveRemove() => onRemoveSubject;
-        public Observable<Unit> ObserveClear() => onClearSubject.AsUnitObservable();
-        public Observable<int> ObserveCount() => countSubject;
-        public Observable<IndexValuePair<T>> ObserveValues() => valueSubject;
-        public Observable<T> ObserveValues(int index) => valueSubject.Where(pair => pair.Index == index).Select(pair => pair.Value);
+        public Observable<T> ObserveAdd() => OnAddSubject;
+        public Observable<T> ObserveRemove() => OnRemoveSubject;
+        public Observable<Unit> ObserveClear() => OnClearSubject.AsUnitObservable();
+        public Observable<int> ObserveCount() => CountSubject;
+        public Observable<IndexValuePair<T>> ObserveValues() => ValueSubject;
+        public Observable<T> ObserveValues(int index) => ValueSubject.Where(pair => pair.Index == index).Select(pair => pair.Value);
 
         public async ValueTask<T> OnAddAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await onAddSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            return await OnAddSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
         public async ValueTask<T> OnRemoveAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await onRemoveSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            return await OnRemoveSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
         public async ValueTask OnClearAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            await onClearSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            await OnClearSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
         public async ValueTask<int> CountAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await countSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            return await CountSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
         public async ValueTask<IndexValuePair<T>> ValuesAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await valueSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            return await ValueSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
         public async ValueTask<T> ValuesAsync(int index, CancellationToken cancellationToken = default)
@@ -62,142 +117,175 @@ namespace Soar.Collections
 
         internal partial void RaiseOnAdd(T addedValue)
         {
-            onAddSubject.OnNext(addedValue);
+            OnAddSubject.OnNext(addedValue);
         }
 
         internal partial void RaiseOnRemove(T removedValue)
         {
-            onRemoveSubject.OnNext(removedValue);
+            OnRemoveSubject.OnNext(removedValue);
         }
 
         internal partial void RaiseCount()
         {
-            countSubject.OnNext(Count);
+            CountSubject.OnNext(Count);
         }
 
         internal partial void RaiseValueAt(int index, T value)
         {
             if (valueEventType == ValueEventType.OnChange && list[index].Equals(value)) return;
-            valueSubject.OnNext(new IndexValuePair<T>(index, value));
+            ValueSubject.OnNext(new IndexValuePair<T>(index, value));
         }
 
         private partial void RaiseOnClear()
         {
-            onClearSubject.OnNext(this);
+            OnClearSubject.OnNext(this);
         }
         
         public partial IDisposable SubscribeOnAdd(Action<T> action)
         {
-            return onAddSubject.Subscribe(action);
+            return OnAddSubject.Subscribe(action);
         }
 
         public partial IDisposable SubscribeOnRemove(Action<T> action)
         {
-            return onRemoveSubject.Subscribe(action);
+            return OnRemoveSubject.Subscribe(action);
         }
 
         public partial IDisposable SubscribeOnClear(Action action)
         {
-            return onClearSubject.Subscribe(_ => action.Invoke());
+            return OnClearSubject.Subscribe(_ => action.Invoke());
         }
         
         public partial IDisposable SubscribeToCount(Action<int> action)
         {
-            return countSubject.Subscribe(action);
+            return CountSubject.Subscribe(action);
         }
 
         public partial IDisposable SubscribeToValues(Action<int, T> action)
         {
-            return valueSubject.Subscribe(pair => action.Invoke(pair.Index, pair.Value));
+            return ValueSubject.Subscribe(pair => action.Invoke(pair.Index, pair.Value));
         }
 
         public partial IDisposable SubscribeToValues(Action<IndexValuePair<T>> action)
         {
-            return valueSubject.Subscribe(action);
+            return ValueSubject.Subscribe(action);
         }
 
         public override void Dispose()
         {
-            onAddSubject.Dispose();
-            onRemoveSubject.Dispose();
-            onClearSubject.Dispose();
-            countSubject.Dispose();
-            valueSubject.Dispose();
+            onAddSubject?.Dispose();
+            onRemoveSubject?.Dispose();
+            onClearSubject?.Dispose();
+            countSubject?.Dispose();
+            valueSubject?.Dispose();
         }
     }
     
     // List
     public abstract partial class SoarList<T>
     {
-        private readonly Subject<MovedValueDto<T>> moveSubject = new();
-        private readonly Subject<IndexValuePair<T>> insertSubject = new();
+        private Subject<MovedValueDto<T>> moveSubject;
+        private Subject<MovedValueDto<T>> MoveSubject
+        {
+            get
+            {
+                if (moveSubject == null || moveSubject.IsDisposed)
+                {
+                    moveSubject = new Subject<MovedValueDto<T>>();
+                }
+                return moveSubject;
+            }
+        }
+        private Subject<IndexValuePair<T>> insertSubject;
+        private Subject<IndexValuePair<T>> InsertSubject
+        {
+            get
+            {
+                if (insertSubject == null || insertSubject.IsDisposed)
+                {
+                    insertSubject = new Subject<IndexValuePair<T>>();
+                }
+                return insertSubject;
+            }
+        }
 
-        public Observable<MovedValueDto<T>> ObserveMove() => moveSubject;
-        public Observable<IndexValuePair<T>> ObserveInsert() => insertSubject;
+        public Observable<MovedValueDto<T>> ObserveMove() => MoveSubject;
+        public Observable<IndexValuePair<T>> ObserveInsert() => InsertSubject;
         
         public async ValueTask<MovedValueDto<T>> OnMoveAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await moveSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            return await MoveSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
         public async ValueTask<IndexValuePair<T>> OnInsertAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await insertSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            return await InsertSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
         private partial void RaiseOnMove(T value, int oldIndex, int newIndex)
         {
-            moveSubject.OnNext(new MovedValueDto<T>(value, oldIndex, newIndex));
+            MoveSubject.OnNext(new MovedValueDto<T>(value, oldIndex, newIndex));
         }
         
         private partial void RaiseOnInsert(int index, T value)
         {
-            insertSubject.OnNext(new IndexValuePair<T>(index, value));
+            InsertSubject.OnNext(new IndexValuePair<T>(index, value));
         }
         
         public partial IDisposable SubscribeOnMove(Action<T, int, int> action)
         {
-            return moveSubject.Subscribe(dto => action.Invoke(dto.Value, dto.OldIndex, dto.NewIndex));
+            return MoveSubject.Subscribe(dto => action.Invoke(dto.Value, dto.OldIndex, dto.NewIndex));
         }
         
         public partial IDisposable SubscribeOnMove(Action<MovedValueDto<T>> action)
         {
-            return moveSubject.Subscribe(action);
+            return MoveSubject.Subscribe(action);
         }
         
         public partial IDisposable SubscribeOnInsert(Action<int, T> action)
         {
-            return insertSubject.Subscribe(pair => action.Invoke(pair.Index, pair.Value));
+            return InsertSubject.Subscribe(pair => action.Invoke(pair.Index, pair.Value));
         }
         
         public partial IDisposable SubscribeOnInsert(Action<IndexValuePair<T>> action)
         {
-            return insertSubject.Subscribe(action);
+            return InsertSubject.Subscribe(action);
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            moveSubject.Dispose();
-            insertSubject.Dispose();
+            moveSubject?.Dispose();
+            insertSubject?.Dispose();
         }
     }
     
     // Dictionary
     public abstract partial class SoarDictionary<TKey, TValue>
     {
-        private readonly Subject<KeyValuePair<TKey, TValue>> valueSubject = new();
+        private Subject<KeyValuePair<TKey, TValue>> valueSubject;
+        private Subject<KeyValuePair<TKey, TValue>> ValueSubject
+        {
+            get
+            {
+                if (valueSubject == null || valueSubject.IsDisposed)
+                {
+                    valueSubject = new Subject<KeyValuePair<TKey, TValue>>();
+                }
+                return valueSubject;
+            }
+        }
         
-        public new Observable<KeyValuePair<TKey, TValue>> ObserveValues() => valueSubject;
+        public new Observable<KeyValuePair<TKey, TValue>> ObserveValues() => ValueSubject;
 
-        public Observable<TValue> ObserveValues(TKey key) => valueSubject.Where(pair => pair.Key.Equals(key)).Select(pair => pair.Value);
+        public Observable<TValue> ObserveValues(TKey key) => ValueSubject.Where(pair => pair.Key.Equals(key)).Select(pair => pair.Value);
              
         public new async ValueTask<KeyValuePair<TKey, TValue>> ValuesAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await valueSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            return await ValueSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
              
         public async ValueTask<TValue> ValuesAsync(TKey key, CancellationToken cancellationToken = default)
@@ -208,22 +296,22 @@ namespace Soar.Collections
         
         public partial IDisposable SubscribeOnAdd(Action<TKey, TValue> action)
         {
-            return onAddSubject.Subscribe(pair => action.Invoke(pair.Key, pair.Value));
+            return OnAddSubject.Subscribe(pair => action.Invoke(pair.Key, pair.Value));
         }
         
         public partial IDisposable SubscribeOnRemove(Action<TKey, TValue> action)
         {
-            return onRemoveSubject.Subscribe(pair => action.Invoke(pair.Key, pair.Value));
+            return OnRemoveSubject.Subscribe(pair => action.Invoke(pair.Key, pair.Value));
         }
     
         public partial IDisposable SubscribeToValues(Action<TKey, TValue> action)
         {
-            return valueSubject.Subscribe(pair => action.Invoke(pair.Key, pair.Value));
+            return ValueSubject.Subscribe(pair => action.Invoke(pair.Key, pair.Value));
         }
 
         public partial IDisposable SubscribeToValues(Action<KeyValuePair<TKey, TValue>> action)
         {
-            return valueSubject.Subscribe(action);
+            return ValueSubject.Subscribe(action);
         }
         
         public IDisposable SubscribeToValues(TKey key, Action<TValue> action)
@@ -235,7 +323,7 @@ namespace Soar.Collections
         {
             if (valueEventType == ValueEventType.OnChange && IsValueEqual()) return;
             
-            valueSubject.OnNext(new KeyValuePair<TKey, TValue>(key, value));
+            ValueSubject.OnNext(new KeyValuePair<TKey, TValue>(key, value));
 
             bool IsValueEqual()
             {
@@ -245,10 +333,11 @@ namespace Soar.Collections
 
         public override void Dispose()
         {
-            valueSubject.Dispose();
+            valueSubject?.Dispose();
             base.Dispose();
         }
     }
 }
 
 #endif
+
