@@ -12,15 +12,24 @@ namespace Soar
         private void OnPlayModeStateChanged(PlayModeStateChange playModeState)
         {
             // Only handle special case when user decides to disable domain reload.
-            if (!IsDomainReloadDisabled) return;
-
-            if (playModeState == PlayModeStateChange.ExitingEditMode)
+            if (IsDomainReloadDisabled)
             {
-                Initialize(); // need to call Initialize due to override calls.
+                if (playModeState == PlayModeStateChange.ExitingEditMode)
+                {
+                    Initialize(); // need to call Initialize due to override calls.
+                }
+                else if (playModeState == PlayModeStateChange.ExitingPlayMode)
+                {
+                    OnQuit(); // need to call OnQuit due to override calls.
+                }
             }
-            else if (playModeState == PlayModeStateChange.ExitingPlayMode)
+            else
             {
-                OnQuit(); // need to call OnQuit due to override calls.
+                if (playModeState == PlayModeStateChange.EnteredEditMode)
+                {
+                    // Re-initialize to restore state after Dispose() was automatically called on play mode exit.
+                    Initialize();
+                }
             }
         }
         

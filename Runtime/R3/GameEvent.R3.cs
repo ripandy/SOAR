@@ -11,46 +11,67 @@ namespace Soar.Events
 {
     public partial class GameEvent
     {
-        private readonly Subject<object> subject = new();
+        private Subject<object> subject;
+        private Subject<object> Subject
+        {
+            get
+            {
+                if (subject == null || subject.IsDisposed)
+                {
+                    subject = new Subject<object>();
+                }
+                return subject;
+            }
+        }
         
         // MEMO: SOAR uses `object` on parameterless GameEvent to avoid dependency on R3, whilst R3 use `Unit` on "parameterless" Subject.
         // This measures implicit internal change when R3 is removed, which would cause error trying to find `Unit`.
         // `AsObservable` on parameterless `GameEvent` returns `Observable<Unit>` due to explicit calls.
         public Observable<Unit> AsObservable()
         {
-            return subject.AsUnitObservable();
+            return Subject.AsUnitObservable();
         }
         
         public virtual partial void Raise()
         {
-            if (subject.IsDisposed) return;
-            subject.OnNext(this);
+            Subject.OnNext(this);
         }
 
         public partial IDisposable Subscribe(Action action)
         {
-            return subject.Subscribe(_ => action.Invoke());
+            return Subject.Subscribe(_ => action.Invoke());
         }
 
         public async ValueTask EventAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            await subject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            await Subject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
 
         public override void Dispose()
         {
-            subject.Dispose();
+            subject?.Dispose();
         }
     }
 
     public abstract partial class GameEvent<T>
     {
-        protected readonly Subject<T> valueSubject = new();
+        private Subject<T> valueSubject;
+        protected Subject<T> ValueSubject
+        {
+            get
+            {
+                if (valueSubject == null || valueSubject.IsDisposed)
+                {
+                    valueSubject = new Subject<T>();
+                }
+                return valueSubject;
+            }
+        }
         
         public new Observable<T> AsObservable()
         {
-            return valueSubject;
+            return ValueSubject;
         }
 
         public Observable<Unit> AsUnitObservable()
@@ -60,37 +81,36 @@ namespace Soar.Events
 
         public IObservable<T> AsSystemObservable()
         {
-            return valueSubject.AsSystemObservable();
+            return ValueSubject.AsSystemObservable();
         }
 
         public IAsyncEnumerable<T> ToAsyncEnumerable(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return valueSubject.ToAsyncEnumerable(linkedTokenSource.Token);
+            return ValueSubject.ToAsyncEnumerable(linkedTokenSource.Token);
         }
 
         public virtual partial void Raise(T valueToRaise)
         {
-            if (valueSubject.IsDisposed) return;
             value = valueToRaise;
             base.Raise();
-            valueSubject.OnNext(valueToRaise);
+            ValueSubject.OnNext(valueToRaise);
         }
 
         public partial IDisposable Subscribe(Action<T> action)
         {
-            return valueSubject.Subscribe(action);
+            return ValueSubject.Subscribe(action);
         }
 
         public new async ValueTask<T> EventAsync(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await valueSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            return await ValueSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
         
         public override void Dispose()
         {
-            valueSubject.Dispose();
+            valueSubject?.Dispose();
             base.Dispose();
         }
     }

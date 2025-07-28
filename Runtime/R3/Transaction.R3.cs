@@ -11,17 +11,39 @@ namespace Soar.Transactions
 {
     public partial class Transaction
     {
-        private readonly Subject<object> requestSubject = new();
-        private readonly Subject<object> responseSubject = new();
+        private Subject<object> requestSubject;
+        private Subject<object> RequestSubject
+        {
+            get
+            {
+                if (requestSubject == null || requestSubject.IsDisposed)
+                {
+                    requestSubject = new Subject<object>();
+                }
+                return requestSubject;
+            }
+        }
+        private Subject<object> responseSubject;
+        private Subject<object> ResponseSubject
+        {
+            get
+            {
+                if (responseSubject == null || responseSubject.IsDisposed)
+                {
+                    responseSubject = new Subject<object>();
+                }
+                return responseSubject;
+            }
+        }
 
         public Observable<Unit> AsRequestObservable()
         {
-            return requestSubject.AsUnitObservable();
+            return RequestSubject.AsUnitObservable();
         }
 
         public Observable<Unit> AsResponseObservable()
         {
-            return responseSubject.AsUnitObservable();
+            return ResponseSubject.AsUnitObservable();
         }
         
         public IAsyncEnumerable<Unit> ToRequestAsyncEnumerable(CancellationToken cancellationToken = default)
@@ -83,7 +105,7 @@ namespace Soar.Transactions
                 awaitOperation = AwaitOperation.Parallel;
             }
 
-            requestSubscription = requestSubject
+            requestSubscription = RequestSubject
                 .Where(_ => IsReadyForTransaction)
                 .SubscribeAwait(TryRespond, awaitOperation);
             RespondAllInternal();
@@ -117,28 +139,28 @@ namespace Soar.Transactions
 
         internal virtual partial void RaiseRequest()
         {
-            requestSubject.OnNext(this);
+            RequestSubject.OnNext(this);
         }
 
         internal virtual partial void RaiseResponse()
         {
-            responseSubject.OnNext(this);
+            ResponseSubject.OnNext(this);
         }
 
         public partial IDisposable SubscribeToRequest(Action onRequest)
         {
-            return requestSubject.Subscribe(_ => onRequest.Invoke());
+            return RequestSubject.Subscribe(_ => onRequest.Invoke());
         }
 
         public partial IDisposable SubscribeToResponse(Action onResponse)
         {
-            return responseSubject.Subscribe(_ => onResponse.Invoke());
+            return ResponseSubject.Subscribe(_ => onResponse.Invoke());
         }
 
         public override partial void Dispose()
         {
-            requestSubject.Dispose();
-            responseSubject.Dispose();
+            requestSubject?.Dispose();
+            responseSubject?.Dispose();
             ClearRequests();
             UnregisterResponse();
         }
@@ -146,8 +168,30 @@ namespace Soar.Transactions
 
     public abstract partial class Transaction<TRequest, TResponse>
     {
-        private readonly Subject<TRequest> requestSubject = new();
-        private readonly Subject<TResponse> responseSubject = new();
+        private Subject<TRequest> requestSubject;
+        private Subject<TRequest> ValueRequestSubject
+        {
+            get
+            {
+                if (requestSubject == null || requestSubject.IsDisposed)
+                {
+                    requestSubject = new Subject<TRequest>();
+                }
+                return requestSubject;
+            }
+        }
+        private Subject<TResponse> responseSubject;
+        private Subject<TResponse> ValueResponseSubject
+        {
+            get
+            {
+                if (responseSubject == null || responseSubject.IsDisposed)
+                {
+                    responseSubject = new Subject<TResponse>();
+                }
+                return responseSubject;
+            }
+        }
 
         public Observable<Unit> AsRequestUnitObservable()
         {
@@ -161,24 +205,24 @@ namespace Soar.Transactions
 
         public new Observable<TRequest> AsRequestObservable()
         {
-            return requestSubject;
+            return ValueRequestSubject;
         }
 
         public new Observable<TResponse> AsResponseObservable()
         {
-            return responseSubject;
+            return ValueResponseSubject;
         }
 
         public new IAsyncEnumerable<TRequest> ToRequestAsyncEnumerable(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return requestSubject.ToAsyncEnumerable(linkedTokenSource.Token);
+            return ValueRequestSubject.ToAsyncEnumerable(linkedTokenSource.Token);
         }
 
         public new IAsyncEnumerable<TRequest> ToResponseAsyncEnumerable(CancellationToken cancellationToken = default)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return requestSubject.ToAsyncEnumerable(linkedTokenSource.Token);
+            return ValueRequestSubject.ToAsyncEnumerable(linkedTokenSource.Token);
         }
 
         public partial async ValueTask<TResponse> RequestAsync(TRequest request)
@@ -278,46 +322,47 @@ namespace Soar.Transactions
         private partial void RaiseRequest(TRequest raisedRequestValue)
         {
             requestValue = raisedRequestValue;
-            requestSubject.OnNext(raisedRequestValue);
+            ValueRequestSubject.OnNext(raisedRequestValue);
             base.RaiseRequest();
         }
 
         private partial void RaiseResponse(TResponse raisedResponseValue)
         {
             responseValue = raisedResponseValue;
-            responseSubject.OnNext(raisedResponseValue);
+            ValueResponseSubject.OnNext(raisedResponseValue);
             base.RaiseResponse();
         }
         
         public async ValueTask<TRequest> WaitForRequestAsync(CancellationToken cancellationToken)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await requestSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            return await ValueRequestSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
 
         public async ValueTask<TResponse> WaitForResponseAsync(CancellationToken cancellationToken)
         {
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, Application.exitCancellationToken);
-            return await responseSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
+            return await ValueResponseSubject.FirstOrDefaultAsync(cancellationToken: linkedTokenSource.Token);
         }
 
-        public partial IDisposable SubscribeToRequest(Action<TRequest> action)
+        public partial IDisposable SubscribeToRequest(Action<TRequest> onRequest)
         {
-            return requestSubject.Subscribe(action.Invoke);
+            return ValueRequestSubject.Subscribe(onRequest.Invoke);
         }
 
-        public partial IDisposable SubscribeToResponse(Action<TResponse> action)
+        public partial IDisposable SubscribeToResponse(Action<TResponse> onResponse)
         {
-            return responseSubject.Subscribe(action.Invoke);
+            return ValueResponseSubject.Subscribe(onResponse.Invoke);
         }
 
         public override void Dispose()
         {
-            requestSubject.Dispose();
-            responseSubject.Dispose();
+            requestSubject?.Dispose();
+            responseSubject?.Dispose();
             base.Dispose();
         }
     }
 }
 
 #endif
+

@@ -7,32 +7,42 @@ namespace Soar.Variables
 {
     public abstract partial class Variable<T>
     {
-        private readonly Subject<PairwiseValue<T>> pairwiseValueSubject = new();
+        private Subject<PairwiseValue<T>> pairwiseValueSubject;
+        private Subject<PairwiseValue<T>> PairwiseValueSubject
+        {
+            get
+            {
+                if (pairwiseValueSubject == null || pairwiseValueSubject.IsDisposed)
+                {
+                    pairwiseValueSubject = new Subject<PairwiseValue<T>>();
+                }
+                return pairwiseValueSubject;
+            }
+        }
         private T oldValue;
         
         public override partial void Raise(T valueToRaise)
         {
-            if (pairwiseValueSubject.IsDisposed) return;
             oldValue = value;
             if (valueEventType == ValueEventType.OnChange && IsValueEquals(valueToRaise)) return;
             base.Raise(valueToRaise);
-            pairwiseValueSubject.OnNext(new PairwiseValue<T>(oldValue, valueToRaise));
+            PairwiseValueSubject.OnNext(new PairwiseValue<T>(oldValue, valueToRaise));
         }
         
         public partial IDisposable Subscribe(Action<T, T> action)
         {
-            return valueSubject.Subscribe(newValue => action.Invoke(oldValue, newValue));
+            return ValueSubject.Subscribe(newValue => action.Invoke(oldValue, newValue));
         }
         
         // MEMO: R3 has its own Pairwise Observable Extension i.e. `AsObservable().Pairwise()`
         public partial IDisposable Subscribe(Action<PairwiseValue<T>> action)
         {
-            return pairwiseValueSubject.Subscribe(action.Invoke);
+            return PairwiseValueSubject.Subscribe(action.Invoke);
         }
         
         public override void Dispose()
         {
-            pairwiseValueSubject.Dispose();
+            pairwiseValueSubject?.Dispose();
             base.Dispose();
         }
     }

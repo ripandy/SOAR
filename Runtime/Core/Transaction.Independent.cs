@@ -109,14 +109,18 @@ namespace Soar.Transactions
         public override partial void Dispose()
         {
             RequestQueueHandler.Dispose();
-            foreach (var subscription in requestSubscriptions)
+            
+            // NOTE: Some disposables such as Subscription class removes themselves from the list when disposed.
+            //       Iterate backwards to avoid skipping elements.
+            for (var i = requestSubscriptions.Count - 1; i >= 0; i--)
             {
-                subscription.Dispose();
+                requestSubscriptions[i]?.Dispose();
             }
-            foreach (var subscription in responseSubscriptions)
+            for (var i = responseSubscriptions.Count - 1; i >= 0; i--)
             {
-                subscription.Dispose();
+                responseSubscriptions[i]?.Dispose();
             }
+
             requestSubscriptions.Clear();
             responseSubscriptions.Clear();
             UnregisterResponse();
