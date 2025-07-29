@@ -44,6 +44,8 @@ nav:
   - Getting Started:
     - Quick Start: getting-started/quick-start.md
     - Installation: getting-started/installation.md
+  - Guides:
+    - Architectural Concepts: guides/architecture.md
   - API Reference:
     - Command: features/command.md
     - Game Event: features/game-event.md
