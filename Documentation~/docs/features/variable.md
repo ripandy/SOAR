@@ -1,6 +1,8 @@
 # Variable
 
-The `Variable<T>` class in SOAR represents a data container stored in a `ScriptableObject`. It extends the `GameEvent<T>` system, meaning that whenever the `Value` of a `Variable<T>` changes, it also raises an event, notifying all subscribers of the new value. This makes `Variable<T>` a powerful tool for creating reactive data that can be easily shared and observed throughout application.
+The `Variable<T>` class in SOAR represents a data container stored in a `ScriptableObject`.
+It extends the `GameEvent<T>` system, meaning that whenever the `Value` of a `Variable<T>` changes, it also raises an event, notifying all subscribers of the new value.
+This makes `Variable<T>` a powerful tool for creating reactive data that can be easily shared and observed throughout application.
 
 `Variable<T>` inherits from `GameEvent<T>` with Raise and Subscribe event features, and thus from `SoarCore`, gaining lifecycle management features.
 

@@ -1,8 +1,7 @@
 # Unity Event Binder
 
-The `UnityEventBinder` is a crucial component in SOAR that bridges the gap between `GameEvent`s and Unity's built-in `UnityEvent` system. It acts as a listener for `GameEvent` assets and, in response, invokes a `UnityEvent`, allowing game logic and behaviors to be wired up directly in the Unity Inspector without writing any code. This is particularly useful for designers and for rapid prototyping.
-
-In the context of Scriptable Object Architecture, this component is often referred to as an "Event Listener."
+The `UnityEventBinder` is a crucial `MonoBehaviour` component that bridges the gap between SOAR's `GameEvent`s and Unity's built-in `UnityEvent` system.
+Often called an "Event Listener," it listens for a `GameEvent` asset and, in response, invokes a `UnityEvent`, allowing for game logic to be wired up directly in the Inspector without code.
 
 ## Core Concept
 

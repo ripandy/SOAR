@@ -1,12 +1,8 @@
 # Collection
 
-The Collection feature in SOAR provides reactive `ScriptableObject`-based collections, such as `SoarList<T>` and `SoarDictionary<TKey, TValue>`.
-These assets allow for the creation of shared, observable data structures that are easily managed and monitored throughout an application.
-By inheriting from `SoarCore`, they benefit from a managed lifecycle, including automatic value resets and subscription handling.
-
-SOAR’s collection types are designed to mirror .NET’s standard collections (`List<T>`, `Dictionary<TKey, TValue>`).
-This familiar naming and interface design (implementing `IList<T>`, `IDictionary<TKey, TValue>`, etc.) ensures an intuitive experience for developers.
-Furthermore, full compatibility with LINQ allows for complex queries to be performed directly on SOAR collections.
+The `Collection` feature in SOAR provides reactive, `ScriptableObject`-based collections like `SoarList<T>` and `SoarDictionary<TKey, TValue>`.
+These assets allow for the creation of shared, observable data structures that are easily managed and monitored.
+By implementing common interfaces like `IList` and `IDictionary`, they offer a familiar API and are fully compatible with LINQ, while additional events are triggered when items are added, removed, or updated.
 
 ## Core Concepts
 

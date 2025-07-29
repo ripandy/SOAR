@@ -1,11 +1,8 @@
 # Base Classes
 
-SOAR provides a set of pre-defined, concrete classes for its core features, such as `Variable`, `GameEvent`, `Collection`, and `Transaction`.
-These "Base Classes" are ready-to-use `ScriptableObject` assets for common data types like `int`, `float`, `string`, and `Vector3`, as well as Unity-specific types like `GameObject` and `Transform`.
-They allow developers to quickly start using SOAR's features without needing to write boilerplate code for custom types.
-
-These classes are located in the `Soar.Base` assembly, which is separate from the core SOAR framework.
-This separation helps keep the core lightweight while providing optional, convenient implementations.
+SOAR provides a set of pre-defined, concrete "Base Classes" for its core features, such as `Variable`, `GameEvent`, and `Collection`.
+These are ready-to-use `ScriptableObject` assets for common data types (e.g., `int`, `float`, `string`, `Vector3`), allowing developers to use SOAR's features immediately without writing boilerplate code.
+They are located in the separate `Soar.Base` assembly, which may require adding an assembly definition reference.
 
 ## Using Base Classes
 

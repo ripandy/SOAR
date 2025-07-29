@@ -1,10 +1,9 @@
 # Transaction
 
-The `Transaction` feature in SOAR facilitates a request-response communication pattern using `ScriptableObject` assets.
-Transactions enable decoupled communication between systems, supporting both synchronous and asynchronous workflows, and can be extended to handle typed requests and responses.
-Transactions are ideal for operations that require confirmation or a result, such as fetching data from a service or validating a user action.
-
-Inheriting from `SoarCore`, `Transaction` assets benefit from lifecycle management, including automatic cleanup of subscriptions and state resets during domain reloads.
+A `Transaction` is a two-way event that facilitates a request-response communication pattern using `ScriptableObject` assets.
+When a request is sent, a registered response handler processes it and returns a result to the requester.
+This is ideal for operations that require confirmation or a result, such as fetching data from a service or validating a user action.
+Only one response handler can be registered at a time.
 
 ## Core Concepts
 

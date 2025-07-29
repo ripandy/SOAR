@@ -1,8 +1,8 @@
 # GameEvent
 
 `GameEvent` is a core feature in SOAR that implements the publish-subscribe pattern using `ScriptableObject` assets.
-This allows for decoupled communication between different parts of an application.
-An event can be published (raised) by one system and listened to by multiple other systems without them needing direct references to each other.
+An event represents an occurrence within the program execution that requires a specific response.
+This allows for decoupled communication between different parts of an application, where an event can be published (raised) by one system and listened to by multiple other systems without them needing direct references to each other.
 
 ## `GameEvent` (Parameterless)
 

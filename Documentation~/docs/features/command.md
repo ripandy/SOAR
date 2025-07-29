@@ -1,8 +1,8 @@
 # Command
 
-The `Command` class in SOAR provides a way to encapsulate an action or operation as a ScriptableObject.
-This allows defining reusable operations that can be triggered from various parts of an application,
-including editor scripts, UI events, or other game logic, promoting a decoupled architecture.
+An implementation of the [Command pattern](https://gameprogrammingpatterns.com/command.html), the `Command` class in SOAR provides a way to encapsulate an action or operation as a ScriptableObject.
+This allows for defining reusable operations that can be triggered from various parts of an application—including editor scripts, UI events, or other game logic—promoting a decoupled architecture.
+This pattern is useful for one-way executions, such as logging.
 
 `Command` inherits from `SoarCore`, gaining its lifecycle management features, including editor integration and handling for domain reloads.
 

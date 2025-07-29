@@ -1,8 +1,8 @@
 # Jsonable Extension
 
-SOAR includes a powerful "Jsonable Extension" feature that allows for the serialization and deserialization of `Variable` assets to and from JSON format. This is particularly useful for saving and loading game data, initial configurations, or for debugging purposes.
-
-This functionality is built around the `IJsonable` interface and the `JsonableVariable<T>` base class.
+SOAR includes a powerful "Jsonable Extension" feature that allows for the serialization and deserialization of `Variable` assets to and from JSON format.
+This is particularly useful for saving and loading game data or initial configurations.
+The functionality is exposed through the `JsonableVariable<T>` base class and a custom Inspector window, which provides tools for converting a variable's data to a JSON string or a local file.
 
 ## Core Concepts
 
