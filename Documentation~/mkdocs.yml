@@ -47,6 +47,8 @@ nav:
   - Core Concepts:
     - Architectural Principles: concepts/architecture.md
     - R3 Integration: concepts/r3-integration.md
+  - Guides:
+    - SOAR's Lifecycle: guides/soar-lifecycle.md
   - Features:
     - Command: features/command.md
     - GameEvent: features/game-event.md
