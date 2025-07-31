@@ -161,42 +161,54 @@ public class MyTypedSubscriber : MonoBehaviour
 
 The `GameEvent<T>` also has a `value` field that stores the last raised value. This value is reset to `default(T)` when the application quits or when domain reload is disabled and play mode is exited.
 
-## UnityEventBinder
+## R3 Integration
 
-`UnityEventBinder` is a `MonoBehaviour` component that allows for listening to `GameEvents` and invoking `UnityEvents` in response, directly from the Unity Inspector.
-This is useful for designers or for quickly wiring up responses without writing code.
+When the R3 library is present, `GameEvent`s are enhanced with powerful reactive and asynchronous capabilities.
 
-### `UnityEventBinder` (for parameterless GameEvents)
+-   **`AsObservable()`**: Returns the event as an R3 `Observable` stream.
+    -   For a parameterless `GameEvent`, this returns an `Observable<Unit>`.
+    -   For a `GameEvent<T>`, it returns an `Observable<T>`.
+-   **`AsUnitObservable()`**: Specific to `GameEvent<T>`, this returns an `Observable<Unit>`, useful for when you only need to know *that* an event was raised, but not its value.
+-   **`EventAsync()`**: Returns a `ValueTask` (or `ValueTask<T>`) that completes the next time the event is raised.
+-   **`ToAsyncEnumerable()`**: Converts the event stream into an `IAsyncEnumerable<T>`, allowing it to be consumed in an `await foreach` loop.
 
-1. Add the `UnityEventBinder` component to a GameObject.
-2. Assign a `GameEvent` asset to the `Game Event To Listen` field.
+### Examples
 
-   ![SOAR_UnityEventBinder_AssignGameEvent](../assets/images/SOAR_UnityEventBinder_AssignGameEvent.gif)
-
-3. Configure the `On Game Event Raised` `UnityEvent` in the Inspector to call methods on other components.
-
-   ![SOAR_UnityEventBinder_AssignUnityEvent](../assets/images/SOAR_UnityEventBinder_AssignUnityEvent.gif)
-
-### `UnityEventBinder<T>` (for GameEvents with data)
-
-Typed `GameEvent<T>` requires the creation of a specific binder, or the use of a generic one if available that can handle the type `T`.
-The provided `UnityEventBinder<T>` abstract class can be inherited from to create concrete typed binders.
-
-When using a typed `UnityEventBinder<T>`:
-
-1. Add custom typed `UnityEventBinder` component to a GameObject.
-2. Assign a `GameEvent<T>` asset (e.g., `IntGameEvent`) to the `Game Event To Listen` field.
-3. Configure the `On Typed Game Event Raised (T)` `UnityEvent<T>` in the Inspector. This `UnityEvent` will pass the event's data to the listening methods.
-
+**Using `AsObservable` with `GameEvent<T>`:**
 ```csharp
-// Example of a concrete typed UnityEventBinder
-// File: MyTypedEventBinder.cs
+using R3;
 using Soar.Events;
+using UnityEngine;
 
-// This class is not strictly necessary if GameEvent<T> and UnityEvent<T>
-// are serializable and work with the base UnityEventBinder<T> directly.
-// However, creating a concrete class can make it easier to find in the "Add Component" menu.
-public class MyTypedEventBinder : UnityEventBinder<MyCustomData> {}
+public class EventLogger : MonoBehaviour
+{
+    [SerializeField] private StringGameEvent onImportantEvent;
+
+    void Start()
+    {
+        onImportantEvent.AsObservable()
+            .Subscribe(message => Debug.Log($"Event received: {message}"))
+            .AddTo(this);
+    }
+}
+```
+
+**Awaiting a GameEvent:**
+```csharp
+using Soar.Events;
+using UnityEngine;
+
+public class LevelManager : MonoBehaviour
+{
+    [SerializeField] private GameEvent onPlayerReady;
+
+    private async void Start()
+    {
+        Debug.Log("Waiting for player to be ready...");
+        await onPlayerReady.EventAsync();
+        Debug.Log("Player is ready! Starting level.");
+    }
+}
 ```
 
 ## Editor Integration

@@ -290,32 +290,45 @@ public class TypedTransactionMonitor : MonoBehaviour
 }
 ```
 
-## Await Operations and R3 Integration
+## R3 Integration
 
-When R3 library is present and the `SOAR_R3` scripting define is enabled, transactions support advanced await operations and observable streams.
+When the R3 library is present, `Transaction`s are supercharged with robust tools for handling asynchronous request-response cycles and managing concurrency.
 
-- **AwaitOperation**: Controls how concurrent requests are handled (e.g., Sequential, Drop, Switch, Parallel).
-- **Observables**: Transactions expose `AsRequestObservable()` and `AsResponseObservable()` for integration with reactive streams.
-- **Async Enumerables**: Methods like `ToRequestAsyncEnumerable()` and `ToResponseAsyncEnumerable()` allow awaiting multiple requests or responses as async streams.
+-   **`AsRequestObservable()` / `AsResponseObservable()`**: These methods return `Observable` streams that allow you to reactively listen for when requests are made or when responses are returned.
+-   **`RequestAsync()`**: This is the primary method for making asynchronous requests. It returns a `ValueTask` (or `ValueTask<TResponse>`) that completes when the registered response handler finishes its work.
+-   **Asynchronous `RegisterResponse`**: The most powerful feature is the ability to register `async` methods as response handlers. You can use `Func<ValueTask>`, `Func<TRequest, ValueTask<TResponse>>`, and other async delegates.
+
+### Concurrency with `AwaitOperation`
+
+When registering an asynchronous response, you can specify an `AwaitOperation` to control how the `Transaction` behaves if multiple requests arrive while a response is still being processed.
+
+-   **`Parallel`**: (Default) Processes all incoming requests concurrently.
+-   **`Sequential`**: Queues incoming requests and processes them one at a time.
+-   **`Drop`**: If a request is already in progress, new requests are ignored.
+-   **`Switch`**: If a new request arrives, the previous, unfinished request is cancelled.
+-   **`ThrottleFirst`**: Throttles requests, allowing only the first one in a given time window.
+
+### Example
 
 ```csharp
-using R3;
+// File: MyAsyncService.cs
 using Soar.Transactions;
+using System.Threading.Tasks;
 using UnityEngine;
 
-public class R3TransactionMonitor : MonoBehaviour
+public class MyAsyncService : MonoBehaviour
 {
-    [SerializeField] private Transaction transaction;
+    [SerializeField] private StringTransaction fetchDataTransaction;
 
-    private void Start()
+    void Start()
     {
-        transaction.AsRequestObservable()
-            .Subscribe(_ => Debug.Log("Request observed"))
-            .AddTo(this);
-
-        transaction.AsResponseObservable()
-            .Subscribe(_ => Debug.Log("Response observed"))
-            .AddTo(this);
+        // Register an async response handler that simulates a web request
+        fetchDataTransaction.RegisterResponse(async (request) =>
+        {
+            Debug.Log($"Fetching data for: {request}...");
+            await Task.Delay(1000); // Simulate network latency
+            return $"Data for {request}";
+        }, R3.AwaitOperation.Sequential); // Process requests one by one
     }
 }
 ```

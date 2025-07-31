@@ -42,25 +42,20 @@ theme:
 nav:
   - Overview: index.md
   - Getting Started:
-    - Quick Start: getting-started/quick-start.md
     - Installation: getting-started/installation.md
-  - Guides:
-    - Architectural Concepts: guides/architecture.md
+    - Quick Start: getting-started/quick-start.md
+  - Core Concepts:
+    - Architectural Principles: guides/architecture.md
+    - R3 Integration: guides/r3-integration.md
   - API Reference:
     - Command: features/command.md
-    - Game Event: features/game-event.md
+    - GameEvent: features/game-event.md
     - Variable: features/variable.md
     - Collection: features/collection.md
     - Transaction: features/transaction.md
     - Base Classes: features/base-class.md
-    - Unity Event Binder: features/unity-event-binder.md
+    - UnityEventBinder: features/unity-event-binder.md
     - Jsonable Extension: features/jsonable-extension.md
-  - R3 Integration:
-    - Overview: r3-integration/r3-overview.md
-    - Core Concepts: r3-integration/r3-core-concepts.md
-    - GameEvent and Variable: r3-integration/r3-gameevent-and-variable.md
-    - Collection: r3-integration/r3-collection.md
-    - Transaction: r3-integration/r3-transaction.md
   - Troubleshooting & FAQ: troubleshooting.md
 
   

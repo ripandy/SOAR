@@ -152,16 +152,37 @@ public class CollectionMonitor : MonoBehaviour
 
 If the `SOAR_R3` scripting define symbol is active, SOAR collections integrate with the R3 library, unlocking powerful reactive programming capabilities.
 
-- **Observable Streams**: `Observe...` methods become available, returning `Observable<T>` streams from R3.
-  - `ObserveAdd()`: Emits the added item.
-  - `ObserveRemove()`: Emits the removed item.
-  - `ObserveClear()`: Emits a `Unit` when the collection is cleared.
-  - `ObserveCount()`: Emits the new count.
-  - `ObserveValues()`: Emits an `IndexValuePair<T>` (for lists) or `KeyValuePair<TKey, TValue>` (for dictionaries).
-  - `ObserveMove()` (`SoarList` only): Emits a `MovedValueDto<T>`.
-  - `ObserveInsert()` (`SoarList` only): Emits an `IndexValuePair<T>`.
+### Observable Streams
 
-- **Async Operations**: Collections provide `async/await` compatible methods to wait for the next event (e.g., `OnAddAsync()`, `OnRemoveAsync()`).
+Both `SoarList<T>` and `SoarDictionary<TKey, TValue>` expose a rich set of `Observe...()` methods:
+
+-   **`ObserveAdd()`**: Emits the item that was added.
+-   **`ObserveRemove()`**: Emits the item that was removed.
+-   **`ObserveClear()`**: Emits a `Unit` notification when the collection's `Clear()` method is called.
+-   **`ObserveCount()`**: Emits the new `Count` of the collection whenever it changes.
+-   **`ObserveValues()`**: Emits a notification when an existing element's value is changed.
+    -   For `SoarList<T>`, this emits an `IndexValuePair<T>`.
+    -   For `SoarDictionary<TKey, TValue>`, this emits a `KeyValuePair<TKey, TValue>`.
+
+`SoarList<T>` has additional streams for list-specific operations:
+-   **`ObserveMove()`**: Emits a `MovedValueDto<T>` containing the value, old index, and new index.
+-   **`ObserveInsert()`**: Emits an `IndexValuePair<T>` when an item is inserted at a specific index.
+
+### Async/Await Support
+
+Every `Observe...()` method has a corresponding `On...Async()` or `...Async()` counterpart that returns a `ValueTask`. This allows you to `await` the next specific change in a collection.
+
+-   **`OnAddAsync()`**: Awaits the next added item.
+-   **`OnRemoveAsync()`**: Awaits the next removed item.
+-   **`OnClearAsync()`**: Awaits the next `Clear()` operation.
+-   **`CountAsync()`**: Awaits the next change in the collection's `Count`.
+-   **`ValuesAsync()`**: Awaits the next change to an element's value.
+
+For `SoarList<T>`:
+-   **`OnMoveAsync()`**: Awaits the next move operation.
+-   **`OnInsertAsync()`**: Awaits the next insert operation.
+
+### Example
 
 ```csharp
 // R3 Example
