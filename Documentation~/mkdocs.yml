@@ -45,9 +45,9 @@ nav:
     - Installation: getting-started/installation.md
     - Quick Start: getting-started/quick-start.md
   - Core Concepts:
-    - Architectural Principles: guides/architecture.md
-    - R3 Integration: guides/r3-integration.md
-  - API Reference:
+    - Architectural Principles: concepts/architecture.md
+    - R3 Integration: concepts/r3-integration.md
+  - Features:
     - Command: features/command.md
     - GameEvent: features/game-event.md
     - Variable: features/variable.md
@@ -55,7 +55,7 @@ nav:
     - Transaction: features/transaction.md
     - Base Classes: features/base-class.md
     - UnityEventBinder: features/unity-event-binder.md
-    - Jsonable Extension: features/jsonable-extension.md
+    - Jsonable Extension: features/jsonable-extension.md 
   - Troubleshooting & FAQ: troubleshooting.md
 
   
