@@ -50,6 +50,7 @@ nav:
   - Guides:
     - SOAR's Lifecycle: guides/soar-lifecycle.md
     - Creating Custom Assets: guides/creating-custom-assets.md
+    - Testing with SOAR: guides/testing-with-soar.md
   - Features:
     - Command: features/command.md
     - GameEvent: features/game-event.md
