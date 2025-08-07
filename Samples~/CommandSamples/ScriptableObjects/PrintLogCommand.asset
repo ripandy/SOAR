@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0c73c690c1d412da2fb9523ee7800dd, type: 3}
   m_Name: PrintLogCommand
   m_EditorClassIdentifier: 
-  _tag: 
-  _toPrint: Debugging...
-  _color: {r: 0.0990566, g: 0.962414, b: 1, a: 1}
-  _withCounter: 0
+  tag: 
+  toPrint: Debugging...
+  color: {r: 0.0990566, g: 0.962414, b: 1, a: 1}
+  withCounter: 0

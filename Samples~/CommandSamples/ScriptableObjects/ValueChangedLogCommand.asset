@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fe1e11221264a3b8c9364c823045ec5, type: 3}
   m_Name: ValueChangedLogCommand
   m_EditorClassIdentifier: 
-  _tag: Value Changed
-  _color: {r: 0.43867922, g: 0.9468684, b: 1, a: 1}
-  _withCounter: 0
+  tag: Value Changed
+  color: {r: 0.43867922, g: 0.9468684, b: 1, a: 1}
+  withCounter: 0
