@@ -1,33 +1,32 @@
-using Soar.Variables;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Soar.Variable.Sample
+namespace Soar.Variables.Sample
 {
     public class Healer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        [SerializeField] private FloatVariable _healthVariable;
-        [SerializeField] private FloatVariable _maxHealthVariable;
-        [SerializeField] private float _healPerSecond;
+        [SerializeField] private FloatVariable healthVariable;
+        [SerializeField] private FloatVariable maxHealthVariable;
+        [SerializeField] private float healPerSecond;
 
-        private bool _hoverFlag;
+        private bool hoverFlag;
 
         private void Update()
         {
-            if (_hoverFlag)
+            if (hoverFlag)
             {
-                _healthVariable.Value = Mathf.Clamp(_healthVariable.Value + Time.deltaTime * _healPerSecond, 0, _maxHealthVariable);
+                healthVariable.Value = Mathf.Clamp(healthVariable.Value + Time.deltaTime * healPerSecond, 0, maxHealthVariable);
             }
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            _hoverFlag = true;
+            hoverFlag = true;
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            _hoverFlag = false;
+            hoverFlag = false;
         }
     }
 }

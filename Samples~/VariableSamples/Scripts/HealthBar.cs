@@ -1,32 +1,31 @@
-using Soar.Variables;
 using System;
 using UnityEngine;
 
-namespace Soar.Variable.Sample
+namespace Soar.Variables.Sample
 {
     public class HealthBar : MonoBehaviour
     {
-        [SerializeField] private FloatVariable _healthVariable;
-        [SerializeField] private FloatVariable _maxHealthVariable;
-        [SerializeField] private RectTransform _healthBar;
+        [SerializeField] private FloatVariable healthVariable;
+        [SerializeField] private FloatVariable maxHealthVariable;
+        [SerializeField] private RectTransform healthBar;
 
-        private IDisposable _subscription;
+        private IDisposable subscription;
 
         private void Start()
         {
-            _subscription = _healthVariable.Subscribe(UpdateHealth);
+            subscription = healthVariable.Subscribe(UpdateHealth);
         }
 
         private void UpdateHealth(float value)
         {
-            var scale = _healthBar.localScale;
-            scale.x = value / _maxHealthVariable;
-            _healthBar.localScale = scale;
+            var scale = healthBar.localScale;
+            scale.x = value / maxHealthVariable;
+            healthBar.localScale = scale;
         }
 
         private void OnDestroy()
         {
-            _subscription?.Dispose();
+            subscription?.Dispose();
         }
     }
 }

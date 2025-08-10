@@ -1,35 +1,34 @@
-using Soar.Variables;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Soar.Variable.Sample
+namespace Soar.Variables.Sample
 {
     public class HealthUpgrade : MonoBehaviour
     {
-        [SerializeField] private FloatVariable _healthVariable;
-        [SerializeField] private FloatVariable _maxHealthVariable;
-        [SerializeField] private float _upgradeValue = 50;
-        [SerializeField] private Button _button;
+        [SerializeField] private FloatVariable healthVariable;
+        [SerializeField] private FloatVariable maxHealthVariable;
+        [SerializeField] private float upgradeValue = 50;
+        [SerializeField] private Button button;
 
         private void Start()
         {
-            _button.onClick.AddListener(UpgradeMaxHealth);
+            button.onClick.AddListener(UpgradeMaxHealth);
         }
 
         private void UpgradeMaxHealth()
         {
-            var upgradedVal = _maxHealthVariable.Value + _upgradeValue;
-            if (upgradedVal < Mathf.Abs(_upgradeValue))
+            var upgradedVal = maxHealthVariable.Value + upgradeValue;
+            if (upgradedVal < Mathf.Abs(upgradeValue))
                 return;
             
-            var prevVal = _maxHealthVariable.Value;
-            _maxHealthVariable.Value = upgradedVal;
-            _healthVariable.Value *= _maxHealthVariable / prevVal;
+            var prevVal = maxHealthVariable.Value;
+            maxHealthVariable.Value = upgradedVal;
+            healthVariable.Value *= maxHealthVariable / prevVal;
         }
 
         private void OnDestroy()
         {
-            _button.onClick.RemoveListener(UpgradeMaxHealth);
+            button.onClick.RemoveListener(UpgradeMaxHealth);
         }
     }
 }
