@@ -191,17 +191,10 @@ namespace Soar.Collections
         
         private partial void RaiseValue(TKey key, TValue value)
         {
-            if (valueEventType == ValueEventType.OnChange && IsValueEqual()) return;
-
             foreach (var disposable in valueSubscriptions)
             {
                 if (disposable is not KeyValueSubscription<TKey, TValue> valueSubscription) continue;
                 valueSubscription.Invoke(key, value);
-            }
-
-            bool IsValueEqual()
-            {
-                return dictionary.TryGetValue(key, out var val) && val.Equals(value);
             }
         }
         

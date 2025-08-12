@@ -37,7 +37,8 @@ namespace Soar.Collections
                     {
                         OnValidate();
                     }
-                    
+
+                    var isChanged = IsValueChanged(key, value);
                     dictionary[key] = value;
                     
                     var index = list.FindIndex(p => p.Key.Equals(key));
@@ -45,6 +46,7 @@ namespace Soar.Collections
                     pair.Value = value;
                     list[index] = pair;
 
+                    if (!isChanged) return;
                     RaiseValue(key, value);
                 }
             }
@@ -226,6 +228,13 @@ namespace Soar.Collections
             {
                 return dictionary.TryGetValue(key, out value);
             }
+        }
+
+        private bool IsValueChanged(TKey key, TValue value)
+        {
+            return valueEventType != ValueEventType.OnChange
+                   || !TryGetValue(key, out var val)
+                   || !val.Equals(value);
         }
         
         internal override void Initialize()

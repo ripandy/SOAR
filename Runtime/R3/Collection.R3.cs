@@ -320,14 +320,7 @@ namespace Soar.Collections
         
         private partial void RaiseValue(TKey key, TValue value)
         {
-            if (valueEventType == ValueEventType.OnChange && IsValueEqual()) return;
-            
             ValueSubject.OnNext(new KeyValuePair<TKey, TValue>(key, value));
-
-            bool IsValueEqual()
-            {
-                return dictionary.TryGetValue(key, out var val) && val.Equals(value);
-            }
         }
 
         public override void Dispose()
