@@ -7,12 +7,12 @@ namespace Soar.Collections.Tests
 {
     public partial class CollectionListTests
     {
-        private IntCollection testIntCollection;
+        private IntList testIntCollection;
         
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            testIntCollection = ScriptableObject.CreateInstance<IntCollection>();
+            testIntCollection = ScriptableObject.CreateInstance<IntList>();
         }
 
         [Test]

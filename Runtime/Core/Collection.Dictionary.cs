@@ -11,7 +11,7 @@ namespace Soar.Collections
         IReadOnlyDictionary<TKey, TValue>
         where TKey : notnull
     {
-        private readonly System.Collections.Generic.Dictionary<TKey, TValue> dictionary = new();
+        private readonly Dictionary<TKey, TValue> dictionary = new();
 
         public override object SyncRoot => syncRoot;
         private readonly object syncRoot = new();
@@ -37,7 +37,7 @@ namespace Soar.Collections
                     {
                         OnValidate();
                     }
-
+                    
                     dictionary[key] = value;
                     
                     var index = list.FindIndex(p => p.Key.Equals(key));

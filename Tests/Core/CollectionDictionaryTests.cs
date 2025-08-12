@@ -8,7 +8,7 @@ namespace Soar.Collections.Tests
 {
     public partial class CollectionDictionaryTests
     {
-        private class NumberStringCollection : Dictionary<NumberEnum, string> { }
+        private class NumberStringCollection : SoarDictionary<NumberEnum, string> { }
         private NumberStringCollection testNumberStringCollection;
         
         [OneTimeSetUp]
