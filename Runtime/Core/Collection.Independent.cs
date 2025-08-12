@@ -59,8 +59,6 @@ namespace Soar.Collections
 
         internal partial void RaiseValueAt(int index, T value)
         {
-            if (valueEventType == ValueEventType.OnChange && list[index].Equals(value)) return;
-
             foreach (var disposable in valueSubscriptions)
             {
                 if (disposable is IndexValueSubscription<T> valueSubscription)

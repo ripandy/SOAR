@@ -198,6 +198,11 @@ namespace Soar.Collections
             }
         }
         
+        internal bool IsValueChanged(int index, T value)
+        {
+            return valueEventType != ValueEventType.OnChange || !list[index].Equals(value);
+        }
+        
         internal override void Initialize()
         {
             InitialValue = list;

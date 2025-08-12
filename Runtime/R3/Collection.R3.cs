@@ -132,7 +132,6 @@ namespace Soar.Collections
 
         internal partial void RaiseValueAt(int index, T value)
         {
-            if (valueEventType == ValueEventType.OnChange && list[index].Equals(value)) return;
             ValueSubject.OnNext(new IndexValuePair<T>(index, value));
         }
 
