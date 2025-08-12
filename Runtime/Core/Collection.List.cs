@@ -90,11 +90,6 @@ namespace Soar.Collections
         
         public void RemoveAt(int index)
         {
-            RemoveAtInternal(index);
-        }
-        
-        internal virtual void RemoveAtInternal(int index)
-        {
             lock (SyncRoot)
             {
                 lastRemoved = list[index];
