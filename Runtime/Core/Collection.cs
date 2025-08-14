@@ -202,10 +202,6 @@ namespace Soar.Collections
         {
             // ValueEventType.OnAssign are always considered as value changed.
             if (valueEventType == ValueEventType.OnAssign) return false;
-            
-            // Out of bound index are considered as value changed? Or not.
-            // TODO: Check whether returning value when out of bounds are safe or not.
-            if (index < 0 || index >= list.Count) return false;
 
             return list[index] == null && value == null ||
                    list[index] != null && value != null && list[index].Equals(value);
