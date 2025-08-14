@@ -20,7 +20,11 @@ namespace Soar.Variables
         public virtual T Value
         {
             get => value;
-            set => Raise(value);
+            set
+            {
+                if (IsValueEquals(value)) return;
+                Raise(value);
+            }
         }
 
         private bool IsValueEquals(T valueToCompare)

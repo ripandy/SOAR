@@ -10,8 +10,6 @@ namespace Soar.Variables
         {
             var oldValue = value;
             
-            if (IsValueEquals(valueToRaise)) return;
-            
             base.Raise(valueToRaise);
             
             foreach (var disposable in subscriptions)

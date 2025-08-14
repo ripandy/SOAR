@@ -24,7 +24,6 @@ namespace Soar.Variables
         public override partial void Raise(T valueToRaise)
         {
             oldValue = value;
-            if (IsValueEquals(valueToRaise)) return;
             base.Raise(valueToRaise);
             PairwiseValueSubject.OnNext(new PairwiseValue<T>(oldValue, valueToRaise));
         }
