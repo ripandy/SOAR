@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
@@ -7,12 +8,12 @@ namespace Soar.Collections.Tests
 {
     public partial class CollectionListTests
     {
-        private IntCollection testIntCollection;
+        private IntList testIntCollection;
         
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            testIntCollection = ScriptableObject.CreateInstance<IntCollection>();
+            testIntCollection = ScriptableObject.CreateInstance<IntList>();
         }
 
         [Test]
@@ -20,7 +21,7 @@ namespace Soar.Collections.Tests
         {
             testIntCollection.Clear();
             
-            var addedValues = new System.Collections.Generic.List<int>();
+            var addedValues = new List<int>();
             var subscription = testIntCollection.SubscribeOnAdd(addedVal => addedValues.Add(addedVal));
 
             testIntCollection.Add(42);
@@ -45,7 +46,7 @@ namespace Soar.Collections.Tests
         {
             testIntCollection.Clear();
             
-            var addedValues = new System.Collections.Generic.List<int>();
+            var addedValues = new List<int>();
             using var subscription = testIntCollection.SubscribeOnAdd(addedVal => addedValues.Add(addedVal));
             
             testIntCollection.AddRange(new[] { 7, 8, 9 });
@@ -65,7 +66,7 @@ namespace Soar.Collections.Tests
             testIntCollection.Clear();
             testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             
-            var addedValues = new System.Collections.Generic.List<int>();
+            var addedValues = new List<int>();
             using var subscription = testIntCollection.SubscribeOnAdd(addedVal => addedValues.Add(addedVal));
 
             testIntCollection.Insert(1, 24);
@@ -85,7 +86,7 @@ namespace Soar.Collections.Tests
             testIntCollection.Clear();
             testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             
-            var addedValues = new System.Collections.Generic.List<int>();
+            var addedValues = new List<int>();
             using var subscription = testIntCollection.SubscribeOnAdd(addedVal => addedValues.Add(addedVal));
 
             testIntCollection.InsertRange(5, new[] { 4, 5, 6 });
@@ -185,7 +186,7 @@ namespace Soar.Collections.Tests
             testIntCollection.Clear();
             testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             
-            var elements = new System.Collections.Generic.List<IndexValuePair<int>>();
+            var elements = new List<IndexValuePair<int>>();
             var subscription = testIntCollection.SubscribeToValues(value => elements.Add(value));
 
             testIntCollection[1] = 24;
@@ -199,7 +200,7 @@ namespace Soar.Collections.Tests
             Assert.AreEqual(8, elements[2].Index, "Updated value should be at index 8.");
             Assert.AreEqual(84, elements[2].Value, "Updated value should be 84.");
             
-            var otherElements = new System.Collections.Generic.List<(int Index, int Value)>();
+            var otherElements = new List<(int Index, int Value)>();
             using var subscription2 = testIntCollection.SubscribeToValues((index, value) => otherElements.Add((index, value)));
             
             testIntCollection[5] = 42;
@@ -222,7 +223,7 @@ namespace Soar.Collections.Tests
         {
             testIntCollection.Clear();
             
-            var elements = new System.Collections.Generic.List<IndexValuePair<int>>();
+            var elements = new List<IndexValuePair<int>>();
             using var subscription = testIntCollection.SubscribeToValues(value => elements.Add(value));
 
             testIntCollection.Add(1);
@@ -241,7 +242,7 @@ namespace Soar.Collections.Tests
         {
             testIntCollection.Clear();
             
-            var elements = new System.Collections.Generic.List<IndexValuePair<int>>();
+            var elements = new List<IndexValuePair<int>>();
             using var subscription = testIntCollection.SubscribeToValues(value => elements.Add(value));
 
             testIntCollection.AddRange(new[] { 7, 8, 9 });
@@ -261,42 +262,62 @@ namespace Soar.Collections.Tests
             testIntCollection.Clear();
             testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             
-            var elements = new System.Collections.Generic.List<IndexValuePair<int>>();
+            var elements = new List<IndexValuePair<int>>();
             using var subscription = testIntCollection.SubscribeToValues(value => elements.Add(value));
             
             testIntCollection.Insert(1, 10);
             Assert.AreEqual(1, elements[0].Index, "Element should be listened at index 1.");
             Assert.AreEqual(10, elements[0].Value, "Element value at index 1 should be 10.");
             
+            var raisedCount = 8; // 8 elements were added initially.
+            Assert.AreEqual(raisedCount, elements.Count, "Events should be raised 8 times upon Insert.");
+            
             testIntCollection.Insert(5, 42);
+            Assert.AreEqual(5, elements[raisedCount].Index, "Element should be listened at index 5.");
+            Assert.AreEqual(42, elements[raisedCount].Value, "Element value at index 5 should be 42.");
+            
+            raisedCount += 5; // before insert = 10 element. inserted at 5 -> 10 - 5 = 5 more elements were added.
+            Assert.AreEqual(raisedCount, elements.Count, "Events should be raised 5 times upon Insert, with the total count of 13.");
+            
             testIntCollection.Insert(0, 0);
+            Assert.AreEqual(0, elements[raisedCount].Index, "Element should be listened at index 0.");
+            Assert.AreEqual(0, elements[raisedCount].Value, "Element value at index 0 should be 0.");
+            
+            raisedCount += 11; //  // before insert = 11 element. inserted at 0 -> 11 - 0 = 11 more elements were added.
+            Assert.AreEqual(raisedCount, elements.Count, "Events should be raised 11 times upon Insert, with the total count of 24.");
+            
             testIntCollection.Insert(3, 12);
-            Assert.AreEqual(5, elements[1].Index, "Element should be listened at index 5.");
-            Assert.AreEqual(42, elements[1].Value, "Element value at index 5 should be 42.");
-            Assert.AreEqual(0, elements[2].Index, "Element should be listened at index 0.");
-            Assert.AreEqual(0, elements[2].Value, "Element value at index 0 should be 0.");
-            Assert.AreEqual(3, elements[3].Index, "Element should be listened at index 3.");
-            Assert.AreEqual(12, elements[3].Value, "Element value at index 3 should be 12.");
+            Assert.AreEqual(3, elements[raisedCount].Index, "Element should be listened at index 3.");
+            Assert.AreEqual(12, elements[raisedCount].Value, "Element value at index 3 should be 12.");
+            
+            raisedCount += 9; // before insert = 12 element. inserted at 3 -> 12 - 3 = 9 more elements were added.
+            Assert.AreEqual(raisedCount, elements.Count, "Events should be raised 9 times upon Insert, with the total count of 33.");
         }
         
         [Test]
         public void SubscribeToValues_ByInsertRange_ShouldBeListened()
         {
             testIntCollection.Clear();
-            testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+            testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }); 
             
-            var elements = new System.Collections.Generic.List<IndexValuePair<int>>();
+            var elements = new List<IndexValuePair<int>>();
             using var subscription = testIntCollection.SubscribeToValues(value => elements.Add(value));
             
             testIntCollection.InsertRange(5, new[] { 4, 5, 6 });
             Assert.AreEqual(new IndexValuePair<int>(5, 4), elements[0], "Element at index 5 should be listened with value of 4.");
             Assert.AreEqual(new IndexValuePair<int>(6, 5), elements[1], "Element at index 6 should be listened with value of 5.");
             Assert.AreEqual(new IndexValuePair<int>(7, 6), elements[2], "Element at index 7 should be listened with value of 6.");
+
+            var raisedCount = 4;
+            Assert.AreEqual(raisedCount, elements.Count, "Events should be raised 4 times upon InsertRange.");
             
-            testIntCollection.InsertRange(0, Enumerable.Range(0, 3).Select((_, index) => index * 2));
-            Assert.AreEqual(new IndexValuePair<int>(0, 0), elements[3], "Element at index 0 should be listened with value of 0.");
-            Assert.AreEqual(new IndexValuePair<int>(1, 2), elements[4], "Element at index 1 should be listened with value of 2.");
-            Assert.AreEqual(new IndexValuePair<int>(2, 4), elements[5], "Element at index 2 should be listened with value of 4.");
+            testIntCollection.InsertRange(0, Enumerable.Range(0, 3).Select((_, index) => index * 10));
+            Assert.AreEqual(new IndexValuePair<int>(0, 0), elements[raisedCount], "Element at index 0 should be listened with value of 0.");
+            Assert.AreEqual(new IndexValuePair<int>(1, 10), elements[raisedCount + 1], "Element at index 1 should be listened with value of 2.");
+            Assert.AreEqual(new IndexValuePair<int>(2, 20), elements[raisedCount + 2], "Element at index 2 should be listened with value of 4.");
+            
+            raisedCount += 12;
+            Assert.AreEqual(raisedCount, elements.Count, "Events should be raised 12 times upon new InsertRange, with the total count of 16.");
         }
         
         [Test]
@@ -305,7 +326,7 @@ namespace Soar.Collections.Tests
             testIntCollection.Clear();
             testIntCollection.AddRange(new [] { 1, 2, 3, 42, 5, 6, 7, 8, 9 });
             
-            var elements = new System.Collections.Generic.List<MovedValueDto<int>>();
+            var elements = new List<MovedValueDto<int>>();
             var subscription = testIntCollection.SubscribeOnMove(value => elements.Add(value));
 
             testIntCollection.Move(3, 0);
@@ -313,7 +334,7 @@ namespace Soar.Collections.Tests
             Assert.AreEqual(0, elements[0].NewIndex, "New index should be 0.");
             Assert.AreEqual(42, elements[0].Value, "Moved element value should be 42.");
 
-            var otherElements = new System.Collections.Generic.List<(int Value, int OldIndex, int NewIndex)>();
+            var otherElements = new List<(int Value, int OldIndex, int NewIndex)>();
             using var subscription2 = testIntCollection.SubscribeOnMove((value, prevIndex, newIndex) => otherElements.Add((value, prevIndex, newIndex)));
             
             testIntCollection.Move(8, 0);
@@ -341,7 +362,7 @@ namespace Soar.Collections.Tests
             testIntCollection.Clear();
             testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             
-            var elements = new System.Collections.Generic.List<(int Index, int Value)>();
+            var elements = new List<(int Index, int Value)>();
             using var subscription = testIntCollection.SubscribeOnInsert((index, value) => elements.Add((index, value)));
             
             testIntCollection.Insert(1, 10);
@@ -365,7 +386,7 @@ namespace Soar.Collections.Tests
             testIntCollection.Clear();
             testIntCollection.AddRange(new [] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             
-            var elements = new System.Collections.Generic.List<IndexValuePair<int>>();
+            var elements = new List<IndexValuePair<int>>();
             using var subscription = testIntCollection.SubscribeOnInsert(pair => elements.Add(pair));
             
             testIntCollection.InsertRange(5, new[] { 4, 5, 6 });

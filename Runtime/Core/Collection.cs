@@ -198,6 +198,15 @@ namespace Soar.Collections
             }
         }
         
+        internal bool IsValueEquals(int index, T value)
+        {
+            // ValueEventType.OnAssign are always considered as value changed.
+            if (valueEventType == ValueEventType.OnAssign) return false;
+
+            return list[index] == null && value == null ||
+                   list[index] != null && value != null && list[index].Equals(value);
+        }
+        
         internal override void Initialize()
         {
             InitialValue = list;

@@ -11,7 +11,7 @@ namespace Soar.Collections
         IReadOnlyDictionary<TKey, TValue>
         where TKey : notnull
     {
-        private readonly System.Collections.Generic.Dictionary<TKey, TValue> dictionary = new();
+        private readonly Dictionary<TKey, TValue> dictionary = new();
 
         public override object SyncRoot => syncRoot;
         private readonly object syncRoot = new();
@@ -38,6 +38,7 @@ namespace Soar.Collections
                         OnValidate();
                     }
 
+                    var isEqual = IsValueEquals(key, value);
                     dictionary[key] = value;
                     
                     var index = list.FindIndex(p => p.Key.Equals(key));
@@ -45,6 +46,7 @@ namespace Soar.Collections
                     pair.Value = value;
                     list[index] = pair;
 
+                    if (isEqual) return;
                     RaiseValue(key, value);
                 }
             }
@@ -226,6 +228,18 @@ namespace Soar.Collections
             {
                 return dictionary.TryGetValue(key, out value);
             }
+        }
+
+        private bool IsValueEquals(TKey key, TValue value)
+        {
+            // ValueEventType.OnAssign are always considered as value changed.
+            if (valueEventType == ValueEventType.OnAssign) return false;
+
+            // Non-existent key is considered as value changed.
+            if (!TryGetValue(key, out var val)) return false;
+            
+            return val == null && value == null ||
+                   val != null && value != null && val.Equals(value);
         }
         
         internal override void Initialize()

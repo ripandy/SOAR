@@ -7,11 +7,11 @@ namespace Soar.Collections
 {
     public abstract partial class Collection<T>
     {
-        private readonly System.Collections.Generic.List<IDisposable> onAddSubscriptions = new();
-        private readonly System.Collections.Generic.List<IDisposable> onRemoveSubscriptions = new();
-        private readonly System.Collections.Generic.List<IDisposable> onClearSubscriptions = new();
-        private readonly System.Collections.Generic.List<IDisposable> countSubscriptions = new();
-        private readonly System.Collections.Generic.List<IDisposable> valueSubscriptions = new();
+        private readonly List<IDisposable> onAddSubscriptions = new();
+        private readonly List<IDisposable> onRemoveSubscriptions = new();
+        private readonly List<IDisposable> onClearSubscriptions = new();
+        private readonly List<IDisposable> countSubscriptions = new();
+        private readonly List<IDisposable> valueSubscriptions = new();
 
         internal partial void RaiseOnAdd(T addedValue)
         {
@@ -59,8 +59,6 @@ namespace Soar.Collections
 
         internal partial void RaiseValueAt(int index, T value)
         {
-            if (valueEventType == ValueEventType.OnChange && list[index].Equals(value)) return;
-
             foreach (var disposable in valueSubscriptions)
             {
                 if (disposable is IndexValueSubscription<T> valueSubscription)
@@ -125,8 +123,8 @@ namespace Soar.Collections
     // List
     public abstract partial class SoarList<T>
     {
-        private readonly System.Collections.Generic.List<IDisposable> moveSubscriptions = new();
-        private readonly System.Collections.Generic.List<IDisposable> insertSubscriptions = new();
+        private readonly List<IDisposable> moveSubscriptions = new();
+        private readonly List<IDisposable> insertSubscriptions = new();
 
         private partial void RaiseOnMove(T value, int oldIndex, int newIndex)
         {
@@ -189,21 +187,14 @@ namespace Soar.Collections
     // Dictionary
     public abstract partial class SoarDictionary<TKey, TValue>
     {
-        private readonly System.Collections.Generic.List<IDisposable> valueSubscriptions = new();
+        private readonly List<IDisposable> valueSubscriptions = new();
         
         private partial void RaiseValue(TKey key, TValue value)
         {
-            if (valueEventType == ValueEventType.OnChange && IsValueEqual()) return;
-
             foreach (var disposable in valueSubscriptions)
             {
                 if (disposable is not KeyValueSubscription<TKey, TValue> valueSubscription) continue;
                 valueSubscription.Invoke(key, value);
-            }
-
-            bool IsValueEqual()
-            {
-                return dictionary.TryGetValue(key, out var val) && val.Equals(value);
             }
         }
         

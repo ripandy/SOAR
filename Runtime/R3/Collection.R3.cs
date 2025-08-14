@@ -132,7 +132,6 @@ namespace Soar.Collections
 
         internal partial void RaiseValueAt(int index, T value)
         {
-            if (valueEventType == ValueEventType.OnChange && list[index].Equals(value)) return;
             ValueSubject.OnNext(new IndexValuePair<T>(index, value));
         }
 
@@ -321,14 +320,7 @@ namespace Soar.Collections
         
         private partial void RaiseValue(TKey key, TValue value)
         {
-            if (valueEventType == ValueEventType.OnChange && IsValueEqual()) return;
-            
             ValueSubject.OnNext(new KeyValuePair<TKey, TValue>(key, value));
-
-            bool IsValueEqual()
-            {
-                return dictionary.TryGetValue(key, out var val) && val.Equals(value);
-            }
         }
 
         public override void Dispose()

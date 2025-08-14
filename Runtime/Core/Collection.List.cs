@@ -20,7 +20,10 @@ namespace Soar.Collections
             {
                 lock (SyncRoot)
                 {
+                    var isEqual = IsValueEquals(index, value);
                     list[index] = value;
+                    
+                    if (isEqual) return;
                     RaiseValueAt(index, value);
                 }
             }
@@ -40,9 +43,9 @@ namespace Soar.Collections
             {
                 list.Insert(index, item);
                 RaiseOnAdd(item);
-                RaiseValueAt(index, item);
                 RaiseCount();
                 RaiseOnInsert(index, item);
+                RaiseValueByInsert(index, 1);
             }
         }
         
@@ -56,9 +59,9 @@ namespace Soar.Collections
                     var item = items[i];
                     list.Insert(idx, item);
                     RaiseOnAdd(item);
-                    RaiseValueAt(idx, item);
                     RaiseOnInsert(idx, item);
                 }
+                RaiseValueByInsert(index, items.Length);
                 RaiseCount();
             }
         }
@@ -66,6 +69,18 @@ namespace Soar.Collections
         public void InsertRange(int index, IEnumerable<T> items)
         {
             InsertRange(index, items.ToArray());
+        }
+        
+        private void RaiseValueByInsert(int fromIndex, int insertedCount)
+        {
+            for (var i = fromIndex; i < list.Count - insertedCount; i++)
+            {
+                var newIndex = i + insertedCount;
+                var oldValue = list[newIndex];
+                var newValue = list[i];
+                if (IsValueEquals(i, oldValue)) continue;
+                RaiseValueAt(i, newValue);
+            }
         }
         
         public void Move(int oldIndex, int newIndex)
@@ -80,11 +95,6 @@ namespace Soar.Collections
         }
         
         public void RemoveAt(int index)
-        {
-            RemoveAtInternal(index);
-        }
-        
-        internal virtual void RemoveAtInternal(int index)
         {
             lock (SyncRoot)
             {

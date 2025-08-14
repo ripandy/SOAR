@@ -20,11 +20,18 @@ namespace Soar.Variables
         public virtual T Value
         {
             get => value;
-            set => Raise(value);
+            set
+            {
+                if (IsValueEquals(value)) return;
+                Raise(value);
+            }
         }
 
         private bool IsValueEquals(T valueToCompare)
         {
+            // ValueEventType.OnAssign are always considered as value changed.
+            if (valueEventType == ValueEventType.OnAssign) return false;
+
             return value == null && valueToCompare == null ||
                    value != null && valueToCompare != null && value.Equals(valueToCompare);
         }
