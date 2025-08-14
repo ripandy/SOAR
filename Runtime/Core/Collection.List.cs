@@ -20,10 +20,10 @@ namespace Soar.Collections
             {
                 lock (SyncRoot)
                 {
-                    var isChanged = IsValueChanged(index, value);
+                    var isEqual = IsValueEquals(index, value);
                     list[index] = value;
                     
-                    if (!isChanged) return;
+                    if (isEqual) return;
                     RaiseValueAt(index, value);
                 }
             }
@@ -41,13 +41,13 @@ namespace Soar.Collections
         {
             lock (SyncRoot)
             {
-                var isChanged = IsValueChanged(index, item);
+                var isEqual = IsValueEquals(index, item);
                 list.Insert(index, item);
                 RaiseOnAdd(item);
                 RaiseCount();
                 RaiseOnInsert(index, item);
                 
-                if (!isChanged) return;
+                if (isEqual) return;
                 RaiseValueAt(index, item);
             }
         }
@@ -60,12 +60,12 @@ namespace Soar.Collections
                 {
                     var idx = i + index;
                     var item = items[i];
-                    var isChanged = IsValueChanged(idx, item);
+                    var isEqual = IsValueEquals(idx, item);
                     list.Insert(idx, item);
                     RaiseOnAdd(item);
                     RaiseOnInsert(idx, item);
                     
-                    if (!isChanged) continue;
+                    if (isEqual) continue;
                     RaiseValueAt(idx, item);
                 }
                 RaiseCount();

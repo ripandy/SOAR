@@ -10,7 +10,7 @@ namespace Soar.Variables
         {
             var oldValue = value;
             
-            if (valueEventType == ValueEventType.OnChange && IsValueEquals(valueToRaise)) return;
+            if (IsValueEquals(valueToRaise)) return;
             
             base.Raise(valueToRaise);
             
