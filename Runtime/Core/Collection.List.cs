@@ -41,14 +41,11 @@ namespace Soar.Collections
         {
             lock (SyncRoot)
             {
-                var isEqual = IsValueEquals(index, item);
                 list.Insert(index, item);
                 RaiseOnAdd(item);
                 RaiseCount();
                 RaiseOnInsert(index, item);
-                
-                if (isEqual) return;
-                RaiseValueAt(index, item);
+                RaiseValueByInsert(index, 1);
             }
         }
         
@@ -60,14 +57,11 @@ namespace Soar.Collections
                 {
                     var idx = i + index;
                     var item = items[i];
-                    var isEqual = IsValueEquals(idx, item);
                     list.Insert(idx, item);
                     RaiseOnAdd(item);
                     RaiseOnInsert(idx, item);
-                    
-                    if (isEqual) continue;
-                    RaiseValueAt(idx, item);
                 }
+                RaiseValueByInsert(index, items.Length);
                 RaiseCount();
             }
         }
@@ -75,6 +69,18 @@ namespace Soar.Collections
         public void InsertRange(int index, IEnumerable<T> items)
         {
             InsertRange(index, items.ToArray());
+        }
+        
+        private void RaiseValueByInsert(int fromIndex, int insertedCount)
+        {
+            for (var i = fromIndex; i < list.Count - insertedCount; i++)
+            {
+                var newIndex = i + insertedCount;
+                var oldValue = list[newIndex];
+                var newValue = list[i];
+                if (IsValueEquals(i, oldValue)) continue;
+                RaiseValueAt(i, newValue);
+            }
         }
         
         public void Move(int oldIndex, int newIndex)
