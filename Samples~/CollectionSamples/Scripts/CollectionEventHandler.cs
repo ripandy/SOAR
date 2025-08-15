@@ -1,5 +1,8 @@
+using System;
+using R3;
 using Soar.Events;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Soar.Collections.Sample
 {
@@ -11,12 +14,15 @@ namespace Soar.Collections.Sample
         [SerializeField] private IntList intList;
 
         private const int MaxGrid = 8;
+        
+        private IDisposable subscriptions;
 
         private void Start()
         {
-            onAddValueClicked.Subscribe(UpdateRandomCollectionValue);
-            onAddGridClicked.Subscribe(AddGrid);
-            onRemoveGridClicked.Subscribe(RemoveGrid);
+            var d1 = onAddValueClicked.Subscribe(UpdateRandomCollectionValue);
+            var d2 = onAddGridClicked.Subscribe(AddGrid);
+            var d3 = onRemoveGridClicked.Subscribe(RemoveGrid);
+            subscriptions = Disposable.Combine(d1, d2, d3);
         }
 
         private void UpdateRandomCollectionValue()
@@ -42,6 +48,11 @@ namespace Soar.Collections.Sample
                 return;
             
             intList.RemoveAt(intList.Count - 1);
+        }
+        
+        private void OnDestroy()
+        {
+            subscriptions?.Dispose();
         }
     }
 }

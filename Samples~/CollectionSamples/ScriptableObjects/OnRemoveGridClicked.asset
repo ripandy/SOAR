@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 348fe62e562941c19de964b140d79f05, type: 3}
+  m_Script: {fileID: 11500000, guid: c8a80a30e2d824ea4816362eb00ed6d8, type: 3}
   m_Name: OnRemoveGridClicked
   m_EditorClassIdentifier: 
-  buffered: 0
