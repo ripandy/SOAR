@@ -14,7 +14,7 @@ namespace Soar.Transactions.Sample
         private void Start()
         {
             subscription = dummyProcessTransaction
-                .SubscribeToResponse(value => label.text = $"Response received. Response value: {value}");
+                .SubscribeToResponse(value => label.text = $"Response received.\nResponse value: {value}");
         }
 
         private void OnDestroy()

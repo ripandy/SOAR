@@ -14,7 +14,7 @@ namespace Soar.Transactions.Sample
         private void Start()
         {
             subscription = dummyProcessTransaction
-                .SubscribeToRequest(value => label.text = $"Request sent. Request value: {value}");
+                .SubscribeToRequest(value => label.text = $"Request sent.\nRequest value: {value}");
         }
 
         private void OnDestroy()

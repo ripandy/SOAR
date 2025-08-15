@@ -1,28 +1,24 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Soar.Transactions.Sample
 {
     public class ResponseSample : MonoBehaviour
     {
         [SerializeField] private FloatTransaction dummyProcessTransaction;
-
+        
         private void Start()
         {
             dummyProcessTransaction.RegisterResponse(ProcessRequest);
         }
 
-        private static float ProcessRequest(float requestValue)
+        private async ValueTask<float> ProcessRequest(float requestValue)
         {
-            var startTime = DateTime.Now;
-            var loopCounter = 0;
-            for (var i = 0; i < 999999999; i++)
-            {
-                loopCounter++;
-            }
-            var responseValue = (float)(DateTime.Now - startTime).TotalSeconds;
-            Debug.Log($"looped {loopCounter} times.");
-            return responseValue;
+            var delay = requestValue + Random.value * 3;
+            await Task.Delay(TimeSpan.FromSeconds(delay), cancellationToken: destroyCancellationToken);
+            return delay;
         }
     }
 }
