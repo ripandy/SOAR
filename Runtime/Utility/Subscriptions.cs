@@ -91,37 +91,49 @@ namespace Soar
     
     internal sealed class IndexValueSubscription<T> : IDisposable
     {
-        private readonly Action<int, T> action;
+        private readonly Action<T> action;
+        private readonly Action<int, T> indexAction;
         private readonly Action<IndexValuePair<T>> pairAction;
         private readonly IList<IDisposable> disposables;
+        private readonly int index;
         private bool disposed;
         
         public IndexValueSubscription(
-            Action<int, T> action,
+            int index,
+            Action<T> action,
             IList<IDisposable> disposables)
         {
+            this.index = index;
             this.action = action;
             this.disposables = disposables;
         }
         
         public IndexValueSubscription(
-            Action<IndexValuePair<T>> action,
+            Action<int, T> indexAction,
             IList<IDisposable> disposables)
         {
-            pairAction = action;
+            this.indexAction = indexAction;
             this.disposables = disposables;
         }
         
-        public void Invoke(int index, T value)
+        public IndexValueSubscription(
+            Action<IndexValuePair<T>> pairAction,
+            IList<IDisposable> disposables)
         {
-            Invoke(new IndexValuePair<T>(index, value));
+            this.pairAction = pairAction;
+            this.disposables = disposables;
         }
         
-        public void Invoke(IndexValuePair<T> valuePair)
+        public void Invoke(int idx, T value)
         {
             if (disposed) return;
-            action?.Invoke(valuePair.Index, valuePair.Value);
+
+            var valuePair = new IndexValuePair<T>(idx, value);
+            indexAction?.Invoke(valuePair.Index, valuePair.Value);
             pairAction?.Invoke(valuePair);
+            
+            if (index != idx) return;
+            action?.Invoke(valuePair.Value);
         }
         
         public void Dispose()

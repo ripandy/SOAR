@@ -95,6 +95,13 @@ namespace Soar.Collections
             countSubscriptions.Add(subscription); 
             return subscription;
         }
+        
+        public partial IDisposable SubscribeToValues(int index, Action<T> action)
+        {
+            var subscription = new IndexValueSubscription<T>(index, action, valueSubscriptions);
+            valueSubscriptions.Add(subscription);
+            return subscription;
+        }
 
         public partial IDisposable SubscribeToValues(Action<int, T> action)
         {

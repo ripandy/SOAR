@@ -160,6 +160,11 @@ namespace Soar.Collections
             return CountSubject.Subscribe(action);
         }
 
+        public partial IDisposable SubscribeToValues(int index, Action<T> action)
+        {
+            return ValueSubject.Where(pair => index == pair.Index).Subscribe(pair => action.Invoke(pair.Value));
+        }
+
         public partial IDisposable SubscribeToValues(Action<int, T> action)
         {
             return ValueSubject.Subscribe(pair => action.Invoke(pair.Index, pair.Value));
