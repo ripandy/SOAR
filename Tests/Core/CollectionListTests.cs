@@ -216,6 +216,14 @@ namespace Soar.Collections.Tests
             Assert.AreEqual(4, elements.Count, "Element count should stay at 4 due to disposal.");
             Assert.AreEqual(3, otherElements[1].Index, "Updated value should be at index 3.");
             Assert.AreEqual(30, otherElements[1].Value, "Updated value should be 30.");
+            
+            var simpleElements = new List<int>();
+            using var subscription3 = testIntCollection.SubscribeToValues(5, value => simpleElements.Add(value));
+            testIntCollection[7] = 12;
+            testIntCollection[5] = 14;
+            testIntCollection[3] = 27;
+            Assert.AreEqual(1, simpleElements.Count, "Element count should be 1 due only event at index 5 is being listened.");
+            Assert.AreEqual(14, simpleElements[0], "Updated value should be 14.");
         }
 
         [Test]

@@ -268,6 +268,14 @@ namespace Soar.Collections
         /// <summary>
         /// Subscribe to value update event. Will be called when element value is updated and is called with element index and value.
         /// </summary>
+        /// <param name="index">Index of the element to subscribe to.</param>
+        /// <param name="action">Action to be executed on event call.</param>
+        /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
+        public partial IDisposable SubscribeToValues(int index, Action<T> action);
+        
+        /// <summary>
+        /// Subscribe to value update event. Will be called when element value is updated and is called with element index and value.
+        /// </summary>
         /// <param name="action">Action to be executed on event call.</param>
         /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
         public partial IDisposable SubscribeToValues(Action<int, T> action);
