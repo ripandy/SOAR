@@ -15,6 +15,11 @@ namespace Soar.Events
 
         protected virtual void Start()
         {
+            if (gameEventToListen == null)
+            {
+                Debug.LogWarning($"[{GetType().Name}]: No GameEvent assigned on {gameObject.name}.", this);
+                return;
+            }
             subscriptions.Add(gameEventToListen.Subscribe(onGameEventRaised.Invoke));
         }
 
@@ -24,6 +29,7 @@ namespace Soar.Events
             {
                 subscription.Dispose();
             }
+            subscriptions.Clear();
         }
     }
 
@@ -35,10 +41,8 @@ namespace Soar.Events
         protected override void Start()
         {
             base.Start();
-            if (gameEventToListen is GameEvent<T> typedEvent)
-            {
-                subscriptions.Add(typedEvent.Subscribe(onTypedGameEventRaised.Invoke));
-            }
+            if (gameEventToListen is not GameEvent<T> typedEvent) return;
+            subscriptions.Add(typedEvent.Subscribe(onTypedGameEventRaised.Invoke));
         }
 
         [Serializable]
