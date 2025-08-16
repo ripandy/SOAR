@@ -11,19 +11,25 @@ namespace Soar.Events
         [SerializeField] protected GameEvent gameEventToListen;
         [Space, SerializeField] private UnityEvent onGameEventRaised;
 
-        protected readonly List<IDisposable> Subscriptions = new();
+        protected readonly List<IDisposable> subscriptions = new();
 
         protected virtual void Start()
         {
-            Subscriptions.Add(gameEventToListen.Subscribe(onGameEventRaised.Invoke));
+            if (gameEventToListen == null)
+            {
+                Debug.LogWarning($"[{GetType().Name}]: No GameEvent assigned on {gameObject.name}.", this);
+                return;
+            }
+            subscriptions.Add(gameEventToListen.Subscribe(onGameEventRaised.Invoke));
         }
 
         protected virtual void OnDestroy()
         {
-            foreach (var subscription in Subscriptions)
+            foreach (var subscription in subscriptions)
             {
                 subscription.Dispose();
             }
+            subscriptions.Clear();
         }
     }
 
@@ -35,10 +41,8 @@ namespace Soar.Events
         protected override void Start()
         {
             base.Start();
-            if (gameEventToListen is GameEvent<T> typedEvent)
-            {
-                Subscriptions.Add(typedEvent.Subscribe(onTypedGameEventRaised.Invoke));
-            }
+            if (gameEventToListen is not GameEvent<T> typedEvent) return;
+            subscriptions.Add(typedEvent.Subscribe(onTypedGameEventRaised.Invoke));
         }
 
         [Serializable]
