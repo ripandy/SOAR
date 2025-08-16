@@ -11,7 +11,7 @@ namespace Soar.Events
             base.Start();
             if (gameEventToListen is GameEvent<bool> typedEvent)
             {
-                Subscriptions.Add(typedEvent.Subscribe(value => onNegatedBoolEventRaised.Invoke(!value)));
+                subscriptions.Add(typedEvent.Subscribe(value => onNegatedBoolEventRaised.Invoke(!value)));
             }
         }
     }

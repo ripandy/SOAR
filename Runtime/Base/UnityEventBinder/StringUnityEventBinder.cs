@@ -4,7 +4,7 @@ namespace Soar.Events
     {
         protected override void Start()
         {
-            Subscriptions.Add(gameEventToListen.Subscribe(() => onTypedGameEventRaised.Invoke(gameEventToListen.ToString())));
+            subscriptions.Add(gameEventToListen.Subscribe(() => onTypedGameEventRaised.Invoke(gameEventToListen.ToString())));
         }
     }
 }
