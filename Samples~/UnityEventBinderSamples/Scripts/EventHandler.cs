@@ -9,6 +9,7 @@ namespace Soar.UnityEventBinder.Sample
     {
         [SerializeField] private GameEvent gameEvent;
         [SerializeField] private StringVariable textVariable;
+        [SerializeField] private IntVariable eventCountVariable;
         [SerializeField] private string[] textsToDisplay = 
         {
             "Every", "time", "event", "is", "fired", "a", "word", "is", "added", "to", "make", "a", "full", "sentence."
@@ -32,6 +33,8 @@ namespace Soar.UnityEventBinder.Sample
             
             textVariable.Value += textsToDisplay[index] + " ";
             index++;
+            
+            eventCountVariable.Value++;
         }
 
         private void OnDestroy()
