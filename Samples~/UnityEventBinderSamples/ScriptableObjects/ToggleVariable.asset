@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc5605960d7c465b8fd51b39239da2f3, type: 3}
+  m_Script: {fileID: 11500000, guid: f60a616019a264726ac3ec7ec951e814, type: 3}
   m_Name: ToggleVariable
   m_EditorClassIdentifier: 
-  buffered: 1
-  _value: 0
-  _variableEventType: 0
-  _autoResetValue: 0
+  value: 0
+  valueEventType: 0
+  autoResetValue: 1
