@@ -1,8 +1,7 @@
-﻿using Soar.Variables;
-using System;
+﻿using System;
 using UnityEngine;
 
-namespace Soar.Json.Sample
+namespace Soar.Variables.Sample
 {
     [CreateAssetMenu(fileName = "CustomVariable", menuName = MenuHelper.DefaultVariableMenu + "Custom")]
     public class CustomVariable : JsonableVariable<CustomStruct>

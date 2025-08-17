@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56a9ae2a5b384b9c9711027929164266, type: 3}
   m_Name: CustomVariable
   m_EditorClassIdentifier: 
-  instanceSettings:
-    variableEventType: 0
-    autoResetValue: 0
-    defaultSubscribeBehavior: 0
-  _value:
-    boolField: 1
-    intField: 5
-    floatField: 100
-    stringField: this is a string field
+  value:
+    boolField: 0
+    intField: 0
+    floatField: 0
+    stringField: 
+  valueEventType: 1
+  autoResetValue: 0
