@@ -35,6 +35,10 @@ namespace Soar.Transactions.Sample
 
                 processValue.text = $"Time elapsed: {responseValue}"; 
             }
+            catch (OperationCanceledException)
+            {
+                processValue.text = "Request was canceled.";
+            }
             catch (Exception e)
             {
                 Debug.LogError($"An error occurred while processing the request: {e}");
