@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Soar.Variables.Sample
@@ -8,6 +9,7 @@ namespace Soar.Variables.Sample
         [SerializeField] private CustomVariable customVariable;
         [SerializeField] private Button saveButton;
         [SerializeField] private Button loadButton;
+        [SerializeField] private TMP_Text statusText;
 
         private void OnEnable()
         {
@@ -24,13 +26,13 @@ namespace Soar.Variables.Sample
         private void SaveButtonPressed()
         {
             customVariable.SaveToJson();
-            Debug.Log($"[{GetType().Name}] {nameof(customVariable)} saved as json named {customVariable.name}.json");
+            statusText.text = $"Saved {customVariable.name}.json";
         }
         
         private void LoadButtonPressed()
         {
             customVariable.LoadFromJson();
-            Debug.Log($"[{GetType().Name}] loaded {customVariable.name}.json into {nameof(customVariable)}");
+            statusText.text = $"Loaded {customVariable.name}.json";
         }
     }
 }
