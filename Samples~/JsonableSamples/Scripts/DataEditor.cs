@@ -56,7 +56,13 @@ namespace Soar.Variables.Sample
 
         private void AddIntField() => UpdateIntField(customVariable.Value.intField + 1);
         private void SubtractIntField() => UpdateIntField(customVariable.Value.intField - 1);
-        private void UpdateIntField(string value) => UpdateIntField(int.Parse(value));
+        
+        private void UpdateIntField(string value)
+        {
+            if (!int.TryParse(value, out var result)) return;
+            UpdateIntField(result);
+        }
+        
         private void UpdateIntField(int value)
         {
             var v = customVariable.Value;
@@ -64,7 +70,12 @@ namespace Soar.Variables.Sample
             customVariable.Value = v;
         }
         
-        private void UpdateFloatField(string value) => UpdateFloatField(float.Parse(value));
+        private void UpdateFloatField(string value)
+        {
+            if (!float.TryParse(value, out var result)) return;
+            UpdateFloatField(result);
+        }
+        
         private void UpdateFloatField(float value)
         {
             var v = customVariable.Value;
