@@ -1,13 +1,12 @@
-﻿using System;
 using UnityEngine;
 
 namespace Soar.Variables
 {
     /// <summary>
-    /// An extended variable systems serializable to/from json string.
+    /// An extended variable serializable to/from json string.
     /// Implements IJsonable interface.
     /// </summary>
-    /// <typeparam name="T">Type to use on variable system</typeparam>
+    /// <typeparam name="T">Type to use on variable</typeparam>
     public abstract class JsonableVariable<T> : Variable<T>, IJsonable
     {
         /// <summary>
@@ -35,26 +34,11 @@ namespace Soar.Variables
         /// <param name="jsonString">json formatted string</param>
         public void FromJsonString(string jsonString)
         {
+            if (string.IsNullOrEmpty(jsonString)) return;
             var simpleType = Type.IsSimpleType();
             Value = simpleType
                 ? JsonUtility.FromJson<JsonableWrapper<T>>(jsonString).value
                 : JsonUtility.FromJson<T>(jsonString);
-        }
-    }
-
-    public interface IJsonable
-    {
-        string ToJsonString();
-        void FromJsonString(string jsonString);
-    }
-    
-    [Serializable]
-    public struct JsonableWrapper<T>
-    {
-        public T value;
-        public JsonableWrapper(T value)
-        {
-            this.value = value;
         }
     }
 }
