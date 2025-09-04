@@ -190,3 +190,14 @@ Here are some use cases in which you can utilize Commands:
 By using Commands, you create a clear separation of concerns.
 The invoker of a command doesn't need to know *how* the action is performed, only *what* action to trigger.
 This makes your codebase more modular, easier to understand, and simpler to maintain and extend.
+
+## Sample Usage
+
+To test this feature, the relevant sample package can be imported from the Package Manager window.
+
+![Import Sample](../assets/images/import-sample-placeholder.png)
+
+The sample demonstrates how to create both parameterless and typed `Command` assets to log messages to the console.
+It shows how they can be triggered directly from a `UnityEvent` in the Inspector.
+
+For detailed setup and usage instructions, please refer to the `README.md` file inside the `CommandSamples` folder after importing.

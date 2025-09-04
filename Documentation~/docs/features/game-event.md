@@ -229,3 +229,13 @@ public class LevelManager : MonoBehaviour
 - The `SoarCore` base class handles initialization and cleanup, including calling `Dispose()` during `OnQuit`. It also manages behavior related to Unity's "Enter Play Mode Options" (like Disable Domain Reload).
 
 This ensures that resources are cleaned up correctly and event listeners do not attempt to operate on disposed objects.
+
+## Sample Usage
+
+To test this feature, the relevant sample package can be imported from the Package Manager window.
+
+![Import Sample](../assets/images/import-sample-placeholder.png)
+
+The **GameEvent Sample** demonstrates how a UI Button can raise a `GameEvent` to communicate with a listener component without a direct reference. The listener then updates a UI Text element in response.
+
+For detailed setup and usage instructions, please refer to the `README.md` file inside the `GameEventSamples` folder after importing.

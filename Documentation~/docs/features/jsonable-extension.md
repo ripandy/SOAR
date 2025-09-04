@@ -125,3 +125,13 @@ public class LoadManager : MonoBehaviour
 ```
 
 The `JsonableExtensions` class also includes methods to check for the existence of a JSON file (`IsJsonFileExist`), providing a complete toolkit for managing data persistence with SOAR variables.
+
+## Sample Usage
+
+To test this feature, the relevant sample package can be imported from the Package Manager window.
+
+![Import Sample](../assets/images/import-sample-placeholder.png)
+
+The **Jsonable Sample** demonstrates how to create a custom `JsonableVariable` to hold settings data. It includes a UI to edit the data at runtime and buttons that use the `JsonableExtensions` to save the variable to a file and load it back.
+
+For detailed setup and usage instructions, please refer to the `README.md` file inside the `JsonableSamples` folder after importing.

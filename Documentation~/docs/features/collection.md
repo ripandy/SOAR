@@ -229,3 +229,13 @@ As derivatives of `SoarCore`, collections follow a managed lifecycle:
 - **Initialization**: On game start or after a domain reload, the collection's current state is saved as its initial value.
 - **Resetting**: If `autoResetValue` is `true`, the collection reverts to this initial state when play mode ends. The `ResetValues()` method can also be called manually at any time.
 - **Disposal**: The `Dispose()` method is called automatically when the application quits, clearing all active subscriptions to prevent memory leaks.
+
+## Sample Usage
+
+To test this feature, the relevant sample package can be imported from the Package Manager window.
+
+![Import Sample](../assets/images/import-sample-placeholder.png)
+
+The **Collection Sample** demonstrates how to use a `SoarList<int>` to drive a dynamic UI. It shows how to subscribe to add, remove, and value-changed events to automatically update the view when the collection is modified from another script.
+
+For detailed setup and usage instructions, please refer to the `README.md` file inside the `CollectionSamples` folder after importing.

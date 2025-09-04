@@ -113,3 +113,13 @@ The `UnityEventBinder<T>` base class handles all the logic. The `PlayerDataUnity
 ## Lifecycle
 
 The `UnityEventBinder` automatically handles subscribing to the `GameEvent` in its `Start()` method and unsubscribing in its `OnDestroy()` method. This ensures that there are no memory leaks from lingering subscriptions when the `GameObject` is destroyed.
+
+## Sample Usage
+
+To test this feature, the relevant sample package can be imported from the Package Manager window.
+
+![Import Sample](../assets/images/import-sample-placeholder.png)
+
+The **UnityEventBinder Sample** demonstrates how a `UnityEventBinder` can listen for a `GameEvent` and trigger a `UnityEvent` in response, all configured in the Inspector. This allows for codeless wiring of events to component methods.
+
+For detailed setup and usage instructions, please refer to the `README.md` file inside the `UnityEventBinderSamples` folder after importing.

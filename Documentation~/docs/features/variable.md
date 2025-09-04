@@ -205,3 +205,13 @@ Being derived from `GameEvent<T>` and `SoarCore`, `Variable<T>` instances:
 - Are `ScriptableObject`s and implement `IDisposable`.
 - Participate in SOAR's initialization and cleanup lifecycle, including handling for editor play mode state changes and domain reloads.
 - The `value` field of a `GameEvent<T>` (and thus `Variable<T>`) is reset to `default(T)` when the application quits or when domain reload is disabled and play mode is exited, as part of `GameEvent<T>.ResetInternal()`. The `autoResetValue` feature in `Variable<T>` controls whether `InitialValue` is restored.
+
+## Sample Usage
+
+To test this feature, the relevant sample package can be imported from the Package Manager window.
+
+![Import Sample](../assets/images/import-sample-placeholder.png)
+
+The **Variable Sample** demonstrates how multiple components can react to changes in shared `FloatVariable` assets that represent a character's health. It includes components for damaging, healing, and upgrading health, all of which interact with the same data assets without being directly aware of each other.
+
+For detailed setup and usage instructions, please refer to the `README.md` file inside the `VariableSamples` folder after importing.
