@@ -17,5 +17,42 @@
   "license": "MIT",
   "publishConfig": {
     "registry": "https://package.openupm.com"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Command Sample",
+      "description": "Demonstrates how to encapsulate logic in Command objects.",
+      "path": "Samples~/CommandSamples"
+    },
+    {
+      "displayName": "GameEvent Sample",
+      "description": "Demonstrates how to use GameEvents for decoupled communication.",
+      "path": "Samples~/GameEventSamples"
+    },
+    {
+      "displayName": "Variable Sample",
+      "description": "Demonstrates how to use Variables to share and observe data.",
+      "path": "Samples~/VariableSamples"
+    },
+    {
+      "displayName": "Collection Sample",
+      "description": "Demonstrates how to use reactive Collections to drive UI.",
+      "path": "Samples~/CollectionSamples"
+    },
+    {
+      "displayName": "Transaction Sample",
+      "description": "Demonstrates the request-response pattern with Transactions.",
+      "path": "Samples~/TransactionSamples"
+    },
+    {
+      "displayName": "UnityEventBinder Sample",
+      "description": "Shows how to use the UnityEventBinder to wire events in the Inspector.",
+      "path": "Samples~/UnityEventBinderSamples"
+    },
+    {
+      "displayName": "Jsonable Sample",
+      "description": "Demonstrates how to save and load data using Jsonable assets.",
+      "path": "Samples~/JsonableSamples"
+    }
+  ]
 }
