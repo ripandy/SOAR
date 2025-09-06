@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Soar.Events;
+using System.Reflection;
 using UnityEngine;
 
 namespace Soar.Variables.Tests
@@ -150,12 +151,50 @@ namespace Soar.Variables.Tests
             // parameterless subscription should be called.
             Assert.IsTrue(isRaised);
         }
+
+        [Test]
+        public void ValueEventType_OnValueAssign_ShouldRaiseEventEvenWhenValueIsSame()
+        {
+            var eventCount = 0;
+            testIntVariable.Value = 5;
+            SetVariableValueEventType(testIntVariable, ValueEventType.OnAssign);
+            using var s = testIntVariable.Subscribe(_ => eventCount++);
+
+            testIntVariable.Value = 5;
+            testIntVariable.Value = 5;
+            testIntVariable.Value = 10;
+
+            Assert.AreEqual(3, eventCount, "Event should be raised 3 times.");
+        }
+
+        [Test]
+        public void ValueEventType_OnValueChange_ShouldRaiseEventOnlyWhenValueIsDifferent()
+        {
+            var eventCount = 0;
+            testIntVariable.Value = 5;
+            SetVariableValueEventType(testIntVariable, ValueEventType.OnChange);
+            using var s = testIntVariable.Subscribe(_ => eventCount++);
+
+            testIntVariable.Value = 5; // Should not raise event
+            testIntVariable.Value = 5; // Should not raise event
+            testIntVariable.Value = 10; // Should raise event
+            testIntVariable.Value = 10; // Should not raise event
+            testIntVariable.Value = 20; // Should raise event
+
+            Assert.AreEqual(2, eventCount, "Event should be raised only 2 times.");
+        }
         
         [OneTimeTearDown]
         public void TearDown()
         {
             Object.DestroyImmediate(testIntVariable);
             Object.DestroyImmediate(testVector3Variable);
+        }
+
+        private void SetVariableValueEventType<T>(Variable<T> variable, ValueEventType type)
+        {
+            var fieldInfo = typeof(Variable<T>).GetField("valueEventType", BindingFlags.NonPublic | BindingFlags.Instance);
+            fieldInfo?.SetValue(variable, type);
         }
     }
 }
