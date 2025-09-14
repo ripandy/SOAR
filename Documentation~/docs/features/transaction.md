@@ -371,7 +371,7 @@ By using transactions, systems can communicate in a modular, testable, and react
 
 To test this feature, the relevant sample package can be imported from the Package Manager window.
 
-![Import Sample](../assets/images/import-sample-placeholder.png)
+![SOAR_ImportSamples_Transaction](../assets/images/SOAR_ImportSamples_Transaction.png)
 
 The **Transaction Sample** demonstrates the full request-response-subscribe lifecycle. It includes a requester that simulates a long-running process, a responder that handles the request, and observer components that log when the request and response occur.
 

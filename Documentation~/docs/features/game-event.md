@@ -234,7 +234,7 @@ This ensures that resources are cleaned up correctly and event listeners do not 
 
 To test this feature, the relevant sample package can be imported from the Package Manager window.
 
-![Import Sample](../assets/images/import-sample-placeholder.png)
+![SOAR_ImportSamples_GameEvent](../assets/images/SOAR_ImportSamples_GameEvent.png)
 
 The **GameEvent Sample** demonstrates how a UI Button can raise a `GameEvent` to communicate with a listener component without a direct reference. The listener then updates a UI Text element in response.
 

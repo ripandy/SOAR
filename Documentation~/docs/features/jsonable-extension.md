@@ -130,7 +130,7 @@ The `JsonableExtensions` class also includes methods to check for the existence 
 
 To test this feature, the relevant sample package can be imported from the Package Manager window.
 
-![Import Sample](../assets/images/import-sample-placeholder.png)
+![SOAR_ImportSamples_Jsonable](../assets/images/SOAR_ImportSamples_Jsonable.png)
 
 The **Jsonable Sample** demonstrates how to create a custom `JsonableVariable` to hold settings data. It includes a UI to edit the data at runtime and buttons that use the `JsonableExtensions` to save the variable to a file and load it back.
 
