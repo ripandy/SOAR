@@ -210,7 +210,7 @@ Being derived from `GameEvent<T>` and `SoarCore`, `Variable<T>` instances:
 
 To test this feature, the relevant sample package can be imported from the Package Manager window.
 
-![Import Sample](../assets/images/import-sample-placeholder.png)
+![SOAR_ImportSamples_Variable](../assets/images/SOAR_ImportSamples_Variable.png)
 
 The **Variable Sample** demonstrates how multiple components can react to changes in shared `FloatVariable` assets that represent a character's health. It includes components for damaging, healing, and upgrading health, all of which interact with the same data assets without being directly aware of each other.
 

@@ -234,7 +234,7 @@ As derivatives of `SoarCore`, collections follow a managed lifecycle:
 
 To test this feature, the relevant sample package can be imported from the Package Manager window.
 
-![Import Sample](../assets/images/import-sample-placeholder.png)
+![SOAR_ImportSamples_Collection](../assets/images/SOAR_ImportSamples_Collection.png)
 
 The **Collection Sample** demonstrates how to use a `SoarList<int>` to drive a dynamic UI. It shows how to subscribe to add, remove, and value-changed events to automatically update the view when the collection is modified from another script.
 

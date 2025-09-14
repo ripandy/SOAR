@@ -195,7 +195,7 @@ This makes your codebase more modular, easier to understand, and simpler to main
 
 To test this feature, the relevant sample package can be imported from the Package Manager window.
 
-![Import Sample](../assets/images/import-sample-placeholder.png)
+![SOAR_ImportSamples_Command](../assets/images/SOAR_ImportSamples_Command.png)
 
 The sample demonstrates how to create both parameterless and typed `Command` assets to log messages to the console.
 It shows how they can be triggered directly from a `UnityEvent` in the Inspector.

@@ -118,7 +118,7 @@ The `UnityEventBinder` automatically handles subscribing to the `GameEvent` in i
 
 To test this feature, the relevant sample package can be imported from the Package Manager window.
 
-![Import Sample](../assets/images/import-sample-placeholder.png)
+![SOAR_ImportSamples_UnityEventBinder](../assets/images/SOAR_ImportSamples_UnityEventBinder.png)
 
 The **UnityEventBinder Sample** demonstrates how a `UnityEventBinder` can listen for a `GameEvent` and trigger a `UnityEvent` in response, all configured in the Inspector. This allows for codeless wiring of events to component methods.
 
