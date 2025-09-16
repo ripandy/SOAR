@@ -1,37 +1,28 @@
 site_name: SOAR
-# site_url: Set this later when deploying to GitHub Pages
-repo_url: https://github.com/ripandy/SOAR # <-- Add your repo URL here
-repo_name: SOAR # <-- Add your repo name here (e.g., user/repo)
-  # You can also use a FontAwesome icon for the repo link:
-  # icon:
-  #  repo: fontawesome/brands/github
-
+repo_url: https://github.com/ripandy/SOAR
+repo_name: SOAR
 copyright: 'Copyright &copy; 2025 Ripandy Adha'
 
 theme:
   name: material
   favicon: assets/icons/SOAR_icon64.png
   logo: assets/icons/SOAR_icon.png
-
-  features: # Add features section for things like navigation.tabs
-    # - navigation.tabs # Uncomment if you want top-level navigation as tabs
+  language: en
+  features:
     - content.code.copy
     - content.code.select
-  
+    - navigation.instant
+    - navigation.tracking
   font:
     text: 'Lato'
     code: 'Fira Code'
-    
   palette:
-    # Palette toggle for light mode
     - scheme: default
       primary: indigo
       accent: indigo
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
-
-    # Palette toggle for dark mode
     - scheme: slate
       primary: indigo
       accent: indigo
@@ -39,33 +30,67 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
 
-nav:
-  - Overview: index.md
-  - Getting Started:
-    - Installation: getting-started/installation.md
-    - Quick Start: getting-started/quick-start.md
-  - Core Concepts:
-    - Architectural Principles: concepts/architecture.md
-    - R3 Integration: concepts/r3-integration.md
-  - Guides:
-    - SOAR's Lifecycle: guides/soar-lifecycle.md
-    - Creating Custom Assets: guides/creating-custom-assets.md
-    - Testing with SOAR: guides/testing-with-soar.md
-    - Performance Best Practice: guides/performance-best-practices.md
-    - Utilities & Editor Tooling: guides/utilities-and-editor-tooling.md
-  - Features:
-    - Command: features/command.md
-    - GameEvent: features/game-event.md
-    - Variable: features/variable.md
-    - Collection: features/collection.md
-    - Transaction: features/transaction.md
-    - Base Classes: features/base-class.md
-    - UnityEventBinder: features/unity-event-binder.md
-    - Jsonable Extension: features/jsonable-extension.md 
-  - Troubleshooting & FAQ: troubleshooting.md
+plugins:
+  - search
+  - i18n:
+      docs_structure: suffix
+      languages:
+        - locale: en
+          name: English
+          default: true
+        - locale: ja
+          name: "\u65e5\u672c\u8a9e"
+      nav_translations:
+        ja:
+          "Overview": "概要"
+          "Getting Started": "はじめに"
+          "Installation": "インストール"
+          "Quick Start": "クイックスタート"
+          "Core Concepts": "コアコンセプト"
+          "Architectural Principles": "設計原則"
+          "R3 Integration": "R3 との連携"
+          "Guides": "ガイド"
+          "SOAR's Lifecycle": "SOAR のライフサイクル"
+          "Creating Custom Assets": "カスタムアセットの作成"
+          "Testing with SOAR": "SOAR を使用したテスト"
+          "Performance Best Practice": "パフォーマンスのベストプラクティス"
+          "Utilities & Editor Tooling": "ユーティリティとエディタツール"
+          "Features": "機能"
+          "Command": "Command"
+          "GameEvent": "GameEvent"
+          "Variable": "Variable"
+          "Collection": "Collection"
+          "Transaction": "Transaction"
+          "Base Classes": "基本クラス"
+          "UnityEventBinder": "UnityEventBinder"
+          "Jsonable Extension": "Jsonable 拡張"
+          "Troubleshooting & FAQ": "トラブルシューティングと FAQ"
 
-  
-# Optional: Add extensions for better rendering
+nav:
+  - "Overview": index.md
+  - "Getting Started":
+    - "Installation": getting-started/installation.md
+    - "Quick Start": getting-started/quick-start.md
+  - "Core Concepts":
+    - "Architectural Principles": concepts/architecture.md
+    - "R3 Integration": concepts/r3-integration.md
+  - "Guides":
+    - "SOAR's Lifecycle": guides/soar-lifecycle.md
+    - "Creating Custom Assets": guides/creating-custom-assets.md
+    - "Testing with SOAR": guides/testing-with-soar.md
+    - "Performance Best Practice": guides/performance-best-practices.md
+    - "Utilities & Editor Tooling": guides/utilities-and-editor-tooling.md
+  - "Features":
+    - "Command": features/command.md
+    - "GameEvent": features/game-event.md
+    - "Variable": features/variable.md
+    - "Collection": features/collection.md
+    - "Transaction": features/transaction.md
+    - "Base Classes": features/base-class.md
+    - "UnityEventBinder": features/unity-event-binder.md
+    - "Jsonable Extension": features/jsonable-extension.md 
+  - "Troubleshooting & FAQ": troubleshooting.md
+
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
