@@ -16,8 +16,8 @@ The generic `Variable<T>` class is the base for all variable types. It holds a v
 
 - **Value Event Type**: The `valueEventType` field (configurable in the Inspector) determines when the value change event is raised:
   
-    - `ValueAssign`: The event is raised every time the `Value` property is set, even if the new value is the same as the old one.
-    - `ValueChanged`: The event is raised only if the new value is different from the current value.
+    - `OnAssign`: The event is raised every time the `Value` property is set, even if the new value is the same as the old one.
+    - `OnChange`: The event is raised only if the new value is different from the current value.
     This is checked by the `IsValueEquals(T)` method.
 
 - **Subscribing to Changes**: Since `Variable<T>` inherits from `GameEvent<T>`, subscription to value changes can be done by using the same `Subscribe` methods:
@@ -34,7 +34,9 @@ The generic `Variable<T>` class is the base for all variable types. It holds a v
 - **Auto Reset Value**: The `autoResetValue` boolean field (configurable in the Inspector) determines if the `Variable<T>` should automatically call `ResetValue()` when play mode ends. This is useful for ensuring variables return to a known state after testing.
 
 !!! Note "Serialization and Deep Copy"
-    Due to how Unity serializes class types, `autoResetValue` is more reliable with struct and primitive types. For complex class types, deep copying for `InitialValue` relies on JSON serialization internally, which can cause unnecessary overhead and might not cover all engine types like `Transform` or `GameObject`.
+    For `autoResetValue` to work with complex class types, SOAR performs a "deep copy" by serializing the initial value to a JSON string. This has two important implications:
+    1.  **Performance:** This serialization can create garbage and CPU overhead, especially at startup. For performance-critical variables, it's better to use structs or primitive types, which are copied by value and avoid this process.
+    2.  **Compatibility:** This method does not work for all types, especially Unity engine types like `Transform` or `GameObject`. Resetting these types requires manual handling.
 
 ### Creating a Variable
 
@@ -215,3 +217,19 @@ To test this feature, the relevant sample package can be imported from the Packa
 The **Variable Sample** demonstrates how multiple components can react to changes in shared `FloatVariable` assets that represent a character's health. It includes components for damaging, healing, and upgrading health, all of which interact with the same data assets without being directly aware of each other.
 
 For detailed setup and usage instructions, please refer to the `README.md` file inside the `VariableSamples` folder after importing.
+
+## Special Variables
+
+### `CameraVariable`
+
+The `CameraVariable` has a `fallbackType` field that allows it to fallback to `Camera.main` or `Camera.current` if the value is null. This is useful for ensuring that you always have a valid camera reference.
+
+### `BoolVariable`
+
+The `BoolVariable` has a `ToggleValue()` method that sets the value to the opposite of the current value.
+
+## Value Objects
+
+### `PairwiseValue<T>`
+
+A struct that holds both the old and new value of a variable. This is used in the `Subscribe` method of a `Variable<T>`.

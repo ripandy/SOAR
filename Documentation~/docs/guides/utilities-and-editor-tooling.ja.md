@@ -67,3 +67,7 @@ public class PlayerDataVariable : Variable<PlayerData> { }
 ### `CompositeDisposable`
 
 このユーティリティクラスは、`IDisposable` オブジェクトのコレクションを管理します。SOAR の非 R3 実装によって内部的に使用され、すべてのアクティブなサブスクリプションを追跡します。`CompositeDisposable` が破棄されると、それが保持するすべてのサブスクリプションも破棄されます。単一の `MonoBehaviour` で複数のサブスクリプションを管理するために、ユーザースクリプトで役立ちます。
+
+### `DictionaryExtensions`
+
+このクラスは、辞書用の拡張メソッドを提供します。`TryChangeKey()` メソッドを使用すると、辞書エントリのキーを変更できます。

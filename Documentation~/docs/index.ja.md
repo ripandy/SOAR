@@ -1,17 +1,10 @@
 # SOAR
 
-Scriptable Object Architecture Reactive-extensible (SOAR) は、Unity 向けのモジュール式フレームワークであり、イベント駆動型アーキテクチャに ScriptableObject を活用します。
-これは、クリーンで疎結合なコードアーキテクチャを提供することを目的とした、Scriptable Object Architecture の実装です。
-SOAR の実装は、[Ryan Hipple 氏の Unite Austin 2017 での講演](https://youtu.be/raQ3iHhE_Kk)に基づいています。
+Scriptable Object Architecture Reactive-extensible (SOAR) は、クリーンで疎結合なイベント駆動型アーキテクチャを構築するために ScriptableObject を活用する、Unity 向けのモジュール式フレームワークです。これは、[Ryan Hipple 氏の Unite Austin 2017 での講演](https://youtu.be/raQ3iHhE_Kk)に基づいています。
 
-SOAR は、Pub/Sub パターンの使用を推奨するイベントベースのシステムです。
-その基本原則は、[ScriptableObject] インスタンス（およびその `name`/`guid` プロパティ）を「Channel」または「Topic」として扱うことです。
-パブリッシャーとサブスクライバー間のペアリングは、各 SOAR インスタンスへの参照を通じて確立されます。
+SOAR は、`ScriptableObject` アセットがチャネルとして機能する、出版/購読パターンを推奨します。パブリッシャーとサブスクライバーは、これらの共有アセットを介して相互作用し、直接的な依存関係を排除します。
 
-SOAR は、機能豊富でモダンな C# 向けリアクティブエクステンションであるリアクティブライブラリ [R3] で拡張できるように設計されています。
-SOAR は、Scriptable Object Architecture 内で R3 の機能をラップして利用します。
-SOAR は独立して機能することもできますが、その実装は基本的な機能のみを提供します。
-SOAR を R3 と組み合わせて使用することを強くお勧めします。
+SOAR は独立して機能することもできますが、C# 向けのモダンなリアクティブエクステンションライブラリである [R3](https://github.com/Cysharp/R3) で拡張できるように設計されています。SOAR のポテンシャルを最大限に引き出すために、R3 と組み合わせて使用することを強くお勧めします。
 
 ## 主要リンク
 

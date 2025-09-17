@@ -68,3 +68,7 @@ These extension methods are useful for creating dedicated `SaveManager` or `Load
 ### `CompositeDisposable`
 
 This utility class manages a collection of `IDisposable` objects. It is used internally by SOAR's non-R3 implementation to track all active subscriptions. When the `CompositeDisposable` is disposed, all the subscriptions it holds are disposed of as well. It can be useful in user scripts for managing multiple subscriptions in a single `MonoBehaviour`.
+
+### `DictionaryExtensions`
+
+This class provides extension methods for dictionaries. The `TryChangeKey()` method allows you to change the key of a dictionary entry.

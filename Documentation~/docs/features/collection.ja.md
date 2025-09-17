@@ -239,3 +239,13 @@ public class R3CollectionMonitor : MonoBehaviour
 The **Collection サンプル**は、`SoarList<int>` を使用して動的な UI を駆動する方法を示します。別のスクリプトからコレクションが変更されたときにビューを自動的に更新するために、追加、削除、および値変更イベントにサブスクライブする方法を示します。
 
 詳細なセットアップと使用手順については、インポート後に `CollectionSamples` フォルダ内の `README.md` ファイルを参照してください。
+
+## 値オブジェクト
+
+### `IndexValuePair<T>`
+
+コレクション内の要素のインデックスと値を保持する構造体。これは `SoarList<T>` の `SubscribeToValues` および `ObserveInsert` メソッドで使用されます。
+
+### `MovedValueDto<T>`
+
+`SoarList<T>` 内で移動された要素の値、古いインデックス、および新しいインデックスを保持する構造体。これは `SoarList<T>` の `SubscribeOnMove` および `ObserveMove` メソッドで使用されます。
