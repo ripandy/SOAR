@@ -2,13 +2,9 @@
 
 ## Before You Begin
 
-Before you proceed with installing SOAR, please ensure you have the following:
+SOAR is a Unity Package that can be installed using one of the methods below. It requires **Unity 6.0 or later**.
 
-- **Unity Version**: SOAR requires **Unity 6.0 or later**.
-- **Understanding Unity Packages**: SOAR is distributed as a Unity Package. You will be using Unity's Package Manager to install it using one of the methods described below.
-- **R3 (Highly Recommended)**: SOAR is designed to be extensible with the [R3] library. While SOAR can function independently, its full potential are unlocked when used with R3.
-
-Once you've confirmed these points, you can proceed with your preferred installation method.
+While SOAR can function independently, it is designed to be extended with the [R3] library. It is highly recommended to install R3 to unlock SOAR's full potential.
 
 ## OpenUPM 
 
