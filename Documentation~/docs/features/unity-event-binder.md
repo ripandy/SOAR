@@ -74,6 +74,8 @@ The process is similar to the parameterless binder, but with a typed `UnityEvent
 
     ![SOAR_StringUnityEventBinder_HandlesToString.gif](../assets/images/SOAR_StringUnityEventBinder_HandlesToString.gif)
 
+-   **`UnityEventBatchBinder`**: This component allows you to listen to multiple `GameEvent`s and invoke a single `UnityEvent` in response. This is useful when you have multiple events that should trigger the same response.
+
 ## Creating Custom `UnityEventBinder<T>`
 
 A custom typed `UnityEventBinder` can be created as necessary:

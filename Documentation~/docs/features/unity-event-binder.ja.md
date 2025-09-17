@@ -74,6 +74,8 @@
 
     ![SOAR_StringUnityEventBinder_HandlesToString.gif](../assets/images/SOAR_StringUnityEventBinder_HandlesToString.gif)
 
+-   **`UnityEventBatchBinder`**: このコンポーネントを使用すると、複数の `GameEvent` をリッスンし、それに応じて単一の `UnityEvent` を呼び出すことができます。これは、複数のイベントが同じ応答をトリガーする必要がある場合に便利です。
+
 ## カスタム `UnityEventBinder<T>` の作成
 
 必要に応じて、カスタムの型付き `UnityEventBinder` を作成できます：

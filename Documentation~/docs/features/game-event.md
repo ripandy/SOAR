@@ -239,3 +239,9 @@ To test this feature, the relevant sample package can be imported from the Packa
 The **GameEvent Sample** demonstrates how a UI Button can raise a `GameEvent` to communicate with a listener component without a direct reference. The listener then updates a UI Text element in response.
 
 For detailed setup and usage instructions, please refer to the `README.md` file inside the `GameEventSamples` folder after importing.
+
+## Special GameEvents
+
+### `BoolGameEvent`
+
+The `BoolGameEvent` has a `RaiseToggled()` method that raises the event with the opposite of the current value.

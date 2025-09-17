@@ -16,8 +16,8 @@ SOAR の `Variable<T>` クラスは、`ScriptableObject` に保存されるデ�
 
 - **Value Event Type**: （インスペクターで設定可能な）`valueEventType` フィールドは、値変更イベントがいつ発生するかを決定します：
   
-    - `ValueAssign`: 新しい値が古い値と同じであっても、`Value` プロパティが設定されるたびにイベントが発生します。
-    - `ValueChanged`: 新しい値が現在の値と異なる場合にのみイベントが発生します。
+    - `OnAssign`: 新しい値が古い値と同じであっても、`Value` プロパティが設定されるたびにイベントが発生します。
+    - `OnChange`: 新しい値が現在の値と異なる場合にのみイベントが発生します。
     これは `IsValueEquals(T)` メソッドによってチェックされます。
 
 - **変更のサブスクライブ**: `Variable<T>` は `GameEvent<T>` から継承しているため、同じ `Subscribe` メソッドを使用して値の変更をサブスクライブできます：
@@ -34,7 +34,9 @@ SOAR の `Variable<T>` クラスは、`ScriptableObject` に保存されるデ�
 - **Auto Reset Value**: （インスペクターで設定可能な）`autoResetValue` ブールフィールドは、再生モードの終了時に `Variable<T>` が自動的に `ResetValue()` を呼び出すかどうかを決定します。これは、テスト後に変数を既知の状態に戻すのに役立ちます。
 
 !!! Note "シリアル化とディープコピー"
-    Unity がクラス型をシリアル化する方法のため、`autoResetValue` は構造体およびプリミティブ型でより信頼性があります。複雑なクラス型の場合、`InitialValue` のディープコピーは内部的に JSON シリアル化に依存しており、不要なオーバーヘッドを引き起こす可能性があり、`Transform` や `GameObject` などのすべてのエンジンタイプをカバーしていない場合があります。
+    `autoResetValue` が複雑なクラス型で機能するために、SOAR は初期値を JSON 文字列にシリアル化して「ディープコピー」を実行します。これには2つの重要な意味があります：
+    1.  **パフォーマンス:** このシリアル化は、特に起動時にガベージと CPU オーバーヘッドを発生させる可能性があります。パフォーマンスが重要な変数の場合は、値でコピーされ、このプロセスを回避する構造体またはプリミティブ型を使用することをお勧めします。
+    2.  **互換性:** このメソッドは、すべての型、特に `Transform` や `GameObject` などの Unity エンジン型では機能しません。これらの型をリセットする必要がある場合は、手動で処理する必要があります。
 
 ### 変数の作成
 
@@ -215,3 +217,19 @@ public class MyJsonableDataVariable : JsonableVariable<MyCustomData> { }
 The **Variable サンプル**は、キャラクターの体力を表す共有の `FloatVariable` アセットの変更に複数のコンポーネントがどのように反応するかを示します。これには、体力を減少させ、回復させ、アップグレードするコンポーネントが含まれており、すべてが互いに直接認識することなく同じデータアセットと対話します。
 
 詳細なセットアップと使用手順については、インポート後に `VariableSamples` フォルダ内の `README.md` ファイルを参照してください。
+
+##特別な変数
+
+### `CameraVariable`
+
+`CameraVariable` には `fallbackType` フィールドがあり、値が null の場合に `Camera.main` または `Camera.current` にフォールバックできます。これは、常に有効なカメラ参照があることを確認するのに役立ちます。
+
+### `BoolVariable`
+
+`BoolVariable` には `ToggleValue()` メソッドがあり、値を現在の値の反対に設定します。
+
+## 値オブジェクト
+
+### `PairwiseValue<T>`
+
+変数の古い値と新しい値の両方を保持する構造体。これは `Variable<T>` の `Subscribe` メソッドで使用されます。

@@ -239,3 +239,13 @@ To test this feature, the relevant sample package can be imported from the Packa
 The **Collection Sample** demonstrates how to use a `SoarList<int>` to drive a dynamic UI. It shows how to subscribe to add, remove, and value-changed events to automatically update the view when the collection is modified from another script.
 
 For detailed setup and usage instructions, please refer to the `README.md` file inside the `CollectionSamples` folder after importing.
+
+## Value Objects
+
+### `IndexValuePair<T>`
+
+A struct that holds the index and value of an element in a collection. This is used in the `SubscribeToValues` and `ObserveInsert` methods of a `SoarList<T>`.
+
+### `MovedValueDto<T>`
+
+A struct that holds the value, old index, and new index of an element that has been moved in a `SoarList<T>`. This is used in the `SubscribeOnMove` and `ObserveMove` methods of a `SoarList<T>`.

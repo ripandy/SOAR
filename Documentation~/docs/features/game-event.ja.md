@@ -239,3 +239,9 @@ public class LevelManager : MonoBehaviour
 The **GameEvent サンプル**は、UI ボタンが `GameEvent` を発行して、直接の参照なしにリスナーコンポーネントと通信する方法を示します。リスナーは、応答として UI テキスト要素を更新します。
 
 詳細なセットアップと使用手順については、インポート後に `GameEventSamples` フォルダ内の `README.md` ファイルを参照してください。
+
+## 特別なゲームイベント
+
+### `BoolGameEvent`
+
+`BoolGameEvent` には `RaiseToggled()` メソッドがあり、現在の値の反対でイベントを発生させます。
