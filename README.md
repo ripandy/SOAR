@@ -2,16 +2,17 @@
 
 <!-- [![openupm](https://img.shields.io/npm/v/com.ripandy.soar?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.ripandy.soar/) -->
 
+[日本語](./README_ja.md)
+
 SOAR is an implementation of Scriptable Object Architecture.
 Scriptable Object Architecture intends to provide clean and decoupled code architecture.
 SOAR is implemented based on [Ryan Hipple's talk at Unite Austin 2017](https://youtu.be/raQ3iHhE_Kk).
 
 SOAR is an event-based system that encourages the use of the [Pub/Sub pattern](#publishersubscriber-pattern).
 Its fundamental principle involves treating the [ScriptableObject] instance (with its `name`/`guid` property) as a 'Channel' or 'Topic'.
-Pairing between publisher and subscriber are established through each or SOAR's instance.
+The pairing between a publisher and a subscriber is established through references to each of SOAR's instance.
 
-SOAR is developed and designed to be extensible with Reactive Extensions library R3.
-R3 is a feature rich and modern Reactive Extensions for C#.
+SOAR is developed and designed to be extensible with Reactive Extensions library [R3], a feature-rich, modern Reactive Extensions for C#.
 SOAR wraps and utilizes R3's feature within the Scriptable Object Architecture.
 SOAR can function independently, but its implementation provides only basic functionality.
 It is highly recommended to use SOAR in conjunction with R3.
@@ -25,7 +26,7 @@ __For further details, see [Documentation]__
 - Unity 6.0 or later
 
 > [!NOTE]
-> This GitHub project cannot be opened directly in Unity Editor. See [Installation](https://github.com/kadinche/Kassets#Installation) for cloning.
+> This repository is a Unity Package, not a standalone Unity Project. It cannot be opened directly in the Unity Editor. Please follow the [Installation](#installation) instructions to add it to your project.
 
 # Getting Started
 
@@ -310,7 +311,7 @@ This is useful when an operation needs to wait for an event to complete.
 SOAR provides default base classes that are usable immediately.
 They can be accessed from the `Create > SOAR` context menu or the `Assets > Create > SOAR` menu bar item.
 Note that Base Classes use a different assembly definition file `(.asmdef)`.
-Manual `.asmdef` reference management might be required to add a reference of `Soar.Base` in project.
+A manual reference to Soar.Base may need to be added in the project's Assembly Definition (.asmdef) files.
 
 
 ### Unity Event Binder
@@ -363,7 +364,7 @@ By importing R3, SOAR has additional features:
       {
           Debug.Log("Waiting for game event...");
           await gameEvent.EventAsync();
-          Debug.Log("Game event received!");0
+          Debug.Log("Game event received!");
       }
   }
   ```
@@ -371,7 +372,7 @@ By importing R3, SOAR has additional features:
 - Conversion Methods
 
   Importing R3 enables SOAR's instance to be convertible to `Observable` for [R3], `IObservable` for (Uni)Rx, and `IAsyncObservable` for (Uni)Task.
-  This allows SOAR's instance to utilizes each respective functionalities.
+  This allows SOAR's instance to utilize the functionality of each respective library.
   After conversion, refer to the documentation of each library for more details.
 
   ```csharp
@@ -403,7 +404,7 @@ This pattern provides excellent decoupling in Unity, allowing components to comm
 
 SOAR fits well with the Model-View-Presenter (MVP) pattern.
 SOAR's `GameEvent` or `Variable` instance can be utilized to wrap the Model.
-As wrapper, SOAR doesn't involve directly with the Model.
+As a wrapper, SOAR does not interact with the Model directly.
 Model could be on a different namespace or assembly.
 Then, use classes that inherits from MonoBehaviour as the Presenter or Controller.
 These classes would subscribe to the `GameEvent` or `Variable` instance, then process the Model received from the event.

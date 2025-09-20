@@ -1,0 +1,80 @@
+site_name: SOAR
+repo_url: https://github.com/ripandy/SOAR
+repo_name: SOAR
+copyright: 'Copyright &copy; 2025 Ripandy Adha'
+
+theme:
+  name: material
+  favicon: assets/icons/SOAR_icon64.png
+  logo: assets/icons/SOAR_icon.png
+  language: en
+  features:
+    - content.code.copy
+    - content.code.select
+    - navigation.tracking
+  font:
+    text: 'Lato'
+    code: 'Fira Code'
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: suffix
+      languages:
+        - locale: en
+          name: English
+          default: true
+        - locale: ja
+          name: "\u65e5\u672c\u8a9e"
+
+nav:
+  - "Overview": index.md
+  - "Getting Started":
+    - "Installation": getting-started/installation.md
+    - "Quick Start": getting-started/quick-start.md
+  - "Core Concepts":
+    - "Architectural Principles": concepts/architecture.md
+    - "R3 Integration": concepts/r3-integration.md
+  - "Guides":
+    - "SOAR's Lifecycle": guides/soar-lifecycle.md
+    - "Creating Custom Assets": guides/creating-custom-assets.md
+    - "Testing with SOAR": guides/testing-with-soar.md
+    - "Performance Best Practice": guides/performance-best-practices.md
+    - "Utilities & Editor Tooling": guides/utilities-and-editor-tooling.md
+  - "Features":
+    - "Command": features/command.md
+    - "GameEvent": features/game-event.md
+    - "Variable": features/variable.md
+    - "Collection": features/collection.md
+    - "Transaction": features/transaction.md
+    - "Base Classes": features/base-class.md
+    - "UnityEventBinder": features/unity-event-binder.md
+    - "Jsonable Extension": features/jsonable-extension.md 
+  - "Troubleshooting & FAQ": troubleshooting.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+    
+  - toc:
+     permalink: true
+  - attr_list
