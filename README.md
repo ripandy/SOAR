@@ -2,6 +2,8 @@
 
 <!-- [![openupm](https://img.shields.io/npm/v/com.ripandy.soar?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.ripandy.soar/) -->
 
+[日本語](./README_ja.md)
+
 SOAR is an implementation of Scriptable Object Architecture.
 Scriptable Object Architecture intends to provide clean and decoupled code architecture.
 SOAR is implemented based on [Ryan Hipple's talk at Unite Austin 2017](https://youtu.be/raQ3iHhE_Kk).
