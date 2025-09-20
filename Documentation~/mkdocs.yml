@@ -11,7 +11,6 @@ theme:
   features:
     - content.code.copy
     - content.code.select
-    - navigation.instant
     - navigation.tracking
   font:
     text: 'Lato'
@@ -40,31 +39,6 @@ plugins:
           default: true
         - locale: ja
           name: "\u65e5\u672c\u8a9e"
-      nav_translations:
-        ja:
-          "Overview": "概要"
-          "Getting Started": "はじめに"
-          "Installation": "インストール"
-          "Quick Start": "クイックスタート"
-          "Core Concepts": "コアコンセプト"
-          "Architectural Principles": "設計原則"
-          "R3 Integration": "R3 との連携"
-          "Guides": "ガイド"
-          "SOAR's Lifecycle": "SOAR のライフサイクル"
-          "Creating Custom Assets": "カスタムアセットの作成"
-          "Testing with SOAR": "SOAR を使用したテスト"
-          "Performance Best Practice": "パフォーマンスのベストプラクティス"
-          "Utilities & Editor Tooling": "ユーティリティとエディタツール"
-          "Features": "機能"
-          "Command": "Command"
-          "GameEvent": "GameEvent"
-          "Variable": "Variable"
-          "Collection": "Collection"
-          "Transaction": "Transaction"
-          "Base Classes": "基本クラス"
-          "UnityEventBinder": "UnityEventBinder"
-          "Jsonable Extension": "Jsonable 拡張"
-          "Troubleshooting & FAQ": "トラブルシューティングと FAQ"
 
 nav:
   - "Overview": index.md
@@ -100,5 +74,7 @@ markdown_extensions:
   - pymdownx.snippets
   - pymdownx.superfences
   - admonition
+    
   - toc:
      permalink: true
+  - attr_list

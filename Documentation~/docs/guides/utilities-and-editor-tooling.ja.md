@@ -30,7 +30,7 @@ SOAR のエディタスクリプトは、Unity インスペクター内で直接
 
 アセット間をクリックする必要性を減らすために、SOAR アセットを参照するフィールド（例：`MonoBehaviour` の `GameEvent` フィールド）は、そのアセットのプロパティを自動的にインラインで描画します。
 
-![Extended ScriptableObject Drawer](../assets/images/SOAR_ExtendedScriptableObjectDrawer.png)
+![Extended ScriptableObject Drawer](../assets/images/SOAR_ExtendedScriptableObjectDrawer.png){ width="500" }
 
 この機能により、変数を使用するコンポーネントから離れることなく、変数の値やコレクションの内容を簡単に表示および変更できます。
 
