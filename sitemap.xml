@@ -1,269 +1,269 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <url>
-        <loc>None./</loc>
+        <loc>https://ripandy.github.io/SOAR/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="None"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/"/>
     </url>
     <url>
-        <loc>Nonetroubleshooting/</loc>
+        <loc>https://ripandy.github.io/SOAR/troubleshooting/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonetroubleshooting/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/troubleshooting/"/>
     </url>
     <url>
-        <loc>Noneconcepts/architecture/</loc>
+        <loc>https://ripandy.github.io/SOAR/concepts/architecture/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneconcepts/architecture/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/concepts/architecture/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/concepts/architecture/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/concepts/architecture/"/>
     </url>
     <url>
-        <loc>Noneconcepts/r3-integration/</loc>
+        <loc>https://ripandy.github.io/SOAR/concepts/r3-integration/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneconcepts/r3-integration/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/concepts/r3-integration/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/concepts/r3-integration/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/concepts/r3-integration/"/>
     </url>
     <url>
-        <loc>Nonefeatures/base-class/</loc>
+        <loc>https://ripandy.github.io/SOAR/features/base-class/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/base-class/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/base-class/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/base-class/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/base-class/"/>
     </url>
     <url>
-        <loc>Nonefeatures/collection/</loc>
+        <loc>https://ripandy.github.io/SOAR/features/collection/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/collection/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/collection/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/collection/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/collection/"/>
     </url>
     <url>
-        <loc>Nonefeatures/command/</loc>
+        <loc>https://ripandy.github.io/SOAR/features/command/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/command/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/command/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/command/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/command/"/>
     </url>
     <url>
-        <loc>Nonefeatures/game-event/</loc>
+        <loc>https://ripandy.github.io/SOAR/features/game-event/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/game-event/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/game-event/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/game-event/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/game-event/"/>
     </url>
     <url>
-        <loc>Nonefeatures/jsonable-extension/</loc>
+        <loc>https://ripandy.github.io/SOAR/features/jsonable-extension/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/jsonable-extension/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/jsonable-extension/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/jsonable-extension/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/jsonable-extension/"/>
     </url>
     <url>
-        <loc>Nonefeatures/transaction/</loc>
+        <loc>https://ripandy.github.io/SOAR/features/transaction/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/transaction/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/transaction/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/transaction/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/transaction/"/>
     </url>
     <url>
-        <loc>Nonefeatures/unity-event-binder/</loc>
+        <loc>https://ripandy.github.io/SOAR/features/unity-event-binder/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/unity-event-binder/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/unity-event-binder/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/unity-event-binder/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/unity-event-binder/"/>
     </url>
     <url>
-        <loc>Nonefeatures/variable/</loc>
+        <loc>https://ripandy.github.io/SOAR/features/variable/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/variable/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/variable/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/variable/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/variable/"/>
     </url>
     <url>
-        <loc>Nonegetting-started/installation/</loc>
+        <loc>https://ripandy.github.io/SOAR/getting-started/installation/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonegetting-started/installation/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/getting-started/installation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/getting-started/installation/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/getting-started/installation/"/>
     </url>
     <url>
-        <loc>Nonegetting-started/quick-start/</loc>
+        <loc>https://ripandy.github.io/SOAR/getting-started/quick-start/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonegetting-started/quick-start/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/getting-started/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/getting-started/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/getting-started/quick-start/"/>
     </url>
     <url>
-        <loc>Noneguides/creating-custom-assets/</loc>
+        <loc>https://ripandy.github.io/SOAR/guides/creating-custom-assets/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneguides/creating-custom-assets/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/guides/creating-custom-assets/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/guides/creating-custom-assets/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/guides/creating-custom-assets/"/>
     </url>
     <url>
-        <loc>Noneguides/performance-best-practices/</loc>
+        <loc>https://ripandy.github.io/SOAR/guides/performance-best-practices/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneguides/performance-best-practices/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/guides/performance-best-practices/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/guides/performance-best-practices/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/guides/performance-best-practices/"/>
     </url>
     <url>
-        <loc>Noneguides/soar-lifecycle/</loc>
+        <loc>https://ripandy.github.io/SOAR/guides/soar-lifecycle/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneguides/soar-lifecycle/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/guides/soar-lifecycle/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/guides/soar-lifecycle/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/guides/soar-lifecycle/"/>
     </url>
     <url>
-        <loc>Noneguides/testing-with-soar/</loc>
+        <loc>https://ripandy.github.io/SOAR/guides/testing-with-soar/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneguides/testing-with-soar/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/guides/testing-with-soar/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/guides/testing-with-soar/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/guides/testing-with-soar/"/>
     </url>
     <url>
-        <loc>Noneguides/utilities-and-editor-tooling/</loc>
+        <loc>https://ripandy.github.io/SOAR/guides/utilities-and-editor-tooling/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneguides/utilities-and-editor-tooling/"/>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/guides/utilities-and-editor-tooling/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/guides/utilities-and-editor-tooling/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/guides/utilities-and-editor-tooling/"/>
     </url>
     <url>
-        <loc>Noneja/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="None"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/"/>
     </url>
     <url>
-        <loc>Noneja/troubleshooting/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/troubleshooting/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/troubleshooting/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonetroubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/troubleshooting/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/troubleshooting/"/>
     </url>
     <url>
-        <loc>Noneja/concepts/architecture/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/concepts/architecture/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/concepts/architecture/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneconcepts/architecture/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/concepts/architecture/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/concepts/architecture/"/>
     </url>
     <url>
-        <loc>Noneja/concepts/r3-integration/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/concepts/r3-integration/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/concepts/r3-integration/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneconcepts/r3-integration/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/concepts/r3-integration/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/concepts/r3-integration/"/>
     </url>
     <url>
-        <loc>Noneja/features/base-class/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/features/base-class/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/base-class/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/base-class/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/base-class/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/base-class/"/>
     </url>
     <url>
-        <loc>Noneja/features/collection/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/features/collection/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/collection/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/collection/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/collection/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/collection/"/>
     </url>
     <url>
-        <loc>Noneja/features/command/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/features/command/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/command/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/command/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/command/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/command/"/>
     </url>
     <url>
-        <loc>Noneja/features/game-event/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/features/game-event/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/game-event/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/game-event/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/game-event/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/game-event/"/>
     </url>
     <url>
-        <loc>Noneja/features/jsonable-extension/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/features/jsonable-extension/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/jsonable-extension/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/jsonable-extension/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/jsonable-extension/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/jsonable-extension/"/>
     </url>
     <url>
-        <loc>Noneja/features/transaction/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/features/transaction/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/transaction/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/transaction/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/transaction/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/transaction/"/>
     </url>
     <url>
-        <loc>Noneja/features/unity-event-binder/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/features/unity-event-binder/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/unity-event-binder/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/unity-event-binder/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/unity-event-binder/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/unity-event-binder/"/>
     </url>
     <url>
-        <loc>Noneja/features/variable/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/features/variable/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/features/variable/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonefeatures/variable/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/features/variable/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/features/variable/"/>
     </url>
     <url>
-        <loc>Noneja/getting-started/installation/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/getting-started/installation/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/getting-started/installation/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonegetting-started/installation/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/getting-started/installation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/getting-started/installation/"/>
     </url>
     <url>
-        <loc>Noneja/getting-started/quick-start/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/getting-started/quick-start/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/getting-started/quick-start/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Nonegetting-started/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/getting-started/quick-start/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/getting-started/quick-start/"/>
     </url>
     <url>
-        <loc>Noneja/guides/creating-custom-assets/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/guides/creating-custom-assets/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/guides/creating-custom-assets/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneguides/creating-custom-assets/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/guides/creating-custom-assets/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/guides/creating-custom-assets/"/>
     </url>
     <url>
-        <loc>Noneja/guides/performance-best-practices/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/guides/performance-best-practices/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/guides/performance-best-practices/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneguides/performance-best-practices/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/guides/performance-best-practices/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/guides/performance-best-practices/"/>
     </url>
     <url>
-        <loc>Noneja/guides/soar-lifecycle/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/guides/soar-lifecycle/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/guides/soar-lifecycle/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneguides/soar-lifecycle/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/guides/soar-lifecycle/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/guides/soar-lifecycle/"/>
     </url>
     <url>
-        <loc>Noneja/guides/testing-with-soar/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/guides/testing-with-soar/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/guides/testing-with-soar/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneguides/testing-with-soar/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/guides/testing-with-soar/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/guides/testing-with-soar/"/>
     </url>
     <url>
-        <loc>Noneja/guides/utilities-and-editor-tooling/</loc>
+        <loc>https://ripandy.github.io/SOAR/ja/guides/utilities-and-editor-tooling/</loc>
         <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="ja" href="Noneja/guides/utilities-and-editor-tooling/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="Noneguides/utilities-and-editor-tooling/"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://ripandy.github.io/SOAR/ja/guides/utilities-and-editor-tooling/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ripandy.github.io/SOAR/guides/utilities-and-editor-tooling/"/>
     </url>
 </urlset>
