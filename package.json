@@ -5,8 +5,8 @@
     "name": "Ripandy Adha",
     "url": "https://github.com/ripandy/SOAR"
   },
-  "version": "0.7.0",
-  "unity": "2022.3",
+  "version": "1.0.0",
+  "unity": "6000.0",
   "description": "Scriptable Object Architecture Reactive-extensible with R3",
   "keywords": [
     "ScriptableObject",
