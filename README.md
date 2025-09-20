@@ -24,7 +24,7 @@ __For further details, see [Documentation]__
 - Unity 6.0 or later
 
 > [!NOTE]
-> This GitHub project cannot be opened directly in Unity Editor. See [Installation](https://github.com/kadinche/Kassets#Installation) for cloning.
+> This repository is a Unity Package, not a standalone Unity Project. It cannot be opened directly in the Unity Editor. Please follow the [Installation](#installation) instructions to add it to your project.
 
 # Getting Started
 
