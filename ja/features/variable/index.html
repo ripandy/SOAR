@@ -1,0 +1,1572 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../game-event/">
+      
+      
+        <link rel="next" href="../collection/">
+      
+      
+      <link rel="icon" href="../../../assets/icons/SOAR_icon64.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
+    
+    
+      
+        <title>Variable - SOAR</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.2afb09e1.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Lato";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#variable" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="../../" title="SOAR" class="md-header__button md-logo" aria-label="SOAR" data-md-component="logo">
+      
+  <img src="../../../assets/icons/SOAR_icon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SOAR
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Variable
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="言語切り替え">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.5 17.5 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2zm-2.62 7 1.62-4.33L19.12 17z"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="../../../features/variable/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="./" hreflang="ja" class="md-select__link">
+              日本語
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="検索">
+        
+        <button type="reset" class="md-search__icon md-icon" title="クリア" aria-label="クリア" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ripandy/SOAR" title="リポジトリへ" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    SOAR
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../" title="SOAR" class="md-nav__button md-logo" aria-label="SOAR" data-md-component="logo">
+      
+  <img src="../../../assets/icons/SOAR_icon.png" alt="logo">
+
+    </a>
+    SOAR
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ripandy/SOAR" title="リポジトリへ" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    SOAR
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Getting Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick Start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Core Concepts
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Core Concepts
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architectural Principles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/r3-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    R3 Integration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Guides
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Guides
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/soar-lifecycle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SOAR's Lifecycle
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/creating-custom-assets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Creating Custom Assets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/testing-with-soar/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Testing with SOAR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/performance-best-practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Performance Best Practice
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/utilities-and-editor-tooling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Utilities & Editor Tooling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Features
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Features
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../command/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Command
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../game-event/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    GameEvent
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Variable
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variable
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variablet" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variable&lt;T&gt;
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Variable&lt;T&gt;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      変数の作成
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      値へのアクセスと変更
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      値の変更のサブスクライブ
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jsonablevariablet" class="md-nav__link">
+    <span class="md-ellipsis">
+      JsonableVariable&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディタ統合
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="エディタ統合">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variablet-variableeditor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variable&lt;T&gt; インスペクタ (VariableEditor)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jsonablevariablet-jsonablevariableeditor" class="md-nav__link">
+    <span class="md-ellipsis">
+      JsonableVariable&lt;T&gt; インスペクタ (JsonableVariableEditor)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      ライフサイクルと破棄
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      サンプル使用法
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      特別な変数
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="特別な変数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cameravariable" class="md-nav__link">
+    <span class="md-ellipsis">
+      CameraVariable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boolvariable" class="md-nav__link">
+    <span class="md-ellipsis">
+      BoolVariable
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      値オブジェクト
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="値オブジェクト">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pairwisevaluet" class="md-nav__link">
+    <span class="md-ellipsis">
+      PairwiseValue&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../collection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Collection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transaction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Transaction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../base-class/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Base Classes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unity-event-binder/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    UnityEventBinder
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jsonable-extension/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jsonable Extension
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting & FAQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variablet" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variable&lt;T&gt;
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Variable&lt;T&gt;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      変数の作成
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      値へのアクセスと変更
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      値の変更のサブスクライブ
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jsonablevariablet" class="md-nav__link">
+    <span class="md-ellipsis">
+      JsonableVariable&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      エディタ統合
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="エディタ統合">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#variablet-variableeditor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variable&lt;T&gt; インスペクタ (VariableEditor)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jsonablevariablet-jsonablevariableeditor" class="md-nav__link">
+    <span class="md-ellipsis">
+      JsonableVariable&lt;T&gt; インスペクタ (JsonableVariableEditor)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      ライフサイクルと破棄
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      サンプル使用法
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      特別な変数
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="特別な変数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cameravariable" class="md-nav__link">
+    <span class="md-ellipsis">
+      CameraVariable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boolvariable" class="md-nav__link">
+    <span class="md-ellipsis">
+      BoolVariable
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      値オブジェクト
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="値オブジェクト">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pairwisevaluet" class="md-nav__link">
+    <span class="md-ellipsis">
+      PairwiseValue&lt;T&gt;
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="variable">Variable<a class="headerlink" href="#variable" title="Permanent link">&para;</a></h1>
+<p>SOAR の <code>Variable&lt;T&gt;</code> クラスは、<code>ScriptableObject</code> に保存されるデータコンテナを表します。
+これは <code>GameEvent&lt;T&gt;</code> システムを拡張しており、<code>Variable&lt;T&gt;</code> の <code>Value</code> が変更されるたびにイベントを発行し、すべてのサブスクライバーに新しい値を通知します。
+これにより、<code>Variable&lt;T&gt;</code> は、アプリケーション全体で簡単に共有および監視できるリアクティブなデータを作成するための強力なツールになります。</p>
+<p><code>Variable&lt;T&gt;</code> は、Raise および Subscribe イベント機能を備えた <code>GameEvent&lt;T&gt;</code> から継承し、したがってライフサイクル管理機能を持つ <code>SoarCore</code> からも継承します。</p>
+<h2 id="variablet"><code>Variable&lt;T&gt;</code><a class="headerlink" href="#variablet" title="Permanent link">&para;</a></h2>
+<p>ジェネリック <code>Variable&lt;T&gt;</code> クラスは、すべての変数型の基礎です。型 <code>T</code> の値を保持し、この値にアクセス、変更、および監視するメカニズムを提供します。</p>
+<p><img alt="SOAR_Variable-Inspector" src="../../../assets/images/SOAR_Variable-Inspector.png" /></p>
+<ul>
+<li>
+<p><strong>Value プロパティ</strong>: <code>Variable&lt;T&gt;</code> と対話する主な方法は、その <code>Value</code> プロパティを介することです。<code>Value</code> プロパティに新しい値を割り当てると、<code>Raise(T)</code> メソッドがトリガーされ、サブスクライバーに通知されます。</p>
+</li>
+<li>
+<p><strong>Value Event Type</strong>: （インスペクターで設定可能な）<code>valueEventType</code> フィールドは、値変更イベントがいつ発生するかを決定します：</p>
+<ul>
+<li><code>OnAssign</code>: 新しい値が古い値と同じであっても、<code>Value</code> プロパティが設定されるたびにイベントが発生します。</li>
+<li><code>OnChange</code>: 新しい値が現在の値と異なる場合にのみイベントが発生します。
+これは <code>IsValueEquals(T)</code> メソッドによってチェックされます。</li>
+</ul>
+</li>
+<li>
+<p><strong>変更のサブスクライブ</strong>: <code>Variable&lt;T&gt;</code> は <code>GameEvent&lt;T&gt;</code> から継承しているため、同じ <code>Subscribe</code> メソッドを使用して値の変更をサブスクライブできます：</p>
+<ul>
+<li><code>Subscribe(Action&lt;T&gt; action)</code>: 新しい値を受け取ります。</li>
+<li><code>Subscribe(Action&lt;T, T&gt; action)</code>: 古い値と新しい値の両方を受け取ります。これは <code>Variable&lt;T&gt;</code> に固有です。</li>
+<li><code>Subscribe(Action&lt;PairwiseValue&lt;T&gt;&gt; action)</code>: 古い値と新しい値の両方を含む <code>PairwiseValue&lt;T&gt;</code> 構造体を受け取ります。これも <code>Variable&lt;T&gt;</code> に固有です。</li>
+</ul>
+</li>
+<li>
+<p><strong>初期値とリセット</strong>:</p>
+<ul>
+<li><code>InitialValue</code> プロパティは、初期化時（ゲームの開始時やエディターのコンパイル時など）の変数の値を保存します。</li>
+<li><code>ResetValue()</code> メソッドを使用すると、変数の <code>Value</code> を <code>InitialValue</code> に戻すことができます。</li>
+</ul>
+</li>
+<li>
+<p><strong>Auto Reset Value</strong>: （インスペクターで設定可能な）<code>autoResetValue</code> ブールフィールドは、再生モードの終了時に <code>Variable&lt;T&gt;</code> が自動的に <code>ResetValue()</code> を呼び出すかどうかを決定します。これは、テスト後に変数を既知の状態に戻すのに役立ちます。</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">シリアル化とディープコピー</p>
+<p><code>autoResetValue</code> が複雑なクラス型で機能するために、SOAR は初期値を JSON 文字列にシリアル化して「ディープコピー」を実行します。これには2つの重要な意味があります：
+1.  <strong>パフォーマンス:</strong> このシリアル化は、特に起動時にガベージと CPU オーバーヘッドを発生させる可能性があります。パフォーマンスが重要な変数の場合は、値でコピーされ、このプロセスを回避する構造体またはプリミティブ型を使用することをお勧めします。
+2.  <strong>互換性:</strong> このメソッドは、すべての型、特に <code>Transform</code> や <code>GameObject</code> などの Unity エンジン型では機能しません。これらの型をリセットする必要がある場合は、手動で処理する必要があります。</p>
+</div>
+<h3 id="_1">変数の作成<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<p>SOAR は、一般的な Unity および C# 型（例：<code>IntVariable</code>、<code>FloatVariable</code>、<code>StringVariable</code>、<code>Vector3Variable</code>）用に、いくつかの事前定義された <code>Variable</code> 型を提供します。これらは <code>Assets &gt; Create &gt; SOAR &gt; Variables</code> メニューから作成できます。</p>
+<div class="admonition note">
+<p class="admonition-title">アセンブリ定義参照</p>
+<p>これらの一般的な型は、SOAR のコアクラス <code>Soar.asmdef</code> アセンブリ定義ファイルとは異なる <code>Soar.Base.asmdef</code> アセンブリ定義ファイル内で定義されています。<code>Soar.Base.asmdef</code> 参照がそれを必要とする asmdef に追加されていることを確認してください。</p>
+</div>
+<p>カスタムデータ型の変数を作成するには：</p>
+<ol>
+<li>
+<p>カスタムデータ構造を定義します。インスペクターでデータを表示および変更できるようにするには、<code>[Serializable]</code> として設定する必要があります。</p>
+<div class="language-csharp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// File: MyCustomData.cs</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">System</span><span class="p">;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="na">[Serializable]</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">public</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">MyCustomData</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">{</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">score</span><span class="p">;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">playerName</span><span class="p">;</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">}</span>
+</span></code></pre></div>
+</li>
+<li>
+<p>カスタム型を指定して <code>Variable&lt;T&gt;</code> を継承する新しいクラスを作成します。</p>
+<div class="language-csharp highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// File: MyCustomDataVariable.cs</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">Soar</span><span class="p">;</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">using</span><span class="w"> </span><span class="nn">Soar.Variables</span><span class="p">;</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine</span><span class="p">;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="na">[CreateAssetMenu(fileName = &quot;MyCustomDataVariable&quot;, menuName = MenuHelper.DefaultVariableMenu + &quot;My Custom Data Variable&quot;)]</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyCustomDataVariable</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Variable</span><span class="o">&lt;</span><span class="n">MyCustomData</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+</li>
+<li>
+<p><code>MyCustomDataVariable</code> のインスタンスは、<code>Assets &gt; Create &gt; SOAR &gt; Variables &gt; My Custom Data Variable</code> メニューから作成できるようになります。</p>
+</li>
+</ol>
+<h3 id="_2">値へのアクセスと変更<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>変数の値は <code>Value</code> ゲッター（プロパティ）からアクセスできます。同じプロパティを使用して、変数の値を <code>Value</code> セッター（プロパティ）から設定できます。値を変更すると、値変更イベントが発生します。</p>
+<div class="language-csharp highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// File: VariableUserExample.cs</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">Soar.Variables</span><span class="p">;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine</span><span class="p">;</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">VariableUserExample</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">MonoBehaviour</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">{</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="na">[SerializeField]</span><span class="w"> </span><span class="k">private</span><span class="w"> </span><span class="n">IntVariable</span><span class="w"> </span><span class="n">scoreVariable</span><span class="p">;</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="k">void</span><span class="w"> </span><span class="nf">Start</span><span class="p">()</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&quot;Initial Score: {scoreVariable.Value}&quot;</span><span class="p">);</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">AddScore</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">        </span><span class="n">scoreVariable</span><span class="p">.</span><span class="n">Value</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">amount</span><span class="p">;</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="_3">値の変更のサブスクライブ<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p><code>Variable&lt;T&gt;</code> の変更は、それにサブスクリプションを確立することで監視できます。このメカニズムは、<code>GameEvent&lt;T&gt;</code> へのサブスクライブに似ています。<code>Variable&lt;T&gt;</code> の <code>Value</code> が変更されると、サブスクライブされたすべてのアクションが呼び出されます。メモリリークや意図しない動作を防ぐために、サブスクリプションは不要になったときに破棄する必要があります。通常は <code>OnDisable</code> または <code>OnDestroy</code> 内で行います。</p>
+<div class="language-csharp highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// File: ScoreDisplay.cs</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">System</span><span class="p">;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">using</span><span class="w"> </span><span class="nn">Soar.Variables</span><span class="p">;</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine</span><span class="p">;</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine.UI</span><span class="p">;</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">ScoreDisplay</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">MonoBehaviour</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">{</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="na">[SerializeField]</span><span class="w"> </span><span class="k">private</span><span class="w"> </span><span class="n">IntVariable</span><span class="w"> </span><span class="n">scoreVariable</span><span class="p">;</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="na">[SerializeField]</span><span class="w"> </span><span class="k">private</span><span class="w"> </span><span class="n">Text</span><span class="w"> </span><span class="n">scoreText</span><span class="p">;</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="n">IDisposable</span><span class="w"> </span><span class="n">scoreSubscription</span><span class="p">;</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Start</span><span class="p">()</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">        </span><span class="c1">// 新しい値を受け取るためにサブスクライブ</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">        </span><span class="n">scoreSubscription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scoreVariable</span><span class="p">.</span><span class="n">Subscribe</span><span class="p">(</span><span class="n">UpdateScoreText</span><span class="p">);</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">        </span><span class="c1">// オプションで、古い値と新しい値を受け取るためにサブスクライブ</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">        </span><span class="c1">// scoreSubscription = scoreVariable.Subscribe(HandleScoreChangeDetailed);</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">        </span><span class="n">UpdateScoreText</span><span class="p">(</span><span class="n">scoreVariable</span><span class="p">.</span><span class="n">Value</span><span class="p">);</span><span class="w"> </span><span class="c1">// 初期値でテキストを更新</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">OnDestroy</span><span class="p">()</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">        </span><span class="n">scoreSubscription</span><span class="o">?.</span><span class="n">Dispose</span><span class="p">();</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">UpdateScoreText</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">newScore</span><span class="p">)</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">scoreText</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">null</span><span class="p">)</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="w">        </span><span class="p">{</span>
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">            </span><span class="n">scoreText</span><span class="p">.</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">$&quot;Score: {newScore}&quot;</span><span class="p">;</span>
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="w">    </span><span class="c1">// 古い/新しい値のサブスクリプションの例</span>
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">HandleScoreChangeDetailed</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">oldValue</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
+</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="w">        </span><span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">$&quot;Score changed from {oldValue} to {newValue}&quot;</span><span class="p">);</span>
+</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="w">        </span><span class="n">UpdateScoreText</span><span class="p">(</span><span class="n">newValue</span><span class="p">);</span>
+</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="jsonablevariablet"><code>JsonableVariable&lt;T&gt;</code><a class="headerlink" href="#jsonablevariablet" title="Permanent link">&para;</a></h2>
+<p>JSON にシリアル化または逆シリアル化する必要がある変数のために、SOAR は <code>JsonableVariable&lt;T&gt;</code> 基本クラスを提供します。このクラスは <code>IJsonable</code> インターフェイスを実装します。</p>
+<ul>
+<li>
+<p><strong><code>ToJsonString()</code></strong>: 変数の現在の <code>Value</code> を JSON 文字列に変換します。</p>
+</li>
+<li>
+<p>プリミティブ型は、堅牢なシリアル化のために <code>JsonableWrapper&lt;T&gt;</code> でラップされます（例：<code>{"value": 10}</code>）。</p>
+</li>
+<li>複雑な型は直接シリアル化されます。</li>
+<li>
+<p>Unity エディターでは、<code>JsonUtility.ToJson</code> を使用し、整形印刷が有効になっています。</p>
+</li>
+<li>
+<p><strong><code>FromJsonString(string jsonString)</code></strong>: JSON 文字列を解析し、変数の <code>Value</code> を更新します。</p>
+</li>
+<li>
+<p>プリミティブ型と複雑な型の両方のラップ解除を処理します。</p>
+</li>
+</ul>
+<p>カスタムの jsonable 変数は、通常の変数と同様に作成できますが、<code>JsonableVariable&lt;T&gt;</code> から継承します：</p>
+<div class="language-csharp highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// File: MyJsonableDataVariable.cs</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">using</span><span class="w"> </span><span class="nn">Soar.Variables</span><span class="p">;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">using</span><span class="w"> </span><span class="nn">UnityEngine</span><span class="p">;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">// MyCustomData が [Serializable] であると仮定</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="na">[CreateAssetMenu(fileName = &quot;MyJsonableDataVariable&quot;, menuName = &quot;SOAR/Jsonable Variables/My Jsonable Data Variable&quot;)]</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MyJsonableDataVariable</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">JsonableVariable</span><span class="o">&lt;</span><span class="n">MyCustomData</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<p><a href="../jsonable-extension/"><code>JsonableExtensions</code></a> クラスは、<code>IJsonable</code> オブジェクトをファイルに簡単に保存/読み込みするための <code>SaveToJson</code> や <code>LoadFromJson</code> などのヘルパーメソッドを提供します。</p>
+<h2 id="_4">エディタ統合<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p><code>Variable&lt;T&gt;</code> および <code>JsonableVariable&lt;T&gt;</code> アセットには、使いやすさを向上させるためのカスタムエディタインスペクタがあります。</p>
+<h3 id="variablet-variableeditor"><code>Variable&lt;T&gt;</code> インスペクタ (<code>VariableEditor</code>)<a class="headerlink" href="#variablet-variableeditor" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>値の表示</strong>: 変数の現在の <code>Value</code> が表示されます。<code>T</code> が複雑なシリアル化可能な型の場合、そのフィールドが表示されます。</li>
+<li><strong>Raise ボタン</strong>: <code>GameEventEditor</code> から継承されたこのボタンは、変数の <code>Raise(Value)</code> を呼び出し、リスナーのテストに役立ちます。</li>
+<li><strong>インスタンス設定</strong>:</li>
+<li><code>Value Event Type</code>: <code>ValueAssign</code> または <code>ValueChanged</code> を選択するためのドロップダウン。</li>
+<li><code>Auto Reset Value</code>: 再生モード終了時の自動値リセットを有効/無効にするためのチェックボックス。</li>
+</ul>
+<h3 id="jsonablevariablet-jsonablevariableeditor"><code>JsonableVariable&lt;T&gt;</code> インスペクタ (<code>JsonableVariableEditor</code>)<a class="headerlink" href="#jsonablevariablet-jsonablevariableeditor" title="Permanent link">&para;</a></h3>
+<p><code>Variable&lt;T&gt;</code> インスペクタのすべての機能を継承し、以下を追加します：</p>
+<ul>
+<li><strong>Json ファイル管理</strong>: 変数のデータを JSON ファイルに保存および読み込みするための折りたたみセクション。</li>
+<li><strong>Json Path Type</strong>: <code>Application.dataPath</code>、<code>Application.persistentDataPath</code>、またはカスタムパスから選択します。</li>
+<li><strong>File Name</strong>: JSON ファイル名を指定します。デフォルトで <code>[VariableName].json</code> にすることができます。</li>
+<li><strong>Save to Json ボタン</strong>: 現在の変数の <code>Value</code> を指定された JSON ファイルに保存します。</li>
+<li><strong>Load from Json ボタン</strong>: 指定された JSON ファイルから <code>Value</code> を変数に読み込みます。</li>
+</ul>
+<h2 id="_5">ライフサイクルと破棄<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p><code>GameEvent&lt;T&gt;</code> および <code>SoarCore</code> から派生しているため、<code>Variable&lt;T&gt;</code> インスタンスは：</p>
+<ul>
+<li><code>ScriptableObject</code> であり、<code>IDisposable</code> を実装しています。</li>
+<li>エディターの再生モードの状態変更やドメインリロードの処理を含む、SOAR の初期化およびクリーンアップライフサイクルに参加します。</li>
+<li><code>GameEvent&lt;T&gt;</code>（したがって <code>Variable&lt;T&gt;</code>）の <code>value</code> フィールドは、アプリケーションが終了するとき、またはドメインリロードが無効にされて再生モードが終了したときに <code>default(T)</code> にリセットされます（<code>GameEvent&lt;T&gt;.ResetInternal()</code> の一部として）。<code>Variable&lt;T&gt;</code> の <code>autoResetValue</code> 機能は、<code>InitialValue</code> が復元されるかどうかを制御します。</li>
+</ul>
+<h2 id="_6">サンプル使用法<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>この機能をテストするには、パッケージマネージャウィンドウから関連するサンプルパッケージをインポートできます。</p>
+<p><img alt="SOAR_ImportSamples_Variable" src="../../../assets/images/SOAR_ImportSamples_Variable.png" /></p>
+<p>The <strong>Variable サンプル</strong>は、キャラクターの体力を表す共有の <code>FloatVariable</code> アセットの変更に複数のコンポーネントがどのように反応するかを示します。これには、体力を減少させ、回復させ、アップグレードするコンポーネントが含まれており、すべてが互いに直接認識することなく同じデータアセットと対話します。</p>
+<p>詳細なセットアップと使用手順については、インポート後に <code>VariableSamples</code> フォルダ内の <code>README.md</code> ファイルを参照してください。</p>
+<h2 id="_7">特別な変数<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h3 id="cameravariable"><code>CameraVariable</code><a class="headerlink" href="#cameravariable" title="Permanent link">&para;</a></h3>
+<p><code>CameraVariable</code> には <code>fallbackType</code> フィールドがあり、値が null の場合に <code>Camera.main</code> または <code>Camera.current</code> にフォールバックできます。これは、常に有効なカメラ参照があることを確認するのに役立ちます。</p>
+<h3 id="boolvariable"><code>BoolVariable</code><a class="headerlink" href="#boolvariable" title="Permanent link">&para;</a></h3>
+<p><code>BoolVariable</code> には <code>ToggleValue()</code> メソッドがあり、値を現在の値の反対に設定します。</p>
+<h2 id="_8">値オブジェクト<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="pairwisevaluet"><code>PairwiseValue&lt;T&gt;</code><a class="headerlink" href="#pairwisevaluet" title="Permanent link">&para;</a></h3>
+<p>変数の古い値と新しい値の両方を保持する構造体。これは <code>Variable&lt;T&gt;</code> の <code>Subscribe</code> メソッドで使用されます。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Ripandy Adha
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "content.code.select", "navigation.tracking"], "search": "../../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>
