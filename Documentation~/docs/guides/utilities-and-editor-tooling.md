@@ -31,7 +31,7 @@ Any variable that inherits from `JsonableVariable<T>` gains a "Json File Managem
 
 To reduce the need to click between assets, any field that references a SOAR asset (e.g., a `GameEvent` field on a `MonoBehaviour`) will automatically draw the properties of that asset directly inline.
 
-![Extended ScriptableObject Drawer](../assets/images/SOAR_ExtendedScriptableObjectDrawer.png)
+![Extended ScriptableObject Drawer](../assets/images/SOAR_ExtendedScriptableObjectDrawer.png){ width="500" }
 
 This feature makes it easy to see and modify the values of variables or the contents of collections without ever leaving the component that uses them.
 

@@ -9,14 +9,14 @@ Project ウィンドウを右クリックし、作成するインスタンスを
 
 `GameEvent` インスタンスを作成するには、`Create/SOAR/Game Events/` メニューからいずれかのイベントタイプを選択します。
 
-![SOAR_Create-GameEvent](../../assets/images/SOAR_Create-GameEvent.gif)
+![SOAR_Create-GameEvent](../assets/images/SOAR_Create-GameEvent.gif)
 
 ### UnityEvents から GameEvent を発行する
 
 Unity UI のボタンからイベントを発行するには、作成した GameEvent インスタンスをボタンの OnClick イベントに割り当てます。
 ボタンがクリックされるたびにイベントが発行され、すべてのサブスクライバーに通知されます。
 
-![SOAR_Raise_FromUnityEvent](../../assets/images/SOAR_Raise_FromUnityEvent.gif)
+![SOAR_Raise_FromUnityEvent](../assets/images/SOAR_Raise_FromUnityEvent.gif)
 
 ### UnityEventBinder の使用法
 
@@ -25,11 +25,11 @@ Unity Event Binder は、`GameEvent` によって発行されたイベントを 
 
 使用するには、任意の GameObject にコンポーネントを追加し、`GameEventToListen` フィールドに GameEvent インスタンスを割り当てます。
 
-![SOAR_UnityEventBinder_AssignGameEvent](../../assets/images/SOAR_UnityEventBinder_AssignGameEvent.gif)
+![SOAR_UnityEventBinder_AssignGameEvent](../assets/images/SOAR_UnityEventBinder_AssignGameEvent.gif)
 
 イベントが発行されると、割り当てられた UnityEvent が呼び出されます。
 
-<img width="300" src="../../assets/images/SOAR_UnityEventBinder_AssignUnityEvent.gif" alt="SOAR_UnityEventBinder_AssignUnityEvent"/>
+<img width="300" src="../assets/images/SOAR_UnityEventBinder_AssignUnityEvent.gif" alt="SOAR_UnityEventBinder_AssignUnityEvent"/>
 
 ### スクリプトから GameEvent を発行する
 

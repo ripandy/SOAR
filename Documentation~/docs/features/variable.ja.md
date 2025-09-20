@@ -176,7 +176,7 @@ using UnityEngine;
 public class MyJsonableDataVariable : JsonableVariable<MyCustomData> { }
 ```
 
-[`Soar.JsonableExtensions`](Runtime/Utility/JsonableExtensions.cs) クラスは、`IJsonable` オブジェクトをファイルに簡単に保存/読み込みするための `SaveToJson` や `LoadFromJson` などのヘルパーメソッドを提供します。
+[`JsonableExtensions`](jsonable-extension.ja.md) クラスは、`IJsonable` オブジェクトをファイルに簡単に保存/読み込みするための `SaveToJson` や `LoadFromJson` などのヘルパーメソッドを提供します。
 
 ## エディタ統合
 
