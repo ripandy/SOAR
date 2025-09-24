@@ -1,6 +1,6 @@
 # Scriptable Object Architecture Reactive-extensible
 
-<!-- [![openupm](https://img.shields.io/npm/v/com.ripandy.soar?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.ripandy.soar/) -->
+[![openupm](https://img.shields.io/npm/v/com.ripandy.soar?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.ripandy.soar/)
 
 [日本語](./README_ja.md)
 
