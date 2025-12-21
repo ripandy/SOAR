@@ -7,6 +7,11 @@ namespace Soar
     {
         private void OnEnable()
         {
+            // NOTE: Prevents instance reset (unload) when all references have been released.
+            // Upon scene load, or upon calling UnloadUnusedAssets, if this instance has no reference, it would be replaced by other instance in another scene.
+            // This would cause an unexpected behavior due to data loss by instance resets/replacements.
+            hideFlags = HideFlags.DontUnloadUnusedAsset;
+            
 #if UNITY_EDITOR
             // NOTE : Unsubscribe then Subscribe ensures the subscription to the editor events only once.
             // Using flags does not work as expected when Domain Reload is disabled.
