@@ -74,11 +74,6 @@ crashlytics-build.properties
 /.idea*
 .idea*
 
-# Some root meta files
-LICENSE.meta
-Changelog.md.meta
-README*.md.meta
-Third Party Notices.md.meta
-
 # MkDocs build output
 /Documentation~/site/
+.DS_Store
