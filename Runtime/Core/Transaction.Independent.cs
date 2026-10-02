@@ -76,7 +76,7 @@ namespace Soar.Transactions
 
         internal virtual partial void RaiseRequest()
         {
-            foreach (var disposable in requestSubscriptions)
+            foreach (var disposable in requestSubscriptions.ToArray())
             {
                 if (disposable is not Subscription subscription) continue;
                 subscription.Invoke();
@@ -85,7 +85,7 @@ namespace Soar.Transactions
         
         internal virtual partial void RaiseResponse()
         {
-            foreach (var disposable in responseSubscriptions)
+            foreach (var disposable in responseSubscriptions.ToArray())
             {
                 if (disposable is not Subscription subscription) continue;
                 subscription.Invoke();
@@ -215,7 +215,7 @@ namespace Soar.Transactions
             requestValue = raisedRequestValue;
             base.RaiseRequest();
             
-            foreach (var disposable in requestSubscriptions)
+            foreach (var disposable in requestSubscriptions.ToArray())
             {
                 if (disposable is not Subscription<TRequest> typedSubscription) continue;
                 typedSubscription.Invoke(requestValue);
@@ -227,7 +227,7 @@ namespace Soar.Transactions
             responseValue = raisedResponseValue;
             base.RaiseResponse();
             
-            foreach (var disposable in responseSubscriptions)
+            foreach (var disposable in responseSubscriptions.ToArray())
             {
                 if (disposable is not Subscription<TResponse> typedSubscription) continue;
                 typedSubscription.Invoke(responseValue);

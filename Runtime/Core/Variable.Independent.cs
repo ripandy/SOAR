@@ -12,7 +12,7 @@ namespace Soar.Variables
             
             base.Raise(valueToRaise);
             
-            foreach (var disposable in subscriptions)
+            foreach (var disposable in subscriptions.ToArray())
             {
                 switch (disposable)
                 {
