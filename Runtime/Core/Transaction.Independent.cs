@@ -41,7 +41,7 @@ namespace Soar.Transactions
 
         internal void RespondInternalAsync()
         {
-            RespondInternalAsync(Application.exitCancellationToken);
+            Forget(RespondInternalAsync(Application.exitCancellationToken));
         }
         
         internal virtual partial async ValueTask RespondInternalAsync(CancellationToken cancellationToken)
