@@ -34,10 +34,8 @@ namespace Soar.Collections
 
             var wrapper = JsonUtility.FromJson<JsonableWrapper<List<T>>>(json);
             
-            // Clear the current list and add the loaded items.
-            // This ensures all reactive events are fired correctly.
-            Clear();
-            AddRange(wrapper.value);
+            // Replace the contents. Copy raises OnClear (if not empty), OnAdd for each item, and Count once.
+            Copy(wrapper.value);
         }
     }
 }
