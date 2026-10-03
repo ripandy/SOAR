@@ -345,6 +345,21 @@ namespace Soar.Collections.Tests
         }
 
         [Test]
+        public void IndexerSet_WithNewKey_ShouldAdd()
+        {
+            testNumberStringCollection.Clear();
+            
+            var added = new List<(NumberEnum Key, string Value)>();
+            using var subscription = testNumberStringCollection.SubscribeOnAdd((key, value) => added.Add((key, value)));
+            
+            testNumberStringCollection[NumberEnum.One] = NumberEnum.One.ToString();
+            
+            Assert.AreEqual(NumberEnum.One.ToString(), testNumberStringCollection[NumberEnum.One], "Assigning a new key should add it.");
+            Assert.AreEqual(1, testNumberStringCollection.Count, "Assigning a new key should add one element.");
+            Assert.AreEqual(1, added.Count, "Assigning a new key should raise OnAdd.");
+        }
+        
+        [Test]
         public void AddRange_WithDuplicateKey_ShouldThrowAndChangeNothing()
         {
             testNumberStringCollection.Clear();

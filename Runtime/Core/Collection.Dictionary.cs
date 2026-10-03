@@ -38,6 +38,13 @@ namespace Soar.Collections
                         OnValidate();
                     }
 
+                    // NOTE: Assigning to a missing key adds it, as IDictionary<TKey, TValue> requires.
+                    if (!dictionary.ContainsKey(key))
+                    {
+                        AddInternal(new SerializedKeyValuePair<TKey, TValue>(key, value));
+                        return;
+                    }
+
                     var isEqual = IsValueEquals(key, value);
                     dictionary[key] = value;
                     
