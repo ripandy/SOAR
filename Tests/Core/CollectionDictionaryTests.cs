@@ -345,6 +345,27 @@ namespace Soar.Collections.Tests
         }
 
         [Test]
+        public void AddRange_WithDuplicateKey_ShouldThrowAndChangeNothing()
+        {
+            testNumberStringCollection.Clear();
+            testNumberStringCollection.Add(NumberEnum.One, NumberEnum.One.ToString());
+            
+            var raised = 0;
+            using var subscription = testNumberStringCollection.SubscribeOnAdd((_, _) => raised++);
+            
+            var items = new[]
+            {
+                new SerializedKeyValuePair<NumberEnum, string>(NumberEnum.Two, NumberEnum.Two.ToString()),
+                new SerializedKeyValuePair<NumberEnum, string>(NumberEnum.One, "Duplicate"),
+            };
+            
+            Assert.Throws<System.ArgumentException>(() => testNumberStringCollection.AddRange(items), "A duplicate key should throw.");
+            Assert.AreEqual(1, testNumberStringCollection.Count, "A failed AddRange should not add anything.");
+            Assert.IsFalse(testNumberStringCollection.ContainsKey(NumberEnum.Two), "A failed AddRange should not add any key.");
+            Assert.AreEqual(0, raised, "A failed AddRange should raise nothing.");
+        }
+        
+        [Test]
         public void AddRange_SubscriberReadingDictionary_ShouldNotThrow()
         {
             testNumberStringCollection.Clear();

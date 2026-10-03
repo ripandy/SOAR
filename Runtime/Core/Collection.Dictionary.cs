@@ -130,6 +130,8 @@ namespace Soar.Collections
         {
             lock (syncRoot)
             {
+                // NOTE: Validate the whole batch first, so a duplicate key changes nothing and raises nothing.
+                ThrowIfDuplicateKeys(items, includeExistingKeys: true);
                 base.AddRangeInternal(items);
             }
         }
@@ -169,6 +171,16 @@ namespace Soar.Collections
                 var items = others as SerializedKeyValuePair<TKey, TValue>[] ?? others.ToArray();
                 dictionary.Clear();
                 base.CopyInternal(items);
+            }
+        }
+
+        private void ThrowIfDuplicateKeys(SerializedKeyValuePair<TKey, TValue>[] items, bool includeExistingKeys)
+        {
+            var keys = new HashSet<TKey>();
+            foreach (var item in items)
+            {
+                if (keys.Add(item.Key) && !(includeExistingKeys && dictionary.ContainsKey(item.Key))) continue;
+                throw new ArgumentException($"An item with the same key has already been added. Key: {item.Key}");
             }
         }
         
