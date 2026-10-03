@@ -344,6 +344,22 @@ namespace Soar.Collections.Tests
             }
         }
 
+        [Test]
+        public void AddRange_SubscriberReadingDictionary_ShouldNotThrow()
+        {
+            testNumberStringCollection.Clear();
+            
+            var read = new List<string>();
+            using var subscription = testNumberStringCollection.SubscribeOnAdd((key, _) => read.Add(testNumberStringCollection[key]));
+            
+            Assert.DoesNotThrow(() => testNumberStringCollection.AddRange(new[]
+            {
+                new SerializedKeyValuePair<NumberEnum, string>(NumberEnum.One, NumberEnum.One.ToString()),
+                new SerializedKeyValuePair<NumberEnum, string>(NumberEnum.Two, NumberEnum.Two.ToString()),
+            }), "Reading the dictionary from an OnAdd handler should not break AddRange.");
+            Assert.AreEqual(new[] { NumberEnum.One.ToString(), NumberEnum.Two.ToString() }, read, "Each added key should be readable from its OnAdd handler.");
+        }
+        
         [OneTimeTearDown]
         public void TearDown()
         {

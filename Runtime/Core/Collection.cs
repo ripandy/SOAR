@@ -65,12 +65,19 @@ namespace Soar.Collections
         {
             lock (syncRoot)
             {
-                var index = list.Count;
-                list.Add(item);
-                RaiseOnAdd(item);
-                RaiseValueAt(index, item);
+                AppendInternal(item);
                 RaiseCount();
             }
+        }
+
+        // NOTE: Appends one item and raises its per-item events. Count is raised by the caller.
+        //       Every add path goes through here, so derived collections only need to override this.
+        internal virtual void AppendInternal(T item)
+        {
+            var index = list.Count;
+            list.Add(item);
+            RaiseOnAdd(item);
+            RaiseValueAt(index, item);
         }
         
         public void AddRange(IEnumerable<T> items)
@@ -89,10 +96,7 @@ namespace Soar.Collections
             {
                 foreach (var item in items)
                 {
-                    var index = list.Count;
-                    list.Add(item);
-                    RaiseOnAdd(item);
-                    RaiseValueAt(index, item);
+                    AppendInternal(item);
                 }
                 RaiseCount();
             }

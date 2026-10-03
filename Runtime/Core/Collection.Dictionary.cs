@@ -106,12 +106,7 @@ namespace Soar.Collections
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
-            lock (syncRoot)
-            {
-                dictionary.Add(item.Key, item.Value);
-                base.AddInternal(item);
-                RaiseValue(item.Key, item.Value);
-            }
+            AddInternal(item);
         }
 
         public void Add(TKey key, TValue value)
@@ -119,12 +114,14 @@ namespace Soar.Collections
             AddInternal(new SerializedKeyValuePair<TKey, TValue>(key, value));
         }
         
-        internal override void AddInternal(SerializedKeyValuePair<TKey, TValue> item)
+        // NOTE: Update the lookup before the base raises OnAdd, so subscribers always see list and lookup in sync.
+        //       A duplicate key throws here, before the list is touched.
+        internal override void AppendInternal(SerializedKeyValuePair<TKey, TValue> item)
         {
             lock (syncRoot)
             {
                 dictionary.Add(item.Key, item.Value);
-                base.AddInternal(item);
+                base.AppendInternal(item);
                 RaiseValue(item.Key, item.Value);
             }
         }
@@ -134,11 +131,6 @@ namespace Soar.Collections
             lock (syncRoot)
             {
                 base.AddRangeInternal(items);
-                foreach (var item in items)
-                {
-                    dictionary.Add(item.Key, item.Value);
-                    RaiseValue(item.Key, item.Value);
-                }
             }
         }
 
