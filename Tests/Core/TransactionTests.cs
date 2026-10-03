@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using UnityEngine;
@@ -234,6 +235,28 @@ namespace Soar.Transactions.Tests
             Assert.IsTrue(responded, "Response was not subscribed.");
             Assert.AreEqual(responseValue, respondedValue, "Response value was not subscribed.");
             Assert.AreEqual(Mathf.PI * requestValue * requestValue, responseValue, "Request was not responded.");
+        }
+        
+        [Test]
+        public async Task ThrowingResponse_ShouldFaultRequestAsync_NotHang()
+        {
+            var transaction = ScriptableObject.CreateInstance<Transaction>();
+            try
+            {
+                Action throwingResponse = () => throw new InvalidOperationException("Response failed.");
+                transaction.RegisterResponse(throwingResponse);
+                
+                var request = transaction.RequestAsync().AsTask();
+                var finished = await Task.WhenAny(request, Task.Delay(1000));
+                
+                Assert.AreSame(request, finished, "RequestAsync should not hang when the response throws.");
+                Assert.IsTrue(request.IsFaulted, "RequestAsync should fault when the response throws.");
+                Assert.IsInstanceOf<InvalidOperationException>(request.Exception?.InnerException, "RequestAsync should carry the response's exception.");
+            }
+            finally
+            {
+                Object.DestroyImmediate(transaction);
+            }
         }
         
         [OneTimeTearDown]

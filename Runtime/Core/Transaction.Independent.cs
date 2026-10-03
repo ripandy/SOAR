@@ -44,6 +44,18 @@ namespace Soar.Transactions
             Forget(RespondInternalAsync(Application.exitCancellationToken));
         }
         
+        // NOTE: Once dequeued, an awaited request must be completed even when the response throws,
+        //       otherwise its awaiter waits forever. Callback requests have no error channel, so they rethrow to be logged.
+        private protected static void SetFailure<TResult>(TaskCompletionSource<TResult> tcs, Exception exception)
+        {
+            if (exception is OperationCanceledException canceledException)
+            {
+                tcs.TrySetCanceled(canceledException.CancellationToken);
+                return;
+            }
+            tcs.TrySetException(exception);
+        }
+
         internal virtual partial async ValueTask RespondInternalAsync(CancellationToken cancellationToken)
         {
             if (!IsReadyForTransaction)
@@ -53,7 +65,15 @@ namespace Soar.Transactions
             
             if (RequestQueueHandler.TryDequeue(out TaskCompletionSource<object> responseSubj))
             {
-                await registeredResponse.InvokeAsync(cancellationToken);
+                try
+                {
+                    await registeredResponse.InvokeAsync(cancellationToken);
+                }
+                catch (Exception e)
+                {
+                    SetFailure(responseSubj, e);
+                    return;
+                }
                 if (cancellationToken.IsCancellationRequested)
                 {
                     responseSubj.TrySetCanceled(cancellationToken);
@@ -150,7 +170,16 @@ namespace Soar.Transactions
                 var (request, responseTcs) = requestAsyncTuple;
                 if (registeredResponse is ResponseRegistrar<TRequest, TResponse> valueRegisteredResponse)
                 {
-                    var response = await valueRegisteredResponse.InvokeAsync(request, cancellationToken);
+                    TResponse response;
+                    try
+                    {
+                        response = await valueRegisteredResponse.InvokeAsync(request, cancellationToken);
+                    }
+                    catch (Exception e)
+                    {
+                        SetFailure(responseTcs, e);
+                        return;
+                    }
                     if (cancellationToken.IsCancellationRequested)
                     {
                         responseTcs.TrySetCanceled(cancellationToken);
@@ -161,7 +190,15 @@ namespace Soar.Transactions
                 }
                 else
                 {
-                    await registeredResponse.InvokeAsync(cancellationToken);
+                    try
+                    {
+                        await registeredResponse.InvokeAsync(cancellationToken);
+                    }
+                    catch (Exception e)
+                    {
+                        SetFailure(responseTcs, e);
+                        return;
+                    }
                     if (cancellationToken.IsCancellationRequested)
                     {
                         responseTcs.TrySetCanceled(cancellationToken);
@@ -189,7 +226,15 @@ namespace Soar.Transactions
             }
             else if (ValueRequestQueueHandler.TryDequeue(out TaskCompletionSource<object> responseTcs))
             {
-                await registeredResponse.InvokeAsync(cancellationToken);
+                try
+                {
+                    await registeredResponse.InvokeAsync(cancellationToken);
+                }
+                catch (Exception e)
+                {
+                    SetFailure(responseTcs, e);
+                    return;
+                }
                 if (cancellationToken.IsCancellationRequested)
                 {
                     responseTcs.TrySetCanceled(cancellationToken);
