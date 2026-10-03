@@ -396,6 +396,23 @@ namespace Soar.Collections.Tests
             Assert.AreEqual(new[] { NumberEnum.One.ToString(), NumberEnum.Two.ToString() }, read, "Each added key should be readable from its OnAdd handler.");
         }
         
+        [Test]
+        public void Copy_WithDuplicateKey_ShouldThrowAndChangeNothing()
+        {
+            testNumberStringCollection.Clear();
+            testNumberStringCollection.Add(NumberEnum.One, NumberEnum.One.ToString());
+            
+            var items = new[]
+            {
+                new SerializedKeyValuePair<NumberEnum, string>(NumberEnum.Three, NumberEnum.Three.ToString()),
+                new SerializedKeyValuePair<NumberEnum, string>(NumberEnum.Three, "Duplicate"),
+            };
+            
+            Assert.Throws<System.ArgumentException>(() => testNumberStringCollection.Copy(items), "A duplicate key should throw.");
+            Assert.AreEqual(1, testNumberStringCollection.Count, "A failed Copy should leave the contents unchanged.");
+            Assert.AreEqual(NumberEnum.One.ToString(), testNumberStringCollection[NumberEnum.One], "A failed Copy should leave the contents unchanged.");
+        }
+        
         [OneTimeTearDown]
         public void TearDown()
         {

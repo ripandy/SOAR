@@ -177,6 +177,9 @@ namespace Soar.Collections
             lock (syncRoot)
             {
                 var items = others as SerializedKeyValuePair<TKey, TValue>[] ?? others.ToArray();
+
+                // NOTE: Validate before clearing, so a duplicate key leaves the dictionary untouched.
+                ThrowIfDuplicateKeys(items, includeExistingKeys: false);
                 dictionary.Clear();
                 base.CopyInternal(items);
             }

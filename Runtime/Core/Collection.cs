@@ -136,8 +136,19 @@ namespace Soar.Collections
             {
                 // NOTE: Materialize before clearing. `others` may be this collection or a lazy view over it.
                 var items = others as T[] ?? others.ToArray();
+                var oldCount = list.Count;
+
+                // NOTE: Copy behaves like Clear() followed by AddRange(), but raises Count once, and only if it changed,
+                //       so subscribers never observe a transient empty count. Copying empty onto empty raises nothing.
                 list.Clear();
-                AddRange(items);
+                if (oldCount > 0) RaiseOnClear();
+
+                foreach (var item in items)
+                {
+                    AppendInternal(item);
+                }
+
+                if (oldCount != list.Count) RaiseCount();
             }
         }
         
@@ -263,7 +274,9 @@ namespace Soar.Collections
         public partial IDisposable SubscribeToCount(Action<int> action);
         
         /// <summary>
-        /// Subscribe to OnClear event. Will be called when Clear() is called without any arguments.
+        /// Subscribe to OnClear event. Will be called when Clear() is called,
+        /// and when the contents are replaced by Copy(), ResetValues() or FromJsonString() (only if the collection was not empty).
+        /// When replacing, OnClear is followed by OnAdd for each new element. Treat it as "all elements were removed".
         /// </summary>
         /// <param name="action">Action to be executed on event call.</param>
         /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>
