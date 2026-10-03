@@ -438,6 +438,17 @@ namespace Soar.Collections.Tests
             Assert.AreEqual(0, testIntCollection.Count, "Initial value assumed to be empty, count after ResetValues should be 0.");
         }
         
+        [Test]
+        public void CopyFromSelf_ShouldKeepElements()
+        {
+            testIntCollection.Clear();
+            testIntCollection.AddRange(new[] { 1, 2, 3 });
+            
+            testIntCollection.Copy(testIntCollection);
+            
+            Assert.AreEqual(new[] { 1, 2, 3 }, testIntCollection.ToArray(), "Copying a collection onto itself should keep its elements.");
+        }
+        
         [OneTimeTearDown]
         public void TearDown()
         {
