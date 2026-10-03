@@ -147,8 +147,9 @@ namespace Soar.Collections
         {
             lock (syncRoot)
             {
+                // NOTE: Clear the lookup before the base raises OnClear, so subscribers see list and lookup in sync.
+                dictionary.Clear();
                 base.ClearInternal();
-                OnValidate();
             }
         }
         
