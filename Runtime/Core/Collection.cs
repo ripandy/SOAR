@@ -202,9 +202,7 @@ namespace Soar.Collections
         {
             // ValueEventType.OnAssign are always considered as value changed.
             if (valueEventType == ValueEventType.OnAssign) return false;
-
-            return list[index] == null && value == null ||
-                   list[index] != null && value != null && list[index].Equals(value);
+            return EqualityComparer<T>.Default.Equals(list[index], value);
         }
         
         internal override void Initialize()

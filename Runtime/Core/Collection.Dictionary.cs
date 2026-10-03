@@ -41,7 +41,15 @@ namespace Soar.Collections
                     var isEqual = IsValueEquals(key, value);
                     dictionary[key] = value;
                     
-                    var index = list.FindIndex(p => p.Key.Equals(key));
+                    var comparer = EqualityComparer<TKey>.Default;
+                    var index = -1;
+                    for (var i = 0; i < list.Count; i++)
+                    {
+                        if (!comparer.Equals(list[i].Key, key)) continue;
+                        index = i;
+                        break;
+                    }
+                    
                     var pair = list[index];
                     pair.Value = value;
                     list[index] = pair;
@@ -237,9 +245,7 @@ namespace Soar.Collections
 
             // Non-existent key is considered as value changed.
             if (!TryGetValue(key, out var val)) return false;
-            
-            return val == null && value == null ||
-                   val != null && value != null && val.Equals(value);
+            return EqualityComparer<TValue>.Default.Equals(val, value);
         }
         
         internal override void Initialize()

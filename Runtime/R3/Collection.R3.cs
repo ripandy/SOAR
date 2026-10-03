@@ -284,7 +284,9 @@ namespace Soar.Collections
         
         public new Observable<KeyValuePair<TKey, TValue>> ObserveValues() => ValueSubject;
 
-        public Observable<TValue> ObserveValues(TKey key) => ValueSubject.Where(pair => pair.Key.Equals(key)).Select(pair => pair.Value);
+        public Observable<TValue> ObserveValues(TKey key) => ValueSubject
+            .Where(pair => EqualityComparer<TKey>.Default.Equals(pair.Key, key))
+            .Select(pair => pair.Value);
              
         public new async ValueTask<KeyValuePair<TKey, TValue>> ValuesAsync(CancellationToken cancellationToken = default)
         {
