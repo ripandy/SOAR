@@ -174,8 +174,9 @@ namespace Soar.Collections
         {
             lock (syncRoot)
             {
+                var items = others as SerializedKeyValuePair<TKey, TValue>[] ?? others.ToArray();
                 dictionary.Clear();
-                base.CopyInternal(others);
+                base.CopyInternal(items);
             }
         }
         

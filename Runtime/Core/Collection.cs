@@ -130,8 +130,10 @@ namespace Soar.Collections
         {
             lock (syncRoot)
             {
+                // NOTE: Materialize before clearing. `others` may be this collection or a lazy view over it.
+                var items = others as T[] ?? others.ToArray();
                 list.Clear();
-                AddRange(others);
+                AddRange(items);
             }
         }
         
