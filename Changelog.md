@@ -6,18 +6,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+
+## [1.0.2] - 2026-10-05
+
 ### Changed
 
-- `Collection.Copy()`, `ResetValues()` and `FromJsonString()` now share one replace behavior:
-  `OnClear` (only if the collection was not empty), then `OnAdd` for each element, then `Count` once, only if it changed.
-  Previously `Copy()` cleared without raising `OnClear`, and `FromJsonString()` raised `Count` twice (0, then N).
+- `Collection.Copy()`, `ResetValues()` and `FromJsonString()` now share one replace behavior.
+  - `OnClear` (only if the collection was not empty), then `OnAdd` for each element, then `Count` once, only if it changed.
+  - Previously `Copy()` cleared without raising `OnClear`, and `FromJsonString()` raised `Count` twice (0, then N).
 - `Variable` and `Collection` compare values with `EqualityComparer<T>.Default`, avoiding a boxing allocation on every assignment.
-- `SoarDictionary` updates its key lookup before raising add events, so handlers always see consistent state. `Count` is now raised last.
+- `SoarDictionary` updates its key lookup before raising add events, so handlers always see consistent state.
+  - `Count` is now raised last.
 
 ### Fixed
 
-- Disposing a subscription from inside its own handler no longer throws during `Raise()` (without R3).
-- Disposing a list of subscriptions no longer skips every other element (without R3).
+- Fixed Disposing a subscription from inside its own handler no longer throws during `Raise()` (without [R3]).
+- Disposing a list of subscriptions no longer skips every other element (without [R3]).
 - `Copy()` from the collection itself, or a lazy view over it, no longer empties the collection.
 - `SoarDictionary`: assigning a missing key through the indexer now adds it instead of throwing.
 - `SoarDictionary.AddRange()`: a duplicate key now throws before anything changes,
@@ -50,7 +55,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A full documentation website with English and Japanese translations.
 - Sample scenes and scripts for each feature.
 
-[Unreleased]: https://github.com/ripandy/SOAR/compare/1.0.1...HEAD
+[Unreleased]: https://github.com/ripandy/SOAR/compare/1.0.2...HEAD
+[1.0.2]: https://github.com/ripandy/SOAR/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/ripandy/SOAR/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/ripandy/SOAR/releases/tag/1.0.0
 [R3]: https://github.com/Cysharp/R3
