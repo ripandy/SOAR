@@ -33,6 +33,7 @@ namespace Soar.Collections.Sample
 
             intCollection.SubscribeOnAdd(OnCollectionAdded).AddTo(subscriptions);
             intCollection.SubscribeOnRemove(OnCollectionRemoved).AddTo(subscriptions);
+            intCollection.SubscribeOnClear(OnCollectionCleared).AddTo(subscriptions);
         }
 
         private void OnCollectionAdded(int addedValue)
@@ -47,6 +48,15 @@ namespace Soar.Collections.Sample
         {
             var idx = intCollection.Count;
             texts[idx].transform.parent.gameObject.SetActive(false);
+        }
+
+        // NOTE: Raised by Clear(), and by Copy() / FromJsonString() before the new elements are added.
+        private void OnCollectionCleared()
+        {
+            foreach (var text in texts)
+            {
+                text.transform.parent.gameObject.SetActive(false);
+            }
         }
 
         private void OnDestroy()

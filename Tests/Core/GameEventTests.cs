@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -93,6 +94,30 @@ namespace Soar.Events.Tests
             
             // Should not be called after disposed.
             Assert.AreEqual(3, raisedCount);
+        }
+        
+        [Test]
+        public void HandlerDisposingItselfDuringRaise_ShouldNotThrow()
+        {
+            var calls = 0;
+            var typedCalls = 0;
+            IDisposable self = null;
+            IDisposable typedSelf = null;
+            self = testGameEvent.Subscribe(() => self.Dispose());
+            typedSelf = testIntGameEvent.Subscribe(_ => typedSelf.Dispose());
+            var other = testGameEvent.Subscribe(() => calls++);
+            var typedOther = testIntGameEvent.Subscribe(_ => typedCalls++);
+            
+            Assert.DoesNotThrow(() => testGameEvent.Raise(), "Disposing a subscription from inside its own handler should not throw.");
+            Assert.DoesNotThrow(() => testIntGameEvent.Raise(1), "Disposing a typed subscription from inside its own handler should not throw.");
+            
+            testGameEvent.Raise();
+            testIntGameEvent.Raise(2);
+            Assert.AreEqual(2, calls, "Remaining subscriber should run on both raises.");
+            Assert.AreEqual(2, typedCalls, "Remaining typed subscriber should run on both raises.");
+            
+            other.Dispose();
+            typedOther.Dispose();
         }
         
         [OneTimeTearDown]

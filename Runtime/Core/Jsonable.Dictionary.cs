@@ -35,11 +35,8 @@ namespace Soar.Collections
 
             var wrapper = JsonUtility.FromJson<JsonableWrapper<List<SerializedKeyValuePair<TKey, TValue>>>>(json);
             
-            // Clear the current dictionary and list.
-            Clear();
-            
-            // Add the loaded items. The internal methods will handle rebuilding the dictionary lookup.
-            AddRangeInternal(wrapper.value.ToArray());
+            // Replace the contents. Copy raises OnClear (if not empty), OnAdd for each item, and Count once.
+            Copy(wrapper.value);
         }
     }
 }

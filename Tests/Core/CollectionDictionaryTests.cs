@@ -344,6 +344,75 @@ namespace Soar.Collections.Tests
             }
         }
 
+        [Test]
+        public void IndexerSet_WithNewKey_ShouldAdd()
+        {
+            testNumberStringCollection.Clear();
+            
+            var added = new List<(NumberEnum Key, string Value)>();
+            using var subscription = testNumberStringCollection.SubscribeOnAdd((key, value) => added.Add((key, value)));
+            
+            testNumberStringCollection[NumberEnum.One] = NumberEnum.One.ToString();
+            
+            Assert.AreEqual(NumberEnum.One.ToString(), testNumberStringCollection[NumberEnum.One], "Assigning a new key should add it.");
+            Assert.AreEqual(1, testNumberStringCollection.Count, "Assigning a new key should add one element.");
+            Assert.AreEqual(1, added.Count, "Assigning a new key should raise OnAdd.");
+        }
+        
+        [Test]
+        public void AddRange_WithDuplicateKey_ShouldThrowAndChangeNothing()
+        {
+            testNumberStringCollection.Clear();
+            testNumberStringCollection.Add(NumberEnum.One, NumberEnum.One.ToString());
+            
+            var raised = 0;
+            using var subscription = testNumberStringCollection.SubscribeOnAdd((_, _) => raised++);
+            
+            var items = new[]
+            {
+                new SerializedKeyValuePair<NumberEnum, string>(NumberEnum.Two, NumberEnum.Two.ToString()),
+                new SerializedKeyValuePair<NumberEnum, string>(NumberEnum.One, "Duplicate"),
+            };
+            
+            Assert.Throws<System.ArgumentException>(() => testNumberStringCollection.AddRange(items), "A duplicate key should throw.");
+            Assert.AreEqual(1, testNumberStringCollection.Count, "A failed AddRange should not add anything.");
+            Assert.IsFalse(testNumberStringCollection.ContainsKey(NumberEnum.Two), "A failed AddRange should not add any key.");
+            Assert.AreEqual(0, raised, "A failed AddRange should raise nothing.");
+        }
+        
+        [Test]
+        public void AddRange_SubscriberReadingDictionary_ShouldNotThrow()
+        {
+            testNumberStringCollection.Clear();
+            
+            var read = new List<string>();
+            using var subscription = testNumberStringCollection.SubscribeOnAdd((key, _) => read.Add(testNumberStringCollection[key]));
+            
+            Assert.DoesNotThrow(() => testNumberStringCollection.AddRange(new[]
+            {
+                new SerializedKeyValuePair<NumberEnum, string>(NumberEnum.One, NumberEnum.One.ToString()),
+                new SerializedKeyValuePair<NumberEnum, string>(NumberEnum.Two, NumberEnum.Two.ToString()),
+            }), "Reading the dictionary from an OnAdd handler should not break AddRange.");
+            Assert.AreEqual(new[] { NumberEnum.One.ToString(), NumberEnum.Two.ToString() }, read, "Each added key should be readable from its OnAdd handler.");
+        }
+        
+        [Test]
+        public void Copy_WithDuplicateKey_ShouldThrowAndChangeNothing()
+        {
+            testNumberStringCollection.Clear();
+            testNumberStringCollection.Add(NumberEnum.One, NumberEnum.One.ToString());
+            
+            var items = new[]
+            {
+                new SerializedKeyValuePair<NumberEnum, string>(NumberEnum.Three, NumberEnum.Three.ToString()),
+                new SerializedKeyValuePair<NumberEnum, string>(NumberEnum.Three, "Duplicate"),
+            };
+            
+            Assert.Throws<System.ArgumentException>(() => testNumberStringCollection.Copy(items), "A duplicate key should throw.");
+            Assert.AreEqual(1, testNumberStringCollection.Count, "A failed Copy should leave the contents unchanged.");
+            Assert.AreEqual(NumberEnum.One.ToString(), testNumberStringCollection[NumberEnum.One], "A failed Copy should leave the contents unchanged.");
+        }
+        
         [OneTimeTearDown]
         public void TearDown()
         {

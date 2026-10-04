@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Soar.Events;
 using UnityEngine;
 
@@ -31,9 +32,7 @@ namespace Soar.Variables
         {
             // ValueEventType.OnAssign are always considered as value changed.
             if (valueEventType == ValueEventType.OnAssign) return false;
-
-            return value == null && valueToCompare == null ||
-                   value != null && valueToCompare != null && value.Equals(valueToCompare);
+            return EqualityComparer<T>.Default.Equals(value, valueToCompare);
         }
         
         internal Type Type => typeof(T);

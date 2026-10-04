@@ -11,7 +11,7 @@ namespace Soar.Events
 
         public virtual partial void Raise()
         {
-            foreach (var disposable in subscriptions)
+            foreach (var disposable in subscriptions.ToArray())
             {
                 if (disposable is not Subscription subscription) continue;
                 subscription.Invoke();
@@ -38,7 +38,7 @@ namespace Soar.Events
             value = valueToRaise;
             base.Raise();
             
-            foreach (var disposable in subscriptions)
+            foreach (var disposable in subscriptions.ToArray())
             {
                 if (disposable is not Subscription<T> subscription) continue;
                 subscription.Invoke(value);

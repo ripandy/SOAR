@@ -15,7 +15,7 @@ namespace Soar.Collections
 
         internal partial void RaiseOnAdd(T addedValue)
         {
-            foreach (var disposable in onAddSubscriptions)
+            foreach (var disposable in onAddSubscriptions.ToArray())
             {
                 if (disposable is Subscription<T> valueSubscription)
                 {
@@ -26,7 +26,7 @@ namespace Soar.Collections
         
         internal partial void RaiseOnRemove(T removedValue)
         {
-            foreach (var disposable in onRemoveSubscriptions)
+            foreach (var disposable in onRemoveSubscriptions.ToArray())
             {
                 if (disposable is Subscription<T> valueSubscription)
                 {
@@ -37,7 +37,7 @@ namespace Soar.Collections
         
         private partial void RaiseOnClear()
         {
-            foreach (var disposable in onClearSubscriptions)
+            foreach (var disposable in onClearSubscriptions.ToArray())
             {
                 if (disposable is Subscription subscription)
                 {
@@ -48,7 +48,7 @@ namespace Soar.Collections
         
         internal partial void RaiseCount()
         {
-            foreach (var disposable in countSubscriptions)
+            foreach (var disposable in countSubscriptions.ToArray())
             {
                 if (disposable is Subscription<int> countSubscription)
                 {
@@ -59,7 +59,7 @@ namespace Soar.Collections
 
         internal partial void RaiseValueAt(int index, T value)
         {
-            foreach (var disposable in valueSubscriptions)
+            foreach (var disposable in valueSubscriptions.ToArray())
             {
                 if (disposable is IndexValueSubscription<T> valueSubscription)
                 {
@@ -135,7 +135,7 @@ namespace Soar.Collections
 
         private partial void RaiseOnMove(T value, int oldIndex, int newIndex)
         {
-            foreach (var subscription in moveSubscriptions)
+            foreach (var subscription in moveSubscriptions.ToArray())
             {
                 if (subscription is MoveValueSubscription<T> moveValueSubscription)
                 {
@@ -146,7 +146,7 @@ namespace Soar.Collections
         
         private partial void RaiseOnInsert(int index, T value)
         {
-            foreach (var subscription in insertSubscriptions)
+            foreach (var subscription in insertSubscriptions.ToArray())
             {
                 if (subscription is IndexValueSubscription<T> indexValuePair)
                 {
@@ -198,7 +198,7 @@ namespace Soar.Collections
         
         private partial void RaiseValue(TKey key, TValue value)
         {
-            foreach (var disposable in valueSubscriptions)
+            foreach (var disposable in valueSubscriptions.ToArray())
             {
                 if (disposable is not KeyValueSubscription<TKey, TValue> valueSubscription) continue;
                 valueSubscription.Invoke(key, value);

@@ -46,9 +46,27 @@ namespace Soar.Transactions
                 return;
             }
 
+            // NOTE: Terminates only because RespondInternalAsync dequeues synchronously, before its first await.
             while (RequestQueueHandler.HasAnyRequest)
             {
-                _ = RespondInternalAsync(Application.exitCancellationToken);
+                Forget(RespondInternalAsync(Application.exitCancellationToken));
+            }
+        }
+
+        // NOTE: Fire-and-forget that still surfaces exceptions. Use instead of discarding a ValueTask with `_ =`.
+        //       Cancellation is expected when exiting play mode, so it is not logged.
+        private static async void Forget(ValueTask task)
+        {
+            try
+            {
+                await task;
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
             }
         }
         

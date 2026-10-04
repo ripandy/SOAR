@@ -116,11 +116,27 @@ namespace Soar.Transactions
             }
         }
 
+        // NOTE: Once dequeued, an awaited request must be completed even when the response throws,
+        //       otherwise its awaiter waits forever. Callback requests have no error channel, so they rethrow to be logged.
+        private protected static void SetFailure<TResult>(SingleAssignmentSubject<TResult> subject, Exception exception)
+        {
+            subject.OnCompleted(Result.Failure(exception));
+            subject.Dispose();
+        }
+
         internal virtual partial async ValueTask RespondInternalAsync(CancellationToken cancellationToken)
         {
             if (RequestQueueHandler.TryDequeue(out SingleAssignmentSubject<object> responseSubj))
             {
-                await registeredResponse.InvokeAsync(cancellationToken);
+                try
+                {
+                    await registeredResponse.InvokeAsync(cancellationToken);
+                }
+                catch (Exception e)
+                {
+                    SetFailure(responseSubj, e);
+                    return;
+                }
                 responseSubj.OnNext(this);
                 responseSubj.Dispose();
                 RaiseResponse();
@@ -271,14 +287,31 @@ namespace Soar.Transactions
                 var (request, responseSubj) = requestAsyncTuple;
                 if (registeredResponse is ResponseRegistrar<TRequest, TResponse> valueRegisteredResponse)
                 {
-                    var response = await valueRegisteredResponse.InvokeAsync(request, cancellationToken);
+                    TResponse response;
+                    try
+                    {
+                        response = await valueRegisteredResponse.InvokeAsync(request, cancellationToken);
+                    }
+                    catch (Exception e)
+                    {
+                        SetFailure(responseSubj, e);
+                        return;
+                    }
                     responseSubj.OnNext(response);
                     responseSubj.Dispose();
                     RaiseResponse(response);
                 }
                 else
                 {
-                    await registeredResponse.InvokeAsync(cancellationToken);
+                    try
+                    {
+                        await registeredResponse.InvokeAsync(cancellationToken);
+                    }
+                    catch (Exception e)
+                    {
+                        SetFailure(responseSubj, e);
+                        return;
+                    }
                     responseSubj.OnNext(default);
                     responseSubj.Dispose();
                     RaiseResponse();
@@ -302,7 +335,15 @@ namespace Soar.Transactions
             }
             else if (ValueRequestQueueHandler.TryDequeue(out SingleAssignmentSubject<object> responseSubj))
             {
-                await registeredResponse.InvokeAsync(cancellationToken);
+                try
+                {
+                    await registeredResponse.InvokeAsync(cancellationToken);
+                }
+                catch (Exception e)
+                {
+                    SetFailure(responseSubj, e);
+                    return;
+                }
                 responseSubj.OnNext(this);
                 responseSubj.Dispose();
                 RaiseResponse();

@@ -65,12 +65,19 @@ namespace Soar.Collections
         {
             lock (syncRoot)
             {
-                var index = list.Count;
-                list.Add(item);
-                RaiseOnAdd(item);
-                RaiseValueAt(index, item);
+                AppendInternal(item);
                 RaiseCount();
             }
+        }
+
+        // NOTE: Appends one item and raises its per-item events. Count is raised by the caller.
+        //       Every add path goes through here, so derived collections only need to override this.
+        internal virtual void AppendInternal(T item)
+        {
+            var index = list.Count;
+            list.Add(item);
+            RaiseOnAdd(item);
+            RaiseValueAt(index, item);
         }
         
         public void AddRange(IEnumerable<T> items)
@@ -89,10 +96,7 @@ namespace Soar.Collections
             {
                 foreach (var item in items)
                 {
-                    var index = list.Count;
-                    list.Add(item);
-                    RaiseOnAdd(item);
-                    RaiseValueAt(index, item);
+                    AppendInternal(item);
                 }
                 RaiseCount();
             }
@@ -130,8 +134,21 @@ namespace Soar.Collections
         {
             lock (syncRoot)
             {
+                // NOTE: Materialize before clearing. `others` may be this collection or a lazy view over it.
+                var items = others as T[] ?? others.ToArray();
+                var oldCount = list.Count;
+
+                // NOTE: Copy behaves like Clear() followed by AddRange(), but raises Count once, and only if it changed,
+                //       so subscribers never observe a transient empty count. Copying empty onto empty raises nothing.
                 list.Clear();
-                AddRange(others);
+                if (oldCount > 0) RaiseOnClear();
+
+                foreach (var item in items)
+                {
+                    AppendInternal(item);
+                }
+
+                if (oldCount != list.Count) RaiseCount();
             }
         }
         
@@ -202,9 +219,7 @@ namespace Soar.Collections
         {
             // ValueEventType.OnAssign are always considered as value changed.
             if (valueEventType == ValueEventType.OnAssign) return false;
-
-            return list[index] == null && value == null ||
-                   list[index] != null && value != null && list[index].Equals(value);
+            return EqualityComparer<T>.Default.Equals(list[index], value);
         }
         
         internal override void Initialize()
@@ -259,7 +274,9 @@ namespace Soar.Collections
         public partial IDisposable SubscribeToCount(Action<int> action);
         
         /// <summary>
-        /// Subscribe to OnClear event. Will be called when Clear() is called without any arguments.
+        /// Subscribe to OnClear event. Will be called when Clear() is called,
+        /// and when the contents are replaced by Copy(), ResetValues() or FromJsonString() (only if the collection was not empty).
+        /// When replacing, OnClear is followed by OnAdd for each new element. Treat it as "all elements were removed".
         /// </summary>
         /// <param name="action">Action to be executed on event call.</param>
         /// <returns>Subscription's IDisposable. Call Dispose() to Unsubscribe.</returns>

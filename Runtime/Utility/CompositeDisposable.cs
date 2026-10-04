@@ -24,10 +24,11 @@ namespace Soar
     {
         internal static void Dispose(this IList<IDisposable> disposables)
         {
-            var i = 0;
-            while (i < disposables.Count)
+            // NOTE: Subscription removes itself from this list when disposed.
+            //       Iterate backwards to avoid skipping elements.
+            for (var i = disposables.Count - 1; i >= 0; i--)
             {
-                disposables[i++].Dispose();
+                disposables[i]?.Dispose();
             }
 
             disposables.Clear();

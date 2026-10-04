@@ -438,6 +438,51 @@ namespace Soar.Collections.Tests
             Assert.AreEqual(0, testIntCollection.Count, "Initial value assumed to be empty, count after ResetValues should be 0.");
         }
         
+        [Test]
+        public void CopyFromSelf_ShouldKeepElements()
+        {
+            testIntCollection.Clear();
+            testIntCollection.AddRange(new[] { 1, 2, 3 });
+            
+            testIntCollection.Copy(testIntCollection);
+            
+            Assert.AreEqual(new[] { 1, 2, 3 }, testIntCollection.ToArray(), "Copying a collection onto itself should keep its elements.");
+        }
+        
+        [Test]
+        public void Copy_ShouldRaiseClearThenAddsThenCountOnce()
+        {
+            testIntCollection.Clear();
+            testIntCollection.AddRange(new[] { 1, 2, 3 });
+            
+            var events = new List<string>();
+            using var clearSubscription = testIntCollection.SubscribeOnClear(() => events.Add("Clear"));
+            using var addSubscription = testIntCollection.SubscribeOnAdd(value => events.Add($"Add {value}"));
+            using var removeSubscription = testIntCollection.SubscribeOnRemove(value => events.Add($"Remove {value}"));
+            using var countSubscription = testIntCollection.SubscribeToCount(count => events.Add($"Count {count}"));
+            
+            testIntCollection.Copy(new[] { 7, 8 });
+            Assert.AreEqual(new[] { "Clear", "Add 7", "Add 8", "Count 2" }, events, "Copy should behave like Clear + AddRange, raising Count once.");
+            Assert.AreEqual(new[] { 7, 8 }, testIntCollection.ToArray(), "Copy should replace the contents.");
+            
+            events.Clear();
+            testIntCollection.Copy(new[] { 4, 5 });
+            Assert.AreEqual(new[] { "Clear", "Add 4", "Add 5" }, events, "Copy should not raise Count when the count is unchanged.");
+        }
+        
+        [Test]
+        public void Copy_EmptyOntoEmpty_ShouldRaiseNothing()
+        {
+            testIntCollection.Clear();
+            
+            var raised = 0;
+            using var clearSubscription = testIntCollection.SubscribeOnClear(() => raised++);
+            using var countSubscription = testIntCollection.SubscribeToCount(_ => raised++);
+            
+            testIntCollection.Copy(new int[0]);
+            Assert.AreEqual(0, raised, "Copying empty onto empty should raise nothing.");
+        }
+        
         [OneTimeTearDown]
         public void TearDown()
         {

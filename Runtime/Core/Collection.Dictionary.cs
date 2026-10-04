@@ -38,10 +38,25 @@ namespace Soar.Collections
                         OnValidate();
                     }
 
+                    // NOTE: Assigning to a missing key adds it, as IDictionary<TKey, TValue> requires.
+                    if (!dictionary.ContainsKey(key))
+                    {
+                        AddInternal(new SerializedKeyValuePair<TKey, TValue>(key, value));
+                        return;
+                    }
+
                     var isEqual = IsValueEquals(key, value);
                     dictionary[key] = value;
                     
-                    var index = list.FindIndex(p => p.Key.Equals(key));
+                    var comparer = EqualityComparer<TKey>.Default;
+                    var index = -1;
+                    for (var i = 0; i < list.Count; i++)
+                    {
+                        if (!comparer.Equals(list[i].Key, key)) continue;
+                        index = i;
+                        break;
+                    }
+                    
                     var pair = list[index];
                     pair.Value = value;
                     list[index] = pair;
@@ -98,12 +113,7 @@ namespace Soar.Collections
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
-            lock (syncRoot)
-            {
-                dictionary.Add(item.Key, item.Value);
-                base.AddInternal(item);
-                RaiseValue(item.Key, item.Value);
-            }
+            AddInternal(item);
         }
 
         public void Add(TKey key, TValue value)
@@ -111,12 +121,14 @@ namespace Soar.Collections
             AddInternal(new SerializedKeyValuePair<TKey, TValue>(key, value));
         }
         
-        internal override void AddInternal(SerializedKeyValuePair<TKey, TValue> item)
+        // NOTE: Update the lookup before the base raises OnAdd, so subscribers always see list and lookup in sync.
+        //       A duplicate key throws here, before the list is touched.
+        internal override void AppendInternal(SerializedKeyValuePair<TKey, TValue> item)
         {
             lock (syncRoot)
             {
                 dictionary.Add(item.Key, item.Value);
-                base.AddInternal(item);
+                base.AppendInternal(item);
                 RaiseValue(item.Key, item.Value);
             }
         }
@@ -125,12 +137,9 @@ namespace Soar.Collections
         {
             lock (syncRoot)
             {
+                // NOTE: Validate the whole batch first, so a duplicate key changes nothing and raises nothing.
+                ThrowIfDuplicateKeys(items, includeExistingKeys: true);
                 base.AddRangeInternal(items);
-                foreach (var item in items)
-                {
-                    dictionary.Add(item.Key, item.Value);
-                    RaiseValue(item.Key, item.Value);
-                }
             }
         }
 
@@ -138,8 +147,9 @@ namespace Soar.Collections
         {
             lock (syncRoot)
             {
+                // NOTE: Clear the lookup before the base raises OnClear, so subscribers see list and lookup in sync.
+                dictionary.Clear();
                 base.ClearInternal();
-                OnValidate();
             }
         }
         
@@ -166,8 +176,22 @@ namespace Soar.Collections
         {
             lock (syncRoot)
             {
+                var items = others as SerializedKeyValuePair<TKey, TValue>[] ?? others.ToArray();
+
+                // NOTE: Validate before clearing, so a duplicate key leaves the dictionary untouched.
+                ThrowIfDuplicateKeys(items, includeExistingKeys: false);
                 dictionary.Clear();
-                base.CopyInternal(others);
+                base.CopyInternal(items);
+            }
+        }
+
+        private void ThrowIfDuplicateKeys(SerializedKeyValuePair<TKey, TValue>[] items, bool includeExistingKeys)
+        {
+            var keys = new HashSet<TKey>();
+            foreach (var item in items)
+            {
+                if (keys.Add(item.Key) && !(includeExistingKeys && dictionary.ContainsKey(item.Key))) continue;
+                throw new ArgumentException($"An item with the same key has already been added. Key: {item.Key}");
             }
         }
         
@@ -237,9 +261,7 @@ namespace Soar.Collections
 
             // Non-existent key is considered as value changed.
             if (!TryGetValue(key, out var val)) return false;
-            
-            return val == null && value == null ||
-                   val != null && value != null && val.Equals(value);
+            return EqualityComparer<TValue>.Default.Equals(val, value);
         }
         
         internal override void Initialize()
