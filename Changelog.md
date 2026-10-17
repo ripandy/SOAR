@@ -6,12 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+
+## [1.0.3] - 2026-10-17
+
 ### Fixed
 
 - `GameEvent<T>` and `Variable<T>` Inspector no longer throws `NullReferenceException` when `T` is not serializable.
   - Shows an error HelpBox in the Inspector and logs an error once when the Inspector opens.
   - The Raise button is disabled, since it would only raise the default value.
-
 
 ## [1.0.2] - 2026-10-05
 
@@ -60,7 +63,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A full documentation website with English and Japanese translations.
 - Sample scenes and scripts for each feature.
 
-[Unreleased]: https://github.com/ripandy/SOAR/compare/1.0.2...HEAD
+[Unreleased]: https://github.com/ripandy/SOAR/compare/1.0.3...HEAD
+[1.0.3]: https://github.com/ripandy/SOAR/compare/1.0.2...1.0.3
 [1.0.2]: https://github.com/ripandy/SOAR/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/ripandy/SOAR/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/ripandy/SOAR/releases/tag/1.0.0
