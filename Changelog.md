@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `GameEvent<T>` and `Variable<T>` Inspector no longer throws `NullReferenceException` when `T` is not serializable.
+  - Shows an error HelpBox in the Inspector and logs an error once when the Inspector opens.
+  - The Raise button is disabled, since it would only raise the default value.
 
 
 ## [1.0.2] - 2026-10-05
